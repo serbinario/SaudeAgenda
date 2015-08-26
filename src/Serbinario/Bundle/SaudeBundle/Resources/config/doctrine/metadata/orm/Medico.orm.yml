@@ -1,0 +1,43 @@
+Medico:
+    type: entity
+    table: medico
+    indexes:
+        fk_medico_especialidade_idx:
+            columns:
+                - especialidade_id_especialidade
+    id:
+        idMedico:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_medico
+            generator:
+                strategy: IDENTITY
+    fields:
+        nomeMedico:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: ''
+            column: nome_medico
+        emailMedico:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: ''
+            column: email_medico
+    manyToOne:
+        especialidadeEspecialidade:
+            targetEntity: Especialidade
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                especialidade_id_especialidade:
+                    referencedColumnName: id_especialidade
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

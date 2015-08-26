@@ -1,0 +1,79 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Calendario
+ *
+ * @ORM\Table(name="calendario", indexes={@ORM\Index(name="fk_calendario_agenda_medico1_idx", columns={"agenda_medico_id_agenda_medico"}), @ORM\Index(name="fk_calendario_dias_calendario1_idx", columns={"dias_calendario_id_dias_calendario"}), @ORM\Index(name="fk_calendario_horario_calendario1_idx", columns={"horario_calendario_id_horario_calendario"}), @ORM\Index(name="fk_calendario_localidade1_idx", columns={"localidade_id_localidade"})})
+ * @ORM\Entity
+ */
+class Calendario
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_calendario", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCalendario;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="qtd_total_calendario", type="integer", nullable=false)
+     */
+    private $qtdTotalCalendario;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="qtd_reserva_calendario", type="integer", nullable=false)
+     */
+    private $qtdReservaCalendario;
+
+    /**
+     * @var \AgendaMedico
+     *
+     * @ORM\ManyToOne(targetEntity="AgendaMedico")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="agenda_medico_id_agenda_medico", referencedColumnName="id_agenda_medico")
+     * })
+     */
+    private $agendaMedicoAgendaMedico;
+
+    /**
+     * @var \DiasCalendario
+     *
+     * @ORM\ManyToOne(targetEntity="DiasCalendario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="dias_calendario_id_dias_calendario", referencedColumnName="id_dias_calendario")
+     * })
+     */
+    private $diasCalendarioDiasCalendario;
+
+    /**
+     * @var \HorarioCalendario
+     *
+     * @ORM\ManyToOne(targetEntity="HorarioCalendario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="horario_calendario_id_horario_calendario", referencedColumnName="id_horario_calendario")
+     * })
+     */
+    private $horarioCalendarioHorarioCalendario;
+
+    /**
+     * @var \Localidade
+     *
+     * @ORM\ManyToOne(targetEntity="Localidade")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="localidade_id_localidade", referencedColumnName="id_localidade")
+     * })
+     */
+    private $localidadeLocalidade;
+
+
+}

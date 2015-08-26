@@ -1,0 +1,22 @@
+TipoAgenda:
+    type: entity
+    table: tipo_agenda
+    id:
+        idTipoAgenda:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_tipo_agenda
+            generator:
+                strategy: IDENTITY
+    fields:
+        nomeTipoAgendal:
+            type: string
+            nullable: false
+            length: 20
+            fixed: false
+            comment: ''
+            column: nome_tipo_agendal
+    lifecycleCallbacks: {  }

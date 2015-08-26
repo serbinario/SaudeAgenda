@@ -1,0 +1,60 @@
+Agendamento:
+    type: entity
+    table: agendamento
+    indexes:
+        fk_consulta_paciente1_idx:
+            columns:
+                - paciente_id_paciente
+        fk_consulta_calendario1_idx:
+            columns:
+                - calendario_id_calendario
+        fk_consulta_usuarios1_idx:
+            columns:
+                - usuarios_id_usuarios
+    id:
+        idAgendamento:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_agendamento
+            generator:
+                strategy: IDENTITY
+    fields:
+        observacaoAgendamento:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: observacao_agendamento
+    manyToOne:
+        calendarioCalendario:
+            targetEntity: Calendario
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                calendario_id_calendario:
+                    referencedColumnName: id_calendario
+            orphanRemoval: false
+        pacientePaciente:
+            targetEntity: Paciente
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                paciente_id_paciente:
+                    referencedColumnName: id_paciente
+            orphanRemoval: false
+        usuariosUsuarios:
+            targetEntity: Usuarios
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuarios_id_usuarios:
+                    referencedColumnName: id_usuarios
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

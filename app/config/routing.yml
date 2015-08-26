@@ -1,0 +1,5 @@
+saude:
+    resource: "@SaudeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

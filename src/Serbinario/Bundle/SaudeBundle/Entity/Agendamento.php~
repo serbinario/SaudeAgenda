@@ -1,0 +1,62 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Agendamento
+ *
+ * @ORM\Table(name="agendamento", indexes={@ORM\Index(name="fk_consulta_paciente1_idx", columns={"paciente_id_paciente"}), @ORM\Index(name="fk_consulta_calendario1_idx", columns={"calendario_id_calendario"}), @ORM\Index(name="fk_consulta_usuarios1_idx", columns={"usuarios_id_usuarios"})})
+ * @ORM\Entity
+ */
+class Agendamento
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_agendamento", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idAgendamento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacao_agendamento", type="text", nullable=true)
+     */
+    private $observacaoAgendamento;
+
+    /**
+     * @var \Calendario
+     *
+     * @ORM\ManyToOne(targetEntity="Calendario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="calendario_id_calendario", referencedColumnName="id_calendario")
+     * })
+     */
+    private $calendarioCalendario;
+
+    /**
+     * @var \Paciente
+     *
+     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="paciente_id_paciente", referencedColumnName="id_paciente")
+     * })
+     */
+    private $pacientePaciente;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuarios_id_usuarios", referencedColumnName="id_usuarios")
+     * })
+     */
+    private $usuariosUsuarios;
+
+
+}

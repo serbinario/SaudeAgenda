@@ -1,0 +1,56 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Eventos
+ *
+ * @ORM\Table(name="eventos", indexes={@ORM\Index(name="fk_eventos_agendamento1_idx", columns={"id_agendamento"})})
+ * @ORM\Entity
+ */
+class Eventos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_eventos", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idEventos;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start", type="datetime", nullable=true)
+     */
+    private $start;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end", type="datetime", nullable=true)
+     */
+    private $end;
+
+    /**
+     * @var \Agendamento
+     *
+     * @ORM\ManyToOne(targetEntity="Agendamento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_agendamento", referencedColumnName="id_agendamento")
+     * })
+     */
+    private $idAgendamento;
+
+
+}

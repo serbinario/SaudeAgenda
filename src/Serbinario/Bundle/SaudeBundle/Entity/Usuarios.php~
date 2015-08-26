@@ -1,0 +1,49 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Usuarios
+ *
+ * @ORM\Table(name="usuarios", indexes={@ORM\Index(name="fk_usuarios_psf1_idx", columns={"psf_id_psf"})})
+ * @ORM\Entity
+ */
+class Usuarios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_usuarios", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idUsuarios;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login_usuarios", type="string", length=15, nullable=false)
+     */
+    private $loginUsuarios;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="senha_usuarios", type="string", length=255, nullable=false)
+     */
+    private $senhaUsuarios;
+
+    /**
+     * @var \Psf
+     *
+     * @ORM\ManyToOne(targetEntity="Psf")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="psf_id_psf", referencedColumnName="id_psf")
+     * })
+     */
+    private $psfPsf;
+
+
+}

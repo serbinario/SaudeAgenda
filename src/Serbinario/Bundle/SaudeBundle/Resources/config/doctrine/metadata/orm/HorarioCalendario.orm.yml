@@ -1,0 +1,22 @@
+HorarioCalendario:
+    type: entity
+    table: horario_calendario
+    id:
+        idHorarioCalendario:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_horario_calendario
+            generator:
+                strategy: IDENTITY
+    fields:
+        nomeHorarioCalendario:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            comment: ''
+            column: nome_horario_calendario
+    lifecycleCallbacks: {  }

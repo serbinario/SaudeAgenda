@@ -1,0 +1,22 @@
+Psf:
+    type: entity
+    table: psf
+    id:
+        idPsf:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_psf
+            generator:
+                strategy: IDENTITY
+    fields:
+        nomePsf:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            comment: ''
+            column: nome_psf
+    lifecycleCallbacks: {  }

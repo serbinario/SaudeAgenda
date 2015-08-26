@@ -1,0 +1,43 @@
+Usuarios:
+    type: entity
+    table: usuarios
+    indexes:
+        fk_usuarios_psf1_idx:
+            columns:
+                - psf_id_psf
+    id:
+        idUsuarios:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_usuarios
+            generator:
+                strategy: IDENTITY
+    fields:
+        loginUsuarios:
+            type: string
+            nullable: false
+            length: 15
+            fixed: false
+            comment: ''
+            column: login_usuarios
+        senhaUsuarios:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: senha_usuarios
+    manyToOne:
+        psfPsf:
+            targetEntity: Psf
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                psf_id_psf:
+                    referencedColumnName: id_psf
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

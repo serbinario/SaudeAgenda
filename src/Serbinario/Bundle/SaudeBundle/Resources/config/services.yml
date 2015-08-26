@@ -1,0 +1,25 @@
+parameters:
+    dao.class.medico:           Serbinario\Bundle\SaudeBundle\DAO\MedicoDAO   
+    rn.class.medico:            Serbinario\Bundle\SaudeBundle\RN\MedicoRN
+    dao.class.especialidade:    Serbinario\Bundle\SaudeBundle\DAO\EspecialidadeDAO   
+    rn.class.especialidade:     Serbinario\Bundle\SaudeBundle\RN\EspecialidadeRN
+
+    
+services:
+    medico_dao:
+        class:  %dao.class.medico%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    medico_rn:
+        class:  %rn.class.medico%
+        arguments:  [ @medico_dao ]
+        
+    especialidade_dao:
+        class:  %dao.class.especialidade%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    especialidade_rn:
+        class:  %rn.class.especialidade%
+        arguments:  [ @especialidade_dao ]
+        
+       

@@ -1,0 +1,77 @@
+Calendario:
+    type: entity
+    table: calendario
+    indexes:
+        fk_calendario_agenda_medico1_idx:
+            columns:
+                - agenda_medico_id_agenda_medico
+        fk_calendario_dias_calendario1_idx:
+            columns:
+                - dias_calendario_id_dias_calendario
+        fk_calendario_horario_calendario1_idx:
+            columns:
+                - horario_calendario_id_horario_calendario
+        fk_calendario_localidade1_idx:
+            columns:
+                - localidade_id_localidade
+    id:
+        idCalendario:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: id_calendario
+            generator:
+                strategy: IDENTITY
+    fields:
+        qtdTotalCalendario:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: qtd_total_calendario
+        qtdReservaCalendario:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: qtd_reserva_calendario
+    manyToOne:
+        agendaMedicoAgendaMedico:
+            targetEntity: AgendaMedico
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                agenda_medico_id_agenda_medico:
+                    referencedColumnName: id_agenda_medico
+            orphanRemoval: false
+        diasCalendarioDiasCalendario:
+            targetEntity: DiasCalendario
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                dias_calendario_id_dias_calendario:
+                    referencedColumnName: id_dias_calendario
+            orphanRemoval: false
+        horarioCalendarioHorarioCalendario:
+            targetEntity: HorarioCalendario
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                horario_calendario_id_horario_calendario:
+                    referencedColumnName: id_horario_calendario
+            orphanRemoval: false
+        localidadeLocalidade:
+            targetEntity: Localidade
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                localidade_id_localidade:
+                    referencedColumnName: id_localidade
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

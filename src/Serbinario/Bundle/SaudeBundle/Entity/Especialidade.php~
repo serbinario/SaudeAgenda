@@ -1,0 +1,32 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Especialidade
+ *
+ * @ORM\Table(name="especialidade")
+ * @ORM\Entity
+ */
+class Especialidade
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_especialidade", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idEspecialidade;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome_especialidade", type="string", length=50, nullable=false)
+     */
+    private $nomeEspecialidade;
+
+
+}

@@ -106,4 +106,20 @@ class MedicoDAO
             return null;
         } 
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findByEspecialidade($id)
+    {
+       try {
+            $obj = $this->manager->getRepository('Serbinario\Bundle\SaudeBundle\Entity\Medico')->findBy(array('especialidadeEspecialidade' => $id));
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
 }

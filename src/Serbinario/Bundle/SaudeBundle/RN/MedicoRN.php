@@ -83,4 +83,16 @@ class MedicoRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function findByEspecialidade($id)
+    {
+        $result = $this->medicoDAO->findByEspecialidade($id);
+        
+        return $result;
+    }
 }

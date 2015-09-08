@@ -1,24 +1,177 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    {{parent()}}
+    {{ parent() }}
+    <!-- FullCalendar -->
+    <link type="text/css" rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.print.css')}}" media="print">    
+
+    <!-- Responsive Calendar -->
+    <link type="text/css" rel="stylesheet" href="{{ asset('calendar-responsive/responsive-calendar.css')}}" rel="stylesheet">
+    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
+
+    <style>
+        #container {
+            margin: 30px;
+        }
+
+        #responsive-calendar {
+            padding-right: 30px;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    {{parent()}}
-    
-    <div id="container">
-        <div class="container">
+    {{ parent() }}
+    <!-- Container Row -->
+    <div class="row" id="container">
+        <!-- Responsive Calendar -->
+        <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6"></div>
-                <div class="col-md-3"></div>
+                <div class="responsive-calendar">
+                    <div class="controls">
+                        <a class="pull-left" data-go="prev"><div class="btn btn-primary btn-xs">Prev</div></a>
+                        <h4><span data-head-year></span> <span data-head-month></span></h4>
+                        <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
+                    </div><hr/>
+                    <div class="day-headers">
+                        <div class="day header">Mon</div>
+                        <div class="day header">Tue</div>
+                        <div class="day header">Wed</div>
+                        <div class="day header">Thu</div>
+                        <div class="day header">Fri</div>
+                        <div class="day header">Sat</div>
+                        <div class="day header">Sun</div>
+                    </div>
+                    <div class="days" data-group="days"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
+                    <div class="panel-body">
+                        <form class="form">
+                            <select class="form-control">
+                                <option>Especialidades</option>
+                                {% for especializacoe in especializacoes %}
+                                    <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.nomeEspecialidade}}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <li class="list-group-item">Paulo Vaz</li>
+                        <li class="list-group-item">Alexandre Lira</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- FullCalendar -->
+        <div class="col-md-6" style="width: 750px">
+            <div id="fullcalendar"></div>                
+        </div>
+        <div class="col-md-3" style="">
+            <div class="panel panel-default" style="margin-top: 64px;">
+                <div class="panel-heading">PACIENTES EM ATENDIMENTO</div>
+                <div class="panel-body">
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">PACIENTES EM ESPERA</div>
+                <div class="panel-body">
+
+                </div>
             </div>
         </div>
     </div>
-    
-{% endblock %}
+
+
+{% endblock %}    
 
 {% block javascripts %}
-   {{parent()}}
+    <!-- FullCalendar -->        
+    <script type="text/javascript" src="{{asset('fullcalendar/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('fullcalendar/lib/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
+
+    <!-- Responsive Calendar -->
+    <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
+
+    <!-- Scripts -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //FullCalendar
+            $('#fullcalendar').fullCalendar({
+                defaultDate: '2015-02-12',
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: 'Todos os eventos',
+                        start: '2015-02-01'
+                    },
+                    {
+                        title: 'Evento Longo',
+                        start: '2015-02-07',
+                        end: '2015-02-10'
+                    },
+                    {
+                        id: 999,
+                        title: 'Evento repetitivo',
+                        start: '2015-02-09T16:00:00'
+                    },
+                    {
+                        id: 999,
+                        title: 'Evento repetitivo',
+                        start: '2015-02-16T16:00:00'
+                    },
+                    {
+                        title: 'Conferência',
+                        start: '2015-02-11',
+                        end: '2015-02-13'
+                    },
+                    {
+                        title: 'Reunião',
+                        start: '2015-02-12T10:30:00',
+                        end: '2015-02-12T12:30:00'
+                    },
+                    {
+                        title: 'Almoço',
+                        start: '2015-02-12T12:00:00'
+                    },
+                    {
+                        title: 'Reunião',
+                        start: '2015-02-12T14:30:00'
+                    },
+                    {
+                        title: 'Jantar',
+                        start: '2015-02-12T20:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2015-02-28'
+                    }
+                ]
+            });
+
+            //Responsive Calendar
+            $(".responsive-calendar").responsiveCalendar({
+                time: '2013-05',
+                events: {
+                    "2013-04-30": {"number": 5, "url": "http://w3widgets.com/responsive-slider"},
+                    "2013-04-26": {"number": 1, "url": "http://w3widgets.com"},
+                    "2013-05-03": {"number": 1},
+                    "2013-06-12": {}}
+            });
+        });
+    </script>
 {% endblock %}

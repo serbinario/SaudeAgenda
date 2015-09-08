@@ -23,7 +23,10 @@ class AgendaController extends Controller {
      * @Template()
      */
     public function agendamentoAction() {
-        return array();
+        
+        $especializacoesRN = $this->get('especialidade_rn');
+        $especializacoes   = $especializacoesRN->all();
+        
+        return array('especializacoes' => $especializacoes);
     }
-
 }

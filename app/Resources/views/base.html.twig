@@ -28,7 +28,7 @@
     <body>
         {% block body %}
             <div class="bs-example">
-                <nav role="navigation" class="navbar navbar-default">
+                <nav role="navigation" class="navbar navbar-inverse">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
                         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -48,6 +48,9 @@
                     <!-- Collection of nav links and other content for toggling -->
                     <div id="navbarCollapse" class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
+                                <li>
+                                <a href="http://www.jquery2dotnet.com/" class="btn btn-link btn-lg btn3d" role="button"><span class="glyphicon glyphicon-globe"></span> Link</a>
+                                </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastro<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
@@ -56,6 +59,9 @@
                                         </li>
                                         <li>
                                             <a href="{{path('gridEspecialidade')}}">Especialidade</a>         
+                                        </li>
+                                        <li>
+                                            <a href="http://www.jquery2dotnet.com/" class="btn btn-link btn-lg btn3d" role="button"><span class="glyphicon glyphicon-globe"></span> Link</a>
                                         </li>
                                     </ul>                                
                                 </li>

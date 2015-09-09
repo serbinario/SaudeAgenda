@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Serbinario\Bundle\SaudeBundle\Form\MedicoType;
 use Serbinario\Bundle\SaudeBundle\Form\EspecialidadeType;
+use Serbinario\Bundle\SaudeBundle\Form\LocalidadeType;
+use Serbinario\Bundle\SaudeBundle\Form\PsfType;
 use Serbinario\Bundle\SaudeBundle\UTIL\GridClass;
 
 
@@ -303,6 +305,224 @@ class DefaultController extends Controller
         //var_dump($medicos);exit();
         return $this->redirect($this->generateUrl("pesquisaMedico", array("medicos" => $medicos)));
         
+    }
+    
+    /**
+     * @Route("/saveLocalidade", name="saveLocalidade")
+     * @Template()
+     */
+    public function saveLocalidadeAction(Request $request)
+    {        
+        #Criando o formulário
+        $form    = $this->createForm(new LocalidadeType());
+        
+        #Recuperando o serviço do container
+        $localidadeRN = $this->get('localidade_rn');
+        
+         #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $localidade = $form->getData();
+                
+                #Executando e recuperando o resultado
+                $result = $localidadeRN->save($localidade);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->get('session')->getFlashBag()->add('success', 'Localidade cadastrada com sucesso'); 
+                } else {
+                    #Messagem de retorno
+                    $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado a localidade');
+                }                
+                
+                #Criando o formulário
+                $form = $this->createForm(new LocalidadeType());
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                #Messagem de retorno
+                $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
+            }       
+            
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
+    }
+    
+    /**
+     * @Route("/gridLocalidade", name="gridLocalidade")
+     * @Template()
+     */
+    public function gridLocalidadeAction(Request $request)
+    {
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.idLocalidade",
+                "a.nomeLocalidade",
+                );
+
+            $entityJOIN           = array();             
+            $radiosArray          = array();
+            $parametros           = $request->request->all();            
+            
+            $entity               = "Serbinario\Bundle\SaudeBundle\Entity\Localidade"; 
+            $columnWhereMain      = "";
+            $whereValueMain       = "";
+            $whereFull            = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain,
+                    $whereFull);
+
+            $resultRadios   = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countRadios    = count($resultRadios);
+
+            for($i=0;$i < $countRadios; $i++)
+            {
+                $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdLocalidade();
+                $radiosArray[$i]['id']              = $resultRadios[$i]->getIdLocalidade();
+                $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomeLocalidade();
+
+            }
+
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countRadios = $countTotal;
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countRadios}",
+                'data'              => $radiosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }    
+    }
+    
+    /**
+     * @Route("/savePsf", name="savePsf")
+     * @Template()
+     */
+    public function savePsfAction(Request $request)
+    {        
+        #Criando o formulário
+        $form    = $this->createForm(new PsfType());
+        
+        #Recuperando o serviço do container
+        $psfRN = $this->get('psf_rn');
+        
+         #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $psf = $form->getData();
+                
+                #Executando e recuperando o resultado
+                $result = $psfRN->save($psf);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->get('session')->getFlashBag()->add('success', 'Posto cadastrado com sucesso'); 
+                } else {
+                    #Messagem de retorno
+                    $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado o posto');
+                }                
+                
+                #Criando o formulário
+                $form = $this->createForm(new PsfType());
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                #Messagem de retorno
+                $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
+            }       
+            
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
+    }
+    
+    /**
+     * @Route("/gridPsf", name="gridPsf")
+     * @Template()
+     */
+    public function gridPsfAction(Request $request)
+    {
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.idPsf",
+                "a.nomePsf",
+                );
+
+            $entityJOIN           = array();             
+            $radiosArray          = array();
+            $parametros           = $request->request->all();            
+            
+            $entity               = "Serbinario\Bundle\SaudeBundle\Entity\Psf"; 
+            $columnWhereMain      = "";
+            $whereValueMain       = "";
+            $whereFull            = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain,
+                    $whereFull);
+
+            $resultRadios   = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countRadios    = count($resultRadios);
+
+            for($i=0;$i < $countRadios; $i++)
+            {
+                $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdPsf();
+                $radiosArray[$i]['id']              = $resultRadios[$i]->getIdPsf();
+                $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomePsf();
+
+            }
+
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countRadios = $countTotal;
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countRadios}",
+                'data'              => $radiosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }    
     }
     
 }

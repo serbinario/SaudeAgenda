@@ -37,6 +37,15 @@ class MedicoType extends AbstractType
                     'inline' => true,
                     )
             ))
+            ->add('localidade','entity', array(
+                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Localidade',
+                'label' => 'Localidades',  
+                'multiple' => true,
+                'expanded' => true,
+                'attr' => array(
+                    'widget_col'=> '3',
+                    )
+                ))
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']],

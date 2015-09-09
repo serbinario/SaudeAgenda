@@ -3,6 +3,10 @@ parameters:
     rn.class.medico:            Serbinario\Bundle\SaudeBundle\RN\MedicoRN
     dao.class.especialidade:    Serbinario\Bundle\SaudeBundle\DAO\EspecialidadeDAO   
     rn.class.especialidade:     Serbinario\Bundle\SaudeBundle\RN\EspecialidadeRN
+    dao.class.localidade:       Serbinario\Bundle\SaudeBundle\DAO\LocalidadeDAO   
+    rn.class.localidade:        Serbinario\Bundle\SaudeBundle\RN\LocalidadeRN
+    dao.class.psf:              Serbinario\Bundle\SaudeBundle\DAO\PsfDAO   
+    rn.class.psf:               Serbinario\Bundle\SaudeBundle\RN\PsfRN
 
     
 services:
@@ -21,5 +25,21 @@ services:
     especialidade_rn:
         class:  %rn.class.especialidade%
         arguments:  [ @especialidade_dao ]
+    
+    localidade_dao:
+        class:  %dao.class.localidade%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    localidade_rn:
+        class:  %rn.class.localidade%
+        arguments:  [ @localidade_dao ]
+        
+    psf_dao:
+        class:  %dao.class.psf%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    psf_rn:
+        class:  %rn.class.psf%
+        arguments:  [ @psf_dao ]
         
        

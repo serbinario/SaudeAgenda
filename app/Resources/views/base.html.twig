@@ -4,135 +4,182 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{asset('css/bootstrap_paperv3.3.2.min.css')}}" />   
-            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />    
+            <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+            <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}" />
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            <!-- Ionicons -->
+            <link href="{{ asset('css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}" />
             <link rel="stylesheet" href="{{asset('css/jquery.datetimepicker.css')}}" />
+            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />
             <style type="text/css" rel="stylesheet">
-                .marginBottom-0 {margin-bottom:0;}
-                #spanClinte {margin-left: 30px;}
-
-                .dropdown-submenu{position:relative;}
-                .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
-                .dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
-                .dropdown-submenu:hover>a:after{border-left-color:#555;}
-                .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
-                .bs-example{
-                    margin: 20px;
-                }
                 {#input[type='text']{ text-transform: uppercase; }#}
 
             </style>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
-        {% block body %}
-            <div class="bs-example">
-                <nav role="navigation" class="navbar navbar-inverse">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+    <body class="skin-blue-light sidebar-mini wysihtml5-supported">
+        <div class="wrapper ">
+            {% block body %}
+                <header class="main-header">
+                    <!-- Logo -->
+                    <a href="{{path('home')}}" class="logo">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><b>A</b>MD</span>
+                        {#<span class="logo-mini"><img style="margin-top: -7px; margin-left: -2px;" id="logo" src="/eEscola/web/imagens/logo_sistema_menu_sbl.png" class="" alt="Foto" /></span>#}
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><b>AGENDA</b> MÉDICA</span>
+                        {#<span class="logo-lg"><img style="margin-top: -7px;" id="logo" src="/eEscola/web/imagens/logo_sistema_menu.png" class="img-responsive" alt="Foto" /></span>#}
+                    </a>
+                    <!-- Header Navbar: style can be found in header.less -->
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">
-                            {# {% if app.session.get("empresaOrgao") is defined and  app.session.get("empresaOrgao") != null %}                                
-                                 <img src="{{asset('/JAD/web/uploads/documents/' ~ app.session.get("empresaOrgao").documento.path)}}" width="65" height="55" style="margin-top: -17px"/>
-                            {% else %}
-                                 <img src="{{asset('imagens/logo_mini.jpg')}}" width="65" height="55" style="margin-top: -17px"/>
-                            {% endif %}#}
                         </a>
-                    </div>
-                    <!-- Collection of nav links and other content for toggling -->
-                    <div id="navbarCollapse" class="collapse navbar-collapse">
+                        <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
-                                <li>
-                                <a href="http://www.jquery2dotnet.com/" class="btn btn-link btn-lg btn3d" role="button"><span class="glyphicon glyphicon-globe"></span> Link</a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastro<span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="{{path('gridMedico')}}">Médico</a>         
+
+                                <!-- User Account: style can be found in dropdown.less -->
+                                <li class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img src="{{asset('img/avatar2.jpg')}}" class="user-image" alt="User Image"/>
+                                        <span class="hidden-xs">Fabio Rodrigo</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img src="{{asset('img/avatar2.jpg')}}" class="img-circle" alt="User Image" />
+                                            <p>
+                                                Fabio Rodrigo
+                                                <small>Membro desde Nov. 2012</small>
+                                            </p>
                                         </li>
-                                        <li>
-                                            <a href="{{path('gridEspecialidade')}}">Especialidade</a>         
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-right">
+                                                <a href="" class="btn btn-default btn-flat">Sair</a>
+                                            </div>
                                         </li>
-                                        <li>
-                                            <a href="http://www.jquery2dotnet.com/" class="btn btn-link btn-lg btn3d" role="button"><span class="glyphicon glyphicon-globe"></span> Link</a>
-                                        </li>
-                                    </ul>                                
+                                    </ul>
                                 </li>
                             </ul>
-                            <ul class="nav navbar-nav">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consulta<span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="{{ path('agendamento') }}">Marcação de Consulta</a>         
-                                        </li>
-                                    </ul>                                
-                                </li>
-                            </ul> 
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Olá! <b> </b><span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="">SAIR</a>         
-                                    </li>
-                                </ul>                                
-                            </li>
-                        </ul>
-                        {#<ul class="nav navbar-nav navbar-right">
-                          <li><a href="{{path('logout')}}"><b></b></a></li>
-                        </ul>#}
-                    </div>             
-                </nav>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-3">                                 
-                            <span id="spanClinte"><b></b></span>                                                                 
-                            <span id="spanClinte"><b></b></span>                                                           
                         </div>
-                    </div>
-                </div>
-            </div>
-        {% endblock %}
-        {% block javascripts %}
-            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <!-- Include all JavaScripts, compiled by Assetic -->
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap3-typeahead.js')}}"></script>
-            <!-- include form validation  -->
-            <script type="text/javascript" src="{{asset('js/bootstrapValidator.min.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/jquery.datetimepicker.js')}}"></script>
-            <script type="text/javascript" >
-                $(document).ready(function () {
-                    $('.datepicker').datetimepicker({
-                        format: 'd/m/Y H:i',
-                        mask: false,
-                        lang: 'pt-BR'
-                    });
+                    </nav>
+                </header>
 
-                    $('.datenottime').datetimepicker({
-                        format: 'd/m/Y',
-                        mask: false,
-                        timepicker: false,
-                        lang: 'pt-BR'
-                    });
+                <aside class="main-sidebar">
+                    <!-- sidebar: style can be found in sidebar.less -->
+                    <section class="sidebar ">
+                        <!-- Sidebar user panel -->
+                        <div class="user-panel">
+                            <div class="pull-left image">
+                                <img src="{{asset('img/avatar2.jpg')}}" width="160" height="160" class="img-circle" alt="User Image" />
+                            </div>
+                            <div class="pull-left info">
+                                <p>Fabio Rodrigo</p>
 
-                    $('.timepicker').datetimepicker({
-                        format: 'H:i:s',
-                        datepicker: false,
-                        timepicker: false,
-                        mask: true,
-                        lang: 'pt-BR'
+                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                            </div>
+                        </div>
+                        <!-- /.search form -->
+                        <!-- sidebar menu: : style can be found in sidebar.less -->
+                        <ul class="sidebar-menu">
+                            <li class="header">MENU DE NAVEGAÇÃO</li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-users"></i> <span>Cadastros</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Médico<i class="fa fa-angle-left pull-right"></i></a>
+                                        <a href="{{path('gridEspecialidade')}}"><i class="fa fa-circle-o text-aqua"></i> Especialidade<i class="fa fa-angle-left pull-right"></i></a>
+                                        <a href="{{path('gridLocalidade')}}"><i class="fa fa-circle-o text-aqua"></i> Localidade<i class="fa fa-angle-left pull-right"></i></a>
+                                        <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>
+                                        {#<ul class="treeview-menu">
+                                            <li>
+                                                <a href="#"><i class="fa fa-circle-o text-yellow"></i> Cadastros<i class="fa fa-angle-left pull-right"></i></a>
+                                                <ul class="treeview-menu">
+                                                    <li><a href="{{path('saveCGM')}}"><i class="fa fa-circle-o text-yellow"></i> Pessoa Física</a></li>
+                                                    <li><a href="{{path('saveCGMPJuridica')}}"><i class="fa fa-circle-o text-yellow"></i> Pessoa Jurídica</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="{{path('consultaCGM')}}"><i class="fa fa-circle-o text-yellow"></i> Consultar</a></li>
+                                        </ul>#}
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-file-text-o"></i> <span>Consuta</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    {#<li><a href="#"><i class="fa fa-circle-o text-red"></i> Level One</a></li>#}
+                                    <li>
+                                        <a href="{{path('agendamento')}}"><i class="fa fa-circle-o text-aqua"></i> Agendamento<i class="fa fa-angle-left pull-right"></i></a>
+                                        {#<ul class="treeview-menu">
+                                            <li><a href="{{path('telaRelatorioTransferencia')}}"><i class="fa fa-circle-o text-yellow"></i>Transferência</a></li>
+                                            <li><a href="{{path('telaRelatorioSituacaoMatricula')}}"><i class="fa fa-circle-o text-yellow"></i>Situação Matrícula</a></li>
+                                        </ul>#}
+                                    </li>
+                                </ul>
+                            </li>
+                            {#<li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-user"></i> <span>Usuários</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{{path('viewSaveUser')}}"><i class="fa fa-circle-o text-yellow"></i>Cadastrar</a></li>
+                                </ul>
+                            </li>#}
+                        </ul>
+                    </section>
+                    <!-- /.sidebar -->
+                </aside>
+            {% endblock %}
+            {% block javascripts %}
+                <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+                <!-- Include all JavaScripts, compiled by Assetic -->
+                <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
+                <script type="text/javascript" src="{{asset('js/bootstrap3-typeahead.js')}}"></script>
+                <!-- include form validation  -->
+                <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
+                <script type="text/javascript" src="{{asset('js/bootstrapValidator.min.js')}}"></script>
+                <script type="text/javascript" src="{{asset('js/jquery.datetimepicker.js')}}"></script>
+                <script src="{{ asset('js/fastclick.min.js') }}"></script>
+                <script src="{{ asset('js/app.min.js') }}"></script>
+                <script type="text/javascript" >
+                    $(document).ready(function () {
+                        $('.datepicker').datetimepicker({
+                            format: 'd/m/Y H:i',
+                            mask: false,
+                            lang: 'pt-BR'
+                        });
+
+                        $('.datenottime').datetimepicker({
+                            format: 'd/m/Y',
+                            mask: false,
+                            timepicker: false,
+                            lang: 'pt-BR'
+                        });
+
+                        $('.timepicker').datetimepicker({
+                            format: 'H:i:s',
+                            datepicker: false,
+                            timepicker: false,
+                            mask: true,
+                            lang: 'pt-BR'
+                        });
                     });
-                });
-            </script>
-        {% endblock %}
+                </script>
+            {% endblock %}
+        </div>
     </body>
 </html>

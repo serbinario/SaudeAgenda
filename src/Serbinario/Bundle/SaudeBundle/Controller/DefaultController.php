@@ -169,6 +169,58 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/editMedico/id/{id}", name="editMedico")
+     * @Template()
+     */
+    public function editMedicoAction(Request $request, $id)
+    {     
+        #Recuperando o serviço do modelo
+        $medicoRN = $this->get("medico_rn");
+        
+        #Criando o formulário
+        $form = $this->createForm(new MedicoType());
+        
+        if($id) {
+            #Recupera o candidato selecionado
+            $medicoRecuperada = $medicoRN->findId($id);
+        }
+               
+        #Preenche o formulário com os dados do candidato
+        $form->setData($medicoRecuperada);
+        
+        #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+                      
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $medico = $form->getData();               
+                
+                #Resultado da operação
+                $result =  $medicoRN->update($medico);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->addFlash('success', 'Médico editado com sucesso!');
+                } else {
+                    $this->addFlash('danger', 'Houve um erro ao editar o médico, tente novamente!');
+                }
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
+            }
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
+    }
+    
+    /**
      * @Route("/saveEspecialidade", name="saveEspecialidade")
      * @Template()
      */

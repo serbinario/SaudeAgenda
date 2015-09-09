@@ -44,8 +44,17 @@ class Medico
      * })
      */
     private $especialidadeEspecialidade;
-
-
+        
+    /**
+     * @var \Localidade
+     *
+     * @ORM\ManyToMany(targetEntity="Localidade", inversedBy="medico", cascade={"all"})
+     * @ORM\JoinTable(name="localidade_medico", 
+     *      joinColumns={@ORM\JoinColumn(name="id_medico", referencedColumnName="id_medico")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_localidade", referencedColumnName="id_localidade")}
+     * )
+     */
+    private $localidade;
 
     /**
      * Get idMedico
@@ -124,5 +133,21 @@ class Medico
     public function getEspecialidadeEspecialidade()
     {
         return $this->especialidadeEspecialidade;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getLocalidade() {
+        return $this->localidade;
+    }
+    
+    /**
+     * 
+     * @param \Localidade $localidade
+     */
+    function setLocalidade($localidade) {
+        $this->localidade = $localidade;
     }
 }

@@ -21,74 +21,113 @@
     </style>
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
-    <!-- Container Row -->
-    <div class="row" id="container">
-        <!-- Responsive Calendar -->
-        <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
-            <div class="row">
-                <div class="responsive-calendar">
-                    <div class="controls">
-                        <a class="pull-left" data-go="prev"><div class="btn btn-primary btn-xs">Prev</div></a>
-                        <h4><span data-head-year></span> <span data-head-month></span></h4>
-                        <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
-                    </div><hr/>
-                    <div class="day-headers">
-                        <div class="day header">Mon</div>
-                        <div class="day header">Tue</div>
-                        <div class="day header">Wed</div>
-                        <div class="day header">Thu</div>
-                        <div class="day header">Fri</div>
-                        <div class="day header">Sat</div>
-                        <div class="day header">Sun</div>
+{% block body  %}
+    {{parent()}}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Agenda
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            {% for label, flashes in app.session.flashbag.all %}
+                {% for flash in flashes %}
+                    <div class="alert alert-{{ label }} alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4>Alerta!</h4>
+                        {{ flash }}
                     </div>
-                    <div class="days" data-group="days"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="panel panel-primary">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
-                    <div class="panel-body">
-                        <form class="form">
-                            <select class="form-control">
-                                <option>Especialidades</option>
-                                {% for especializacoe in especializacoes %}
-                                    <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.nomeEspecialidade}}</option>
-                                {% endfor %}
-                            </select>
-                        </form>
+                {% endfor %}
+            {% endfor %}
+            <!-- Default box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Agendamento</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                     </div>
-
-                    <!-- List group -->
-                    <ul class="list-group">
-                        <li class="list-group-item">Paulo Vaz</li>
-                        <li class="list-group-item">Alexandre Lira</li>
-                    </ul>
                 </div>
-            </div>
+                <div class="box-body">
+                    <div class="row" id="container">
+                        <!-- Responsive Calendar -->
+                        <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
+                            <div class="row">
+                                <div class="responsive-calendar">
+                                    <div class="controls">
+                                        <a class="pull-left" data-go="prev"><div class="btn btn-primary btn-xs">Prev</div></a>
+                                        <h4><span data-head-year></span> <span data-head-month></span></h4>
+                                        <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
+                                    </div><hr/>
+                                    <div class="day-headers">
+                                        <div class="day header">Mon</div>
+                                        <div class="day header">Tue</div>
+                                        <div class="day header">Wed</div>
+                                        <div class="day header">Thu</div>
+                                        <div class="day header">Fri</div>
+                                        <div class="day header">Sat</div>
+                                        <div class="day header">Sun</div>
+                                    </div>
+                                    <div class="days" data-group="days"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="panel panel-primary">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
+                                    <div class="panel-body">
+                                        <form class="form">
+                                            <select class="form-control">
+                                                <option>Especialidades</option>
+                                                {% for especializacoe in especializacoes %}
+                                                    <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.nomeEspecialidade}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </form>
+                                    </div>
+
+                                    <!-- List group -->
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Paulo Vaz</li>
+                                        <li class="list-group-item">Alexandre Lira</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FullCalendar -->
+                        <div class="col-md-9">
+                            <div id="fullcalendar"></div>                
+                        </div>
+                    </div>
+                    <div class="box-footer">
+
+                    </div><!-- /.box-footer-->
+                </div><!-- /.box -->
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0
         </div>
-
-        <!-- FullCalendar -->
-        <div class="col-md-9" style="width: 1060px">
-            <div id="fullcalendar"></div>                
-        </div>
-    </div>
-
-
-{% endblock %}    
+        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+    </footer>
+{% endblock %}
 
 {% block javascripts %}
-    <!-- FullCalendar -->        
+    <!-- FullCalendar --> 
+    {{parent()}}
     <script type="text/javascript" src="{{asset('fullcalendar/moment.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('fullcalendar/lib/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
 
     <!-- Responsive Calendar -->
     <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
 
     <!-- Scripts -->
     <script type="text/javascript">

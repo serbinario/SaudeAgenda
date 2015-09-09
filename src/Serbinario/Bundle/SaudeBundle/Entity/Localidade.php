@@ -28,7 +28,13 @@ class Localidade
      */
     private $nomeLocalidade;
 
-
+    
+    /**
+     * @var \Medico
+     *
+     * @ORM\ManyToMany(targetEntity="Medico", mappedBy="localidade", cascade={"all"})
+     */
+    private $medico;
 
     /**
      * Get idLocalidade
@@ -60,6 +66,30 @@ class Localidade
      */
     public function getNomeLocalidade()
     {
+        return $this->nomeLocalidade;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getMedico() {
+        return $this->medico;
+    }
+    
+    /**
+     * 
+     * @param \Medico $medico
+     */
+    function setMedico($medico) {
+        $this->medico = $medico;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function __toString() {
         return $this->nomeLocalidade;
     }
 }

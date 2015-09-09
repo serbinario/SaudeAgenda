@@ -74,33 +74,28 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <a class="btn btn-primary" href="{{ path('saveMedico') }}" role="button">Cadastrar Médico</a>
+                    <a class="btn btn-primary" href="{{ path('savePsf') }}" role="button">Cadastrar Posto de Saúde</a>
                     <div class="row clearfix">
-                            
                             <br><br>
-                            <div class="col-md-12 column">
-                                <section>
-                                    <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Nome</th>
-                                                <th>E-mail</th>
-                                                <th>Especialidade</th>
-                                                <th>Acão</th>
-                                            </tr>
-                                        </thead>
+                <div class="col-md-12 column">
+                    <section>
+                        <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Acão</th>
+                                </tr>
+                            </thead>
 
-                                        <tfoot>
-                                            <tr>
-                                                <th>Nome</th>
-                                                <th>E-mail</th>
-                                                <th>Especialidade</th>
-                                                <th>Acão</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </section>
-                            </div>
+                            <tfoot>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Acão</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </div>
                     </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
@@ -133,13 +128,11 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "{{ path('gridMedico') }}",
+                    "url": "{{ path('gridPsf') }}",
                     "type": "POST"
                 },
                 "columns": [
                     {"data": "nome"},
-                    {"data": "email"},
-                    {"data": "especialidade"},
                     {
                         "class": "bt",
                         "orderable": false,

@@ -274,4 +274,35 @@ class DefaultController extends Controller
             return array();            
         }    
     }
+    
+    /**
+     * @Route("/pesquisaMedico", name="pesquisaMedico")
+     * @Template()
+     */
+    public function pesquisaMedicoAction() {
+        
+        $especialidadeRN = $this->get('especialidade_rn');
+        
+        $especialidades = $especialidadeRN->all();
+        
+        return array("especialidades" => $especialidades);
+        
+    }
+    
+    /**
+     * @Route("/medicoByEspecialidade", name="medicoByEspecialidade")
+     * @Template()
+     */
+    public function medicoByEspecialidadeAction(Request $request) {
+        
+        $dados = $request->request->all();
+        
+        $medicoRN   = $this->get('medico_rn');
+        
+        $medicos    = $medicoRN->findByEspecialidade($dados['especialidade']);
+        //var_dump($medicos);exit();
+        return $this->redirect($this->generateUrl("pesquisaMedico", array("medicos" => $medicos)));
+        
+    }
+    
 }

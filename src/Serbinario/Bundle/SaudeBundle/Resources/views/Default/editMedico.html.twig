@@ -49,6 +49,17 @@
                                 {{ form_row(form.nomeMedico) }}
                                 {{ form_row(form.emailMedico) }}
                                 {{ form_row(form.especialidadeEspecialidade) }}
+                                {{ form_row(form.foto) }}
+                                <div class="form-group">
+                                    {% if logo is defined and logo != null %}
+                                        <div class="col-md-offset-2 col-md-6">
+                                            <div id="midias">
+                                                <img id="logo" src="../../../../web/uploads/fotos/{{logo.path}}" class="img-responsive" alt="Foto"  height="300" width="150"/><br />
+                                                <button type="button" class="btn btn-danger removerFoto">Remover Foto</button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>    
                             <div class="tab-pane"id="agendaPadrao">
                                 <br />

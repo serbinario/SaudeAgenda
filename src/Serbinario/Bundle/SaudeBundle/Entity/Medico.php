@@ -76,6 +76,13 @@ class Medico
      * )
      */
     private $localidade;
+    
+    /**
+     * @var \FotoMedico
+     *
+     * @ORM\OneToOne(targetEntity="FotoMedico", mappedBy="medico", cascade={"all"})
+     */
+    private $foto;
 
     /**
      * Get idMedico
@@ -219,6 +226,20 @@ class Medico
     function setHorarioFim($horarioFim) {
         $this->horarioFim = $horarioFim;
     }
-
-
+    
+    /**
+     * 
+     * @return type
+     */
+    function getFoto() {
+        return $this->foto;
+    }
+    
+    /**
+     * 
+     * @param \FotosMedico $foto
+     */
+    function setFoto($foto) {
+        $this->foto = $foto;
+    }
 }

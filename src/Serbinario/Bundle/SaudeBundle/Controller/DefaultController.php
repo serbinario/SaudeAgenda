@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Serbinario\Bundle\SaudeBundle\Form\MedicoType;
@@ -76,6 +77,16 @@ class DefaultController extends Controller
             if($form->isValid()) {
                 #Recuperando os dados
                 $medico = $form->getData();
+                
+                if (!is_null($medico->getFoto()) && $medico->getFoto()->getFile() != null) {
+                    #Criando um novo nome para o arquivo
+                    $originalName = $medico->getFoto()->getFile()->getClientOriginalName();
+                    $arrayName = explode(".", $originalName);
+                    $newName = md5(uniqid(null, true)) . "." . $arrayName[count($arrayName) - 1];
+
+                    $medico->getFoto()->upload($newName);
+                    $medico->getFoto()->setMedico($medico);
+                }
                 
                 #Executando e recuperando o resultado
                 $result = $medicoRN->save($medico);
@@ -183,6 +194,11 @@ class DefaultController extends Controller
         if($id) {
             #Recupera o candidato selecionado
             $medicoRecuperada = $medicoRN->findId($id);
+            
+            if($medicoRecuperada->getFoto()) {
+                $documentoOld = $medicoRecuperada->getFoto();
+                $pathOld      = $documentoOld->getAbsolutePath();
+            }
         }
                
         #Preenche o formulário com os dados do candidato
@@ -199,6 +215,33 @@ class DefaultController extends Controller
                 #Recuperando os dados
                 $medico = $form->getData();               
                 
+                #Fazendo o upload da foto
+                if (!is_null($medico->getFoto()) && $medico->getFoto()->getFile() !== null) {
+                    
+                    if(isset($documentoOld)) {
+                        $doctrine = $this->getDoctrine()->getManager();
+                        $documentoOld->removeFile($pathOld);
+                        $doctrine->remove($documentoOld);
+                        $doctrine->flush();
+                    }
+
+                    #Criando um novo nome para o arquivo
+                    $originalName = $medico->getFoto()->getFile()->getClientOriginalName();
+                    $arrayName = explode(".", $originalName);
+                    $newName = md5(uniqid(null, true)) . "." . $arrayName[count($arrayName) - 1];
+
+                    $medico->getFoto()->upload($newName);
+                    $medico->getFoto()->setMedico($medico);
+
+                    $doctrine = $this->getDoctrine()->getManager();
+                    $doctrine->persist($medico->getFoto());
+                    $doctrine->flush();
+                } else {
+                    if(!isset($documentoOld)) {
+                         $medico->setFoto(null);
+                    }             
+                }
+                
                 #Resultado da operação
                 $result =  $medicoRN->update($medico);
                 
@@ -210,14 +253,14 @@ class DefaultController extends Controller
                 }
                
                 #Retorno
-                return array("form" => $form->createView());
+                return array("form" => $form->createView(), "logo" => $medico->getFoto());
             } else {
                 $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
             }
         }
         
         #Retorno
-        return array("form" => $form->createView());
+        return array("form" => $form->createView(), "logo" => $medicoRecuperada->getFoto());
     }
     
     /**

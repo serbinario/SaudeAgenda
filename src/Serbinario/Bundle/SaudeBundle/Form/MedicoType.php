@@ -46,6 +46,26 @@ class MedicoType extends AbstractType
                     'widget_col'=> '3',
                     )
                 ))
+            ->add('quantidadeVagas', 'text', array(
+                'label' => 'Quantidade de Vagas ',           
+                'attr'  => array(
+                    'placeholder' => 'Quantidade de Vagas',
+                    'widget_col'=> '2',
+            )))
+            ->add('horarioInicio', 'text', array(
+                'label' => 'Horário Incicial ',           
+                'attr' => array(
+                    'placeholder' => 'Horário Incicial',
+                    'widget_col'=> '2',
+                    'data-provide' => 'typeahead',
+                ))) 
+            ->add('horarioFim', 'text', array(
+                'label' => 'Horário Final ',           
+                'attr' => array(
+                    'placeholder' => 'Horário Final',
+                    'widget_col'=> '2',
+                    'data-provide' => 'typeahead',
+                )))
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']],

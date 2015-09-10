@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/DAO/LocalidadeDAO.php</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/app/Resources/views/base.html.twig</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/Controller/DefaultController.php</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/Entity/Medico.php</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/Resources/views/Default/gridLocalidade.html.twig</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/Resources/views/Default/gridPsf.html.twig</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/Entity/Localidade.php</file>
-            <file>file:/C:/xampp/htdocs/ProSaude/src/Serbinario/Bundle/SaudeBundle/RN/LocalidadeRN.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

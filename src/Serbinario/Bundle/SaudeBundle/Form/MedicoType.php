@@ -29,7 +29,7 @@ class MedicoType extends AbstractType
             )))
             ->add('especialidadeEspecialidade', 'entity', array(
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Especialidade',
-                'label' => 'Tipo: ',  
+                'label' => 'Especialidade ',  
                 'multiple' => false,
                 'expanded' => false,
                 'attr' => array(

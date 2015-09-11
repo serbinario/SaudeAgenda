@@ -38,7 +38,8 @@
         "twbs/bootstrap": "3.0.*",
         "jquery/jquery":  "1.11.*",
         "braincrafted/bootstrap-bundle": "~2.0",
-        "knplabs/knp-snappy-bundle": "dev-master"
+        "knplabs/knp-snappy-bundle": "dev-master",
+        "vich/uploader-bundle": "^0.14.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

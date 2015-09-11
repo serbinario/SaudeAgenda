@@ -34,6 +34,27 @@ class Medico
      * @ORM\Column(name="email_medico", type="string", length=50, nullable=false)
      */
     private $emailMedico;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantidade_vagas", type="string", length=10, nullable=false)
+     */
+    private $quantidadeVagas;
+    
+    /**
+     * @var Time
+     *
+     * @ORM\Column(name="horario_inicio", type="time", nullable=false)
+     */
+    private $horarioInicio;
+    
+    /**
+     * @var Time
+     *
+     * @ORM\Column(name="horario_fim", type="time", nullable=false)
+     */
+    private $horarioFim;
 
     /**
      * @var \Especialidade
@@ -55,6 +76,13 @@ class Medico
      * )
      */
     private $localidade;
+    
+    /**
+     * @var \FotoMedico
+     *
+     * @ORM\OneToOne(targetEntity="FotoMedico", mappedBy="medico", cascade={"all"})
+     */
+    private $foto;
 
     /**
      * Get idMedico
@@ -149,5 +177,69 @@ class Medico
      */
     function setLocalidade($localidade) {
         $this->localidade = $localidade;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getQuantidadeVagas() {
+        return $this->quantidadeVagas;
+    }
+    
+    /**
+     * 
+     * @param type $quantidadeVagas
+     */
+    function setQuantidadeVagas($quantidadeVagas) {
+        $this->quantidadeVagas = $quantidadeVagas;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getHorarioInicio() {
+        return $this->horarioInicio;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getHorarioFim() {
+        return $this->horarioFim;
+    }
+    
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Time $horarioInicio
+     */
+    function setHorarioInicio($horarioInicio) {
+        $this->horarioInicio = $horarioInicio;
+    }
+    
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Time $horarioFim
+     */
+    function setHorarioFim($horarioFim) {
+        $this->horarioFim = $horarioFim;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getFoto() {
+        return $this->foto;
+    }
+    
+    /**
+     * 
+     * @param \FotosMedico $foto
+     */
+    function setFoto($foto) {
+        $this->foto = $foto;
     }
 }

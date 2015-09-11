@@ -73,7 +73,8 @@ class Localidade
      * 
      * @return type
      */
-    function getMedico() {
+    public function getMedico() 
+    {
         return $this->medico;
     }
     
@@ -81,7 +82,8 @@ class Localidade
      * 
      * @param \Medico $medico
      */
-    function setMedico($medico) {
+    public function setMedico($medico) 
+    {
         $this->medico = $medico;
     }
     
@@ -89,7 +91,8 @@ class Localidade
      * 
      * @return type
      */
-    public function __toString() {
+    public function __toString() 
+    {
         return $this->nomeLocalidade;
     }
 }

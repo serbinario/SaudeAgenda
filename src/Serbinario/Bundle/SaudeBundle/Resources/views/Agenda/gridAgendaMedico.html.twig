@@ -74,33 +74,36 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <a class="btn btn-primary" href="{{ path('saveLocalidade') }}" role="button">Cadastrar Localidade</a>
-                    <div class="row clearfix">
-                        <br><br>
-                        <div class="col-md-12 column">
-                            <section>
-                                <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Nome</th>
-                                            <th>Acão</th>
-                                        </tr>
-                                    </thead>
+                    <div class="row clearfix">                     
+                            <div class="col-md-12 column">
+                                <section>
+                                    <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>E-mail</th>
+                                                <th>Especialidade</th>
+                                                <th>Acão</th>
+                                            </tr>
+                                        </thead>
 
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nome</th>
-                                            <th>Acão</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </section>
-                        </div>
-                    </div><!-- /.box-body -->
-                    <div class="box-footer">
-
-                    </div><!-- /.box-footer-->
-                </div><!-- /.box -->
+                                        <tfoot>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>E-mail</th>
+                                                <th>Especialidade</th>
+                                                <th>Acão</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </section>
+                            </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    
+                </div><!-- /.box-footer-->
+            </div><!-- /.box -->
 
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
@@ -109,7 +112,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; 2004-2015 <a target="__blanck" href="http://www.serbinario.com.br/">Serbinário</a>.</strong> Todos os direitos reservados.
+        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
     </footer>
 {% endblock %}
 
@@ -127,18 +130,19 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "{{ path('gridLocalidade') }}",
+                    "url": "{{ path('gridAgendaMedico') }}",
                     "type": "POST"
                 },
                 "columns": [
                     {"data": "nome"},
+                    {"data": "email"},
+                    {"data": "especialidade"},
                     {
                         "class": "bt",
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                                    return '<a href="editLocalidade/id/' + data.id + '" class="editar" title="Editar">\n\
-                                    '
+                                    return '<a href="agendaMedico/id/' + data.id + '" class="editar" title="Editar">'
                         }
                     },
                 ],

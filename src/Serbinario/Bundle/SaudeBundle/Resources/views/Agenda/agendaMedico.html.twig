@@ -2,10 +2,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- FullCalendar -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css')}}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.print.css')}}" media="print">    
-
     <!-- Responsive Calendar -->
     <link type="text/css" rel="stylesheet" href="{{ asset('calendar-responsive/responsive-calendar.css')}}" rel="stylesheet">
     <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
@@ -17,7 +13,9 @@
 
         #responsive-calendar {
             padding-right: 30px;
+            margin-right: 30px;
         }
+        
     </style>
 {% endblock %}
 
@@ -28,7 +26,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Agenda
+                Cadastros
             </h1>
         </section>
 
@@ -46,7 +44,7 @@
             <!-- Default box -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Agendamento</h3>
+                    <h3 class="box-title">Cadastro da Agenda dos Médicos</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -81,10 +79,7 @@
                                     <div class="panel-body">
                                         <form class="form">
                                             <select class="form-control">
-                                                <option>Especialidades</option>
-                                                {% for especializacoe in especializacoes %}
-                                                    <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.nomeEspecialidade}}</option>
-                                                {% endfor %}
+                                                
                                             </select>
                                         </form>
                                     </div>
@@ -96,17 +91,20 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- FullCalendar -->
-                        <div class="col-md-9">
-                            <div id="fullcalendar"></div>                
-                        </div>
+                        </div>                        
+                        <!-- Formulário -->
+                        <div class="col-md-9" id="formulario_div">
+                            {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
+                                {{ form_widget(form) }}                    
+                            {{ form_end(form) }}                
+                        </div>                                            
                     </div>
-                    <div class="box-footer">
-
-                    </div><!-- /.box-footer-->
-                </div><!-- /.box -->
+                  
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    
+                </div><!-- /.box-footer-->
+            </div><!-- /.box -->
 
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
@@ -120,73 +118,14 @@
 {% endblock %}
 
 {% block javascripts %}
-    <!-- FullCalendar --> 
-    {{parent()}}
-    <script type="text/javascript" src="{{asset('fullcalendar/moment.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
-
+    {{parent()}}    
     <!-- Responsive Calendar -->
     <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
-
+    
     <!-- Scripts -->
     <script type="text/javascript">
-        $(document).ready(function () {
-
-            //FullCalendar
-            $('#fullcalendar').fullCalendar({
-                defaultDate: '2015-02-12',
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: [
-                    {
-                        title: 'Todos os eventos',
-                        start: '2015-02-01'
-                    },
-                    {
-                        title: 'Evento Longo',
-                        start: '2015-02-07',
-                        end: '2015-02-10'
-                    },
-                    {
-                        id: 999,
-                        title: 'Evento repetitivo',
-                        start: '2015-02-09T16:00:00'
-                    },
-                    {
-                        id: 999,
-                        title: 'Evento repetitivo',
-                        start: '2015-02-16T16:00:00'
-                    },
-                    {
-                        title: 'Conferência',
-                        start: '2015-02-11',
-                        end: '2015-02-13'
-                    },
-                    {
-                        title: 'Reunião',
-                        start: '2015-02-12T10:30:00',
-                        end: '2015-02-12T12:30:00'
-                    },
-                    {
-                        title: 'Almoço',
-                        start: '2015-02-12T12:00:00'
-                    },
-                    {
-                        title: 'Reunião',
-                        start: '2015-02-12T14:30:00'
-                    },
-                    {
-                        title: 'Jantar',
-                        start: '2015-02-12T20:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2015-02-28'
-                    }
-                ]
-            });
+        $(document).ready(function () {            
 
             //Responsive Calendar
             $(".responsive-calendar").responsiveCalendar({
@@ -199,4 +138,5 @@
             });
         });
     </script>
+
 {% endblock %}

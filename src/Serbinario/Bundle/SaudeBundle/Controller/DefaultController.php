@@ -48,6 +48,15 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/logout", name="logout")
+     * @Template()
+     */
+    public function logoutAction()
+    {        
+        return $this->redirect($this->generateUrl("index"));
+    }
+    
+    /**
      * @Route("/home", name="home")
      * @Template()
      */

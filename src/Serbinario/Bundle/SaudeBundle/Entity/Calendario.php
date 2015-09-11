@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Calendario
  *
- * @ORM\Table(name="calendario", indexes={@ORM\Index(name="fk_calendario_agenda_medico1_idx", columns={"agenda_medico_id_agenda_medico"}), @ORM\Index(name="fk_calendario_dias_calendario1_idx", columns={"dias_calendario_id_dias_calendario"}), @ORM\Index(name="fk_calendario_horario_calendario1_idx", columns={"horario_calendario_id_horario_calendario"}), @ORM\Index(name="fk_calendario_localidade1_idx", columns={"localidade_id_localidade"})})
+ * @ORM\Table(name="calendario")
  * @ORM\Entity
  */
 class Calendario
@@ -36,34 +36,19 @@ class Calendario
     private $qtdReservaCalendario;
 
     /**
-     * @var \AgendaMedico
+     * @var \DateTime
      *
-     * @ORM\ManyToOne(targetEntity="AgendaMedico")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="agenda_medico_id_agenda_medico", referencedColumnName="id_agenda_medico")
-     * })
+     * @ORM\Column(name="dia_calendario", type="date", nullable=false)
      */
-    private $agendaMedicoAgendaMedico;
+    private $diaCalendario;
 
+    
     /**
-     * @var \DiasCalendario
+     * @var \DateTime
      *
-     * @ORM\ManyToOne(targetEntity="DiasCalendario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="dias_calendario_id_dias_calendario", referencedColumnName="id_dias_calendario")
-     * })
+     * @ORM\Column(name="horario_calendario", type="time", nullable=false)
      */
-    private $diasCalendarioDiasCalendario;
-
-    /**
-     * @var \HorarioCalendario
-     *
-     * @ORM\ManyToOne(targetEntity="HorarioCalendario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="horario_calendario_id_horario_calendario", referencedColumnName="id_horario_calendario")
-     * })
-     */
-    private $horarioCalendarioHorarioCalendario;
+    private $horarioCalendario;
 
     /**
      * @var \Localidade
@@ -134,75 +119,6 @@ class Calendario
     }
 
     /**
-     * Set agendaMedicoAgendaMedico
-     *
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\AgendaMedico $agendaMedicoAgendaMedico
-     * @return Calendario
-     */
-    public function setAgendaMedicoAgendaMedico(\Serbinario\Bundle\SaudeBundle\Entity\AgendaMedico $agendaMedicoAgendaMedico = null)
-    {
-        $this->agendaMedicoAgendaMedico = $agendaMedicoAgendaMedico;
-
-        return $this;
-    }
-
-    /**
-     * Get agendaMedicoAgendaMedico
-     *
-     * @return \Serbinario\Bundle\SaudeBundle\Entity\AgendaMedico 
-     */
-    public function getAgendaMedicoAgendaMedico()
-    {
-        return $this->agendaMedicoAgendaMedico;
-    }
-
-    /**
-     * Set diasCalendarioDiasCalendario
-     *
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\DiasCalendario $diasCalendarioDiasCalendario
-     * @return Calendario
-     */
-    public function setDiasCalendarioDiasCalendario(\Serbinario\Bundle\SaudeBundle\Entity\DiasCalendario $diasCalendarioDiasCalendario = null)
-    {
-        $this->diasCalendarioDiasCalendario = $diasCalendarioDiasCalendario;
-
-        return $this;
-    }
-
-    /**
-     * Get diasCalendarioDiasCalendario
-     *
-     * @return \Serbinario\Bundle\SaudeBundle\Entity\DiasCalendario 
-     */
-    public function getDiasCalendarioDiasCalendario()
-    {
-        return $this->diasCalendarioDiasCalendario;
-    }
-
-    /**
-     * Set horarioCalendarioHorarioCalendario
-     *
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\HorarioCalendario $horarioCalendarioHorarioCalendario
-     * @return Calendario
-     */
-    public function setHorarioCalendarioHorarioCalendario(\Serbinario\Bundle\SaudeBundle\Entity\HorarioCalendario $horarioCalendarioHorarioCalendario = null)
-    {
-        $this->horarioCalendarioHorarioCalendario = $horarioCalendarioHorarioCalendario;
-
-        return $this;
-    }
-
-    /**
-     * Get horarioCalendarioHorarioCalendario
-     *
-     * @return \Serbinario\Bundle\SaudeBundle\Entity\HorarioCalendario 
-     */
-    public function getHorarioCalendarioHorarioCalendario()
-    {
-        return $this->horarioCalendarioHorarioCalendario;
-    }
-
-    /**
      * Set localidadeLocalidade
      *
      * @param \Serbinario\Bundle\SaudeBundle\Entity\Localidade $localidadeLocalidade
@@ -224,4 +140,41 @@ class Calendario
     {
         return $this->localidadeLocalidade;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDiaCalendario()
+    {
+        return $this->diaCalendario;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getHorarioCalendario() 
+    {
+        return $this->horarioCalendario;
+    }
+
+    /**
+     * 
+     * @param type $diaCalendario
+     */
+    public function setDiaCalendario($diaCalendario) {
+        $this->diaCalendario = $diaCalendario;
+    }
+
+    /**
+     * 
+     * @param type $horarioCalendario
+     */
+    public function setHorarioCalendario($horarioCalendario) 
+    {
+        $this->horarioCalendario = $horarioCalendario;
+    }
+
+
 }

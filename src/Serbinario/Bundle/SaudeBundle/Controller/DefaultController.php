@@ -373,6 +373,58 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/editEspecialidade/id/{id}", name="editEspecialidade")
+     * @Template()
+     */
+    public function editEspecialidadeAction(Request $request, $id)
+    {     
+        #Recuperando o serviço do modelo
+        $especialidadeRN = $this->get("especialidade_rn");
+        
+        #Criando o formulário
+        $form = $this->createForm(new EspecialidadeType());
+        
+        if($id) {
+            #Recupera o candidato selecionado
+            $especialidadeRecuperada = $especialidadeRN->findId($id);
+        }
+               
+        #Preenche o formulário com os dados do candidato
+        $form->setData($especialidadeRecuperada);
+        
+        #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+                      
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $especialidade = $form->getData();               
+                                
+                #Resultado da operação
+                $result =  $especialidadeRN->update($especialidade);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->addFlash('success', 'Especialidade editada com sucesso!');
+                } else {
+                    $this->addFlash('danger', 'Houve um erro ao editar a especialidade, tente novamente!');
+                }
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
+            }
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
+    }
+    
+    /**
      * @Route("/pesquisaMedico", name="pesquisaMedico")
      * @Template()
      */
@@ -512,6 +564,58 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/editLocalidade/id/{id}", name="editLocalidade")
+     * @Template()
+     */
+    public function editLocalidadeAction(Request $request, $id)
+    {     
+        #Recuperando o serviço do modelo
+        $localidadeRN = $this->get("localidade_rn");
+        
+        #Criando o formulário
+        $form = $this->createForm(new LocalidadeType());
+        
+        if($id) {
+            #Recupera o candidato selecionado
+            $localidadeRecuperada = $localidadeRN->findId($id);
+        }
+               
+        #Preenche o formulário com os dados do candidato
+        $form->setData($localidadeRecuperada);
+        
+        #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+                      
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $localidade = $form->getData();               
+                                
+                #Resultado da operação
+                $result =  $localidadeRN->update($localidade);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->addFlash('success', 'Localidade editada com sucesso!');
+                } else {
+                    $this->addFlash('danger', 'Houve um erro ao editar a localidade, tente novamente!');
+                }
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
+            }
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
+    }
+    
+    /**
      * @Route("/savePsf", name="savePsf")
      * @Template()
      */
@@ -618,6 +722,58 @@ class DefaultController extends Controller
         }else{            
             return array();            
         }    
+    }
+    
+    /**
+     * @Route("/editPsf/id/{id}", name="editPsf")
+     * @Template()
+     */
+    public function editPsfAction(Request $request, $id)
+    {     
+        #Recuperando o serviço do modelo
+        $psfRN = $this->get("psf_rn");
+        
+        #Criando o formulário
+        $form = $this->createForm(new PsfType());
+        
+        if($id) {
+            #Recupera o candidato selecionado
+            $psfRecuperada = $psfRN->findId($id);
+        }
+               
+        #Preenche o formulário com os dados do candidato
+        $form->setData($psfRecuperada);
+        
+        #Verficando se é uma submissão
+        if($request->getMethod() === "POST") {
+                      
+            #Repasando a requisição
+            $form->handleRequest($request);
+            
+            #Verifica se os dados são válidos
+            if($form->isValid()) {
+                #Recuperando os dados
+                $psf = $form->getData();               
+                                
+                #Resultado da operação
+                $result =  $psfRN->update($psf);
+                
+                if($result) {
+                    #Messagem de retorno
+                    $this->addFlash('success', 'Posto de saúde editado com sucesso!');
+                } else {
+                    $this->addFlash('danger', 'Houve um erro ao editar o posto de saúde, tente novamente!');
+                }
+               
+                #Retorno
+                return array("form" => $form->createView());
+            } else {
+                $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
+            }
+        }
+        
+        #Retorno
+        return array("form" => $form->createView());
     }
     
 }

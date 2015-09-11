@@ -109,7 +109,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+        <strong>Copyright &copy; 2004-2015 <a target="__blanck" href="http://www.serbinario.com.br/">Serbinário</a>.</strong> Todos os direitos reservados.
     </footer>
 {% endblock %}
 
@@ -127,7 +127,7 @@
                 "serverSide": true,
                 "bFilter": true, //Ativa o Search global
                 "ajax": {
-                    "url": "{{ path('gridMedico') }}",
+                    "url": "{{ path('gridEspecialidade') }}",
                     "type": "POST"
                 },
                 "columns": [
@@ -137,8 +137,8 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                                    return '<a href="" class="editar" title="Editar">\n\
-                                    <a href="" class="excluir" title="Excluir">'
+                                    return '<a href="editEspecialidade/id/' + data.id + '" class="editar" title="Editar">\n\
+                                    '
                         }
                     },
                 ],

@@ -61,19 +61,19 @@
                                         <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
                                     </div><hr/>
                                     <div class="day-headers">
-                                        <div class="day header">Mon</div>
-                                        <div class="day header">Tue</div>
-                                        <div class="day header">Wed</div>
-                                        <div class="day header">Thu</div>
-                                        <div class="day header">Fri</div>
-                                        <div class="day header">Sat</div>
-                                        <div class="day header">Sun</div>
+                                        <div class="day header">Dom</div>
+                                        <div class="day header">Seg</div>
+                                        <div class="day header">Ter</div>
+                                        <div class="day header">Qua</div>
+                                        <div class="day header">Qui</div>
+                                        <div class="day header">Sex</div>
+                                        <div class="day header">Sab</div>
                                     </div>
                                     <div class="days" data-group="days"></div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="panel panel-primary">
+                                <div class="panel panel-primary">                                    
                                     <!-- Default panel contents -->
                                     <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
                                     <div class="panel-body">
@@ -120,22 +120,38 @@
 {% block javascripts %}
     {{parent()}}    
     <!-- Responsive Calendar -->
+    <script type="text/javascript" src="{{asset('fullcalendar/moment.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
+
     <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
     
     <!-- Scripts -->
     <script type="text/javascript">
-        $(document).ready(function () {            
-
-            //Responsive Calendar
-            $(".responsive-calendar").responsiveCalendar({
-                time: '2013-05',
-                events: {
-                    "2013-04-30": {"number": 5, "url": "http://w3widgets.com/responsive-slider"},
-                    "2013-04-26": {"number": 1, "url": "http://w3widgets.com"},
-                    "2013-05-03": {"number": 1},
-                    "2013-06-12": {}}
-            });
+        $(document).ready(function () {        
+            //Ajax para recuperação do calendário do médico em questão
+            $.ajax({
+                url: "{{ path('getCalendario') }}",  //URL solicitada
+                dataType: "JSON", //Tipo de dado de transfência
+                method: "POST",
+                data : {"id" : "{{ id }}"},
+                success: function(data) {    
+                    //Variável para armazenar os eventos
+                    var eventsReturn = "{";
+                    
+                    for(var i = 0; i < data.length; i++) {
+                        eventsReturn += '"' + data[i] + '" : {},';                        
+                    }      
+                    
+                    eventsReturn = eventsReturn.substring(0, eventsReturn.length - 1) + "}";
+                    
+                    //Responsive Calendar
+                    $(".responsive-calendar").responsiveCalendar({
+                        time: "{{ dataAtual }}"  ,
+                        events: JSON.parse(eventsReturn)
+                    });
+                }
+            });         
         });
     </script>
 

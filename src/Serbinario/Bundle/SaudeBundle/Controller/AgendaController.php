@@ -37,11 +37,29 @@ class AgendaController extends Controller {
      */
     public function agendaMedicoAction(Request $request, $id)
     {
-        #Criando o formulário
-        $form = $this->createForm(new CalendarioType(), null, array("idMedico"=>""));
-
         #Recuperando o serviço do container
-        //$calendarioRN = $this->get('_rn');
+        $calendarioRN = $this->get('calendario_rn');
+        $medicoRN     = $this->get("medico_rn");
+        
+        #Eventos para o calendário
+        $calendarios    = $calendarioRN->all();
+        $eventsCalendar = "";
+        $dataAtual      = new \DateTime("now");
+        
+       #Criando o array de retorno de eventos
+        $eventsCalendar .= '{';
+        foreach ($calendarios as $calendario) {
+            $eventsCalendar .= '"'.$calendario->getDiaCalendario()->format("Y-m-d").'":{}';
+        }
+        $eventsCalendar .= '}'; 
+        
+        #Preenchimento do obj Calendário
+        $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();
+        $medico     = $medicoRN->findId($id);       
+        $calendario->setQtdTotalCalendario($medico->getQuantidadeVagas());
+               
+        #Criando o formulário
+        $form = $this->createForm(new CalendarioType(), $calendario, array("idMedico"=> $id));        
 
         #Verficando se é uma submissão
         if ($request->getMethod() === "POST") {
@@ -52,9 +70,12 @@ class AgendaController extends Controller {
             if ($form->isValid()) {
                 #Recuperando os dados
                 $calendario = $form->getData();
+                
+                #Set o médico do calendário
+                $calendario->setMedicoMedico($medico);
                
                 #Executando e recuperando o resultado
-                //$result = $calendarioRN->save($calendario);
+                $result = $calendarioRN->save($calendario);
 
                 if ($result) {
                     #Messagem de retorno
@@ -63,20 +84,34 @@ class AgendaController extends Controller {
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado Dados');
                 }
-
+                
+                #Preenchimento do obj Calendário
+                $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();
+                $medico     = $medicoRN->findId($id); 
+                
+                #Eventos para o calendário
+                $calendarios    = $calendarioRN->all();             
+                
+                #Criando o array de retorno de eventos
+                $eventsCalendar .= '{';
+                foreach ($calendarios as $calendario) {
+                    $eventsCalendar .= '"'.$calendario->getDiaCalendario()->format("Y-m-d").'":{}';
+                }
+                $eventsCalendar .= '}';
+        
                 #Criando o formulário
-                $form = $this->createForm(new CalendarioType());
+                $form = $this->createForm(new CalendarioType(), $calendario, array("idMedico"=> $id));
 
                 #Retorno
-                return array("form" => $form->createView());
+                return array("form" => $form->createView(), "dataAtual" => $dataAtual->format("Y-m"), "id" => $id);
             } else {
                 #Messagem de retorno
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
             }
         }
-
+      
         #Retorno
-        return array("form" => $form->createView());
+        return array("form" => $form->createView(), "dataAtual" => $dataAtual->format("Y-m"), "id" => $id);
     }
     
     /**
@@ -141,5 +176,31 @@ class AgendaController extends Controller {
         }else{            
             return array();            
         }
+    }
+    
+    /**
+     * @Route("/getCalendario", name="getCalendario")
+     * @Template()
+     */
+    public function getCalendarioAction(Request $request)
+    {
+        #Recuperando o id do médico
+        $idMedico     = $request->request->get("id");
+        
+        #Recuperando o serviço do container
+        $calendarioRN = $this->get('calendario_rn');
+        
+        #Recuperando o calendário do médico
+        $calendario   = $calendarioRN->findByMedico($idMedico);
+        
+        #Array de resposta
+        $arrayResult  = array();
+        
+        foreach($calendario as $dia) {
+            $arrayResult[] = $dia->getDiaCalendario()->format("Y-m-d");
+        }
+        
+        #Responsta Json
+        return new JsonResponse($arrayResult);      
     }
 }

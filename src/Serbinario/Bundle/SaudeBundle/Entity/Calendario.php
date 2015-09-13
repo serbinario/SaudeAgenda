@@ -59,6 +59,16 @@ class Calendario
      * })
      */
     private $localidadeLocalidade;
+    
+     /**
+     * @var \Medico
+     *
+     * @ORM\ManyToOne(targetEntity="Medico")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="medico_id_medico", referencedColumnName="id_medico")
+     * })
+     */
+    private $medicoMedico;
 
 
 
@@ -139,6 +149,29 @@ class Calendario
     public function getLocalidadeLocalidade()
     {
         return $this->localidadeLocalidade;
+    }
+    
+    /**
+     * Set medicoMedico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medicoMedico
+     * @return Calendario
+     */
+    public function setMedicoMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medicoMedico = null)
+    {
+        $this->medicoMedico = $medicoMedico;
+
+        return $this;
+    }
+
+    /**
+     * Get medicoMedico
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Medico 
+     */
+    public function getMedicoMedico()
+    {
+        return $this->medicoMedico;
     }
     
     /**

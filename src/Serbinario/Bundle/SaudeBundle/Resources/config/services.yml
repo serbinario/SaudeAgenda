@@ -7,6 +7,10 @@ parameters:
     rn.class.localidade:        Serbinario\Bundle\SaudeBundle\RN\LocalidadeRN
     dao.class.psf:              Serbinario\Bundle\SaudeBundle\DAO\PsfDAO   
     rn.class.psf:               Serbinario\Bundle\SaudeBundle\RN\PsfRN
+    dao.class.calendario:       Serbinario\Bundle\SaudeBundle\DAO\CalendarioDAO 
+    rn.class.calendario:        Serbinario\Bundle\SaudeBundle\RN\CalendarioRN
+    dao.class.eventos:          Serbinario\Bundle\SaudeBundle\DAO\EventosDAO 
+    rn.class.eventos:           Serbinario\Bundle\SaudeBundle\RN\EventosRN
 
     
 services:
@@ -42,4 +46,19 @@ services:
         class:  %rn.class.psf%
         arguments:  [ @psf_dao ]
         
+    calendario_dao:
+        class:  %dao.class.calendario%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    calendario_rn:
+        class:  %rn.class.calendario%
+        arguments:  [ @calendario_dao ]
+        
+    eventos_dao:
+        class:  %dao.class.eventos%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    eventos_rn:
+        class:  %rn.class.eventos%
+        arguments:  [ @eventos_dao ]
        

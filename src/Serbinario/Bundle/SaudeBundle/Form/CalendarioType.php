@@ -39,14 +39,11 @@ class CalendarioType extends AbstractType
                     "class"    => " datenottime"
                 )
             ))           
-            ->add('horarioCalendario', 'date', array(
-                'widget' => 'single_text',
+            ->add('horarioCalendario', 'time', array(                
                 'required'     => true,                
                 'label' => 'Hora: ',                
-                'attr' => array(
-                    'placeholder' => 'Hora da marcação',
-                    'widget_col'=> '2',
-                    "class"    => " timepicker"
+                'attr' => array(                    
+                    'widget_col'=> '2'                    
                 )
             ))      
             ->add('localidadeLocalidade', 'entity', array(

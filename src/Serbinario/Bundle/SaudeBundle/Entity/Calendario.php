@@ -53,7 +53,7 @@ class Calendario
     /**
      * @var \Localidade
      *
-     * @ORM\OneToOne(targetEntity="Localidade")
+     * @ORM\ManyToOne(targetEntity="Localidade")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="localidade_id_localidade", referencedColumnName="id_localidade")
      * })

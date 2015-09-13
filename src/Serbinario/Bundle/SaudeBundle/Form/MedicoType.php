@@ -29,7 +29,7 @@ class MedicoType extends AbstractType
             )))
             ->add('especialidadeEspecialidade', 'entity', array(
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Especialidade',
-                'label' => 'Tipo: ',  
+                'label' => 'Especialidade ',  
                 'multiple' => false,
                 'expanded' => false,
                 'attr' => array(
@@ -40,6 +40,7 @@ class MedicoType extends AbstractType
             ->add('localidade','entity', array(
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Localidade',
                 'label' => 'Localidades',  
+                'required'     => false,
                 'multiple' => true,
                 'expanded' => true,
                 'attr' => array(
@@ -47,20 +48,23 @@ class MedicoType extends AbstractType
                     )
                 ))
             ->add('quantidadeVagas', 'text', array(
-                'label' => 'Quantidade de Vagas ',           
+                'label' => 'Quantidade de Vagas ', 
+                'required'     => false,
                 'attr'  => array(
                     'placeholder' => 'Quantidade de Vagas',
                     'widget_col'=> '2',
             )))
             ->add('horarioInicio', 'time', array(
-                'label' => 'Horário Incicial ',           
+                'label' => 'Horário Incicial ',  
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'Horário Incicial',
                     'widget_col'=> '2',
                     'data-provide' => 'typeahead',
                 ))) 
             ->add('horarioFim', 'time', array(
-                'label' => 'Horário Final ',           
+                'label' => 'Horário Final ',
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'Horário Final',
                     'widget_col'=> '2',

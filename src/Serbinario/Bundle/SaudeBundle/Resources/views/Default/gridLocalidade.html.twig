@@ -50,7 +50,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Cadastros
+                Consulta
             </h1>
         </section>
 
@@ -68,7 +68,7 @@
             <!-- Default box -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Médicos Cadastrados</h3>
+                    <h3 class="box-title">Localidades Cadastradas</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                     </div>
@@ -109,7 +109,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+        <strong>Copyright &copy; 2004-2015 <a target="__blanck" href="http://www.serbinario.com.br/">Serbinário</a>.</strong> Todos os direitos reservados.
     </footer>
 {% endblock %}
 
@@ -137,8 +137,8 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                                    return '<a href="" class="editar" title="Editar">\n\
-                                    <a href="" class="excluir" title="Excluir">'
+                                    return '<a href="editLocalidade/id/' + data.id + '" class="editar" title="Editar">\n\
+                                    '
                         }
                     },
                 ],

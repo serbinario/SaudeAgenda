@@ -74,6 +74,14 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+        <strong>Copyright &copy; 2004-2015 <a target="__blanck" href="http://www.serbinario.com.br/">Serbinário</a>.</strong> Todos os direitos reservados.
     </footer>
+{% endblock %}
+{% block javascripts %}     
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" class="init">
+        $("#saudebundle_medico_actions_voltar").click(function() {
+            javascript:history.back();
+        });
+    </script>
 {% endblock %}

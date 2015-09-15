@@ -107,4 +107,28 @@ class EventosDAO
             return null;
         } 
     }
+    
+    /**
+     * 
+     * @param type $idM
+     * @param type $idU
+     * @return type
+     */
+    public function eventosAllByMedicos($idM, $idU)
+    {
+        try {
+            $arrayObj = $this->manager->createQuery("SELECT e FROM Serbinario\Bundle\SaudeBundle\Entity\Eventos e "
+                    . "JOIN e.idAgendamento a "
+                    . "JOIN a.calendarioCalendario c "
+                    . "JOIN c.medicoMedico m "
+                    . "JOIN a.usuariosUsuarios u "
+                    . "WHERE m.idMedico = ?1 AND u.idUsuarios = ?2")
+                    ->setParameter("1", $idM)
+                    ->setParameter("2", $idU);
+            
+            return $arrayObj->getResult();
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

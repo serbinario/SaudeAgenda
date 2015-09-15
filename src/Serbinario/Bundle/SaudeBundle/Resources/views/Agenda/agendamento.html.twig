@@ -18,6 +18,23 @@
         #responsive-calendar {
             padding-right: 30px;
         }
+
+        #my-calendar {                       
+        }
+
+        #formulario_div {
+            margin-left: 34px;
+        }
+
+        .blue {
+            background: #0070a3;
+            color: white;
+        }
+
+        .gray {
+            background: #999999;
+            color: white;
+        }
     </style>
 {% endblock %}
 
@@ -56,24 +73,14 @@
                         <!-- Responsive Calendar -->
                         <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
                             <div class="row">
-                                <div class="responsive-calendar">
-                                    <div class="controls">
-                                        <a class="pull-left" data-go="prev"><div class="btn btn-primary btn-xs">Prev</div></a>
-                                        <h4><span data-head-year></span> <span data-head-month></span></h4>
-                                        <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
-                                    </div><hr/>
-                                    <div class="day-headers">
-                                        <div class="day header">Mon</div>
-                                        <div class="day header">Tue</div>
-                                        <div class="day header">Wed</div>
-                                        <div class="day header">Thu</div>
-                                        <div class="day header">Fri</div>
-                                        <div class="day header">Sat</div>
-                                        <div class="day header">Sun</div>
-                                    </div>
-                                    <div class="days" data-group="days"></div>
+                                <!-- Responsive Calendar -->
+                                <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
+                                    <div class="row">
+                                        <div id="my-calendar"></div>
+                                    </div>                           
                                 </div>
                             </div>
+                            <br />
                             <div class="row">
                                 <div class="panel panel-primary">
                                     <!-- Default panel contents -->
@@ -91,8 +98,9 @@
 
                                     <!-- List group -->
                                     <ul class="list-group">
-                                        <li class="list-group-item">Paulo Vaz</li>
-                                        <li class="list-group-item">Alexandre Lira</li>
+                                        {% for medico in medicos %}
+                                            <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.nomeMedico}}</a>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
@@ -133,70 +141,144 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            //FullCalendar
             $('#fullcalendar').fullCalendar({
-                defaultDate: '2015-02-12',
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                events: [
-                    {
-                        title: 'Todos os eventos',
-                        start: '2015-02-01'
-                    },
-                    {
-                        title: 'Evento Longo',
-                        start: '2015-02-07',
-                        end: '2015-02-10'
-                    },
-                    {
-                        id: 999,
-                        title: 'Evento repetitivo',
-                        start: '2015-02-09T16:00:00'
-                    },
-                    {
-                        id: 999,
-                        title: 'Evento repetitivo',
-                        start: '2015-02-16T16:00:00'
-                    },
-                    {
-                        title: 'Conferência',
-                        start: '2015-02-11',
-                        end: '2015-02-13'
-                    },
-                    {
-                        title: 'Reunião',
-                        start: '2015-02-12T10:30:00',
-                        end: '2015-02-12T12:30:00'
-                    },
-                    {
-                        title: 'Almoço',
-                        start: '2015-02-12T12:00:00'
-                    },
-                    {
-                        title: 'Reunião',
-                        start: '2015-02-12T14:30:00'
-                    },
-                    {
-                        title: 'Jantar',
-                        start: '2015-02-12T20:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2015-02-28'
-                    }
-                ]
-            });
+                events: function (start, end, timezone, callback) {
+                    jQuery.ajax({
+                        url: '{{path('getCalendarioBig')}}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            start: start.format(),
+                            end: end.format(),
+                            data: "{{ id }}"
+                        },
+                        success: function (doc) {
+                            var events = [];
+                            if (!!doc) {
+                                $.map(doc, function (r) {
+                                    events.push({
+                                        title: r.title,
+                                        start: r.date_start,
+                                        overlap: r.overlap,
+                                        rendering: r.rendering,
+                                        color: r.color,
+                                        id : r.color
+                                    });
+                                });
+                            }
+                            callback(events);
+                        }
+                    });
+                },
+                dayClick: function (date, allDay, jsEvent, view) {
+                    var myDate = new Date();
 
-            //Responsive Calendar
-            $(".responsive-calendar").responsiveCalendar({
-                time: '2013-05',
-                events: {
-                    "2013-04-30": {"number": 5, "url": "http://w3widgets.com/responsive-slider"},
-                    "2013-04-26": {"number": 1, "url": "http://w3widgets.com"},
-                    "2013-05-03": {"number": 1},
-                    "2013-06-12": {}}
+                    //How many days to add from today?
+                    var daysToAdd = 15;
+                    //console.log(view.id);
+                    myDate.setDate(myDate.getDate() + daysToAdd);
+                    //console.log(date.getDay());
+                    if (date < myDate) {
+                        //TRUE Clicked date smaller than today + daysToadd
+                        alert("You cannot book on this day!");
+                    } else {
+                        //FLASE Clicked date larger than today + daysToadd
+                        alert("Excellent choice! We can book today..");
+                    }
+
+                }
             });
-        });
+            
+            {#eventClick: function (event) {
+                   // var modal = $("#modal");
+                   // modal.find(".modal-title").html(event.title);
+                   // modal.modal();
+                    console.log(event.title);
+                }#}
+            //FullCalendar
+        {#$('#fullcalendar').fullCalendar({
+            defaultDate: '2015-02-12',
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'Todos os eventos',
+                    start: '2015-02-01'
+                },
+                {
+                    title: 'Evento Longo',
+                    start: '2015-02-07',
+                    end: '2015-02-10'
+                },
+                {
+                    id: 999,
+                    title: 'Evento repetitivo',
+                    start: '2015-02-09T16:00:00'
+                },
+                {
+                    id: 999,
+                    title: 'Evento repetitivo',
+                    start: '2015-02-16T16:00:00'
+                },
+                {
+                    title: 'Conferência',
+                    start: '2015-02-11',
+                    end: '2015-02-13'
+                },
+                {
+                    title: 'Reunião',
+                    start: '2015-02-12T10:30:00',
+                    end: '2015-02-12T12:30:00'
+                },
+                {
+                    title: 'Almoço',
+                    start: '2015-02-12T12:00:00'
+                },
+                {
+                    title: 'Reunião',
+                    start: '2015-02-12T14:30:00'
+                },
+                {
+                    title: 'Jantar',
+                    start: '2015-02-12T20:00:00'
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2015-02-28'
+                }
+            ]
+        });#}
+
+                    $.ajax({
+                        url: "{{ path("getCalendario")}}",
+                        method: "POST",
+                        data: {"id": "{{ id }}"},
+                        success: function (data) {
+                            //Criação do calendário Zabuto
+                            $("#my-calendar").zabuto_calendar({
+                                action: function () {
+                                    //Recuperando o elemento
+                                    var elemento = document.getElementById(this.id);
+
+                                    //Verificando se ele é ativo ou bloqueado
+                                    if ($(elemento).hasClass("event-styled")) {
+                                        var arrayData = this.id.split("_");
+                                        var data = arrayData[arrayData.length - 1];
+
+                                    }
+                                },
+                                language: "pt",
+                                legend: [
+                                    {type: "block", label: "Ativos", classname: "blue"},
+                                    {type: "block", label: "Bloqueados", classname: "gray"},
+                                ],
+                                data: data
+                            });
+                        }
+                    });
+                });
     </script>
 {% endblock %}

@@ -85,4 +85,17 @@ class EventosRN
         
         return $result;
     }//put your code here
+    
+    /**
+     * 
+     * @param type $idM
+     * @param type $idU
+     * @return type
+     */
+    public function eventosAllByMedicos($idM, $idU)
+    {
+        $result = $this->eventosDAO->eventosAllByMedicos($idM, $idU);
+        
+        return $result;
+    }
 }

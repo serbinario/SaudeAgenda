@@ -29,16 +29,16 @@ class Eventos
     private $title;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="start", type="datetime", nullable=true)
+     * @ORM\Column(name="start", type="date", nullable=true)
      */
     private $start;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="end", type="datetime", nullable=true)
+     * @ORM\Column(name="end", type="date", nullable=true)
      */
     private $end;
 

@@ -16,15 +16,19 @@ use Serbinario\Bundle\SaudeBundle\Form\CalendarioType;
 class AgendaController extends Controller {
 
     /**
-     * @Route("/agendamento", name="agendamento")
+     * @Route("/agendamento", defaults={"id" = 0},name="agendamento")
+     * @Route("/agendamento/id/{id}", name="agendamentoByMedico")
      * @Template()
      */
-    public function agendamentoAction() {
+    public function agendamentoAction($id) {
         
         $especializacoesRN = $this->get('especialidade_rn');
         $especializacoes   = $especializacoesRN->all();
         
-        return array('especializacoes' => $especializacoes);
+        $medicosRN = $this->get('medico_rn');
+        $medicos   = $medicosRN->all();
+        
+        return array('especializacoes' => $especializacoes, 'medicos' => $medicos, 'id' => $id);
     }
     
     /**
@@ -203,6 +207,48 @@ class AgendaController extends Controller {
             $arrayResult[$count]['classname'] = $dia->getStatusCalendario() ? "blue" : "gray";
             $arrayResult[$count]['title']     = $dia->getMedicoMedico()->getNomeMedico();
             
+            $count++;
+        }
+        
+        #Responsta Json
+        return new JsonResponse($arrayResult);      
+    }
+    
+    /**
+     * @Route("/getCalendarioBig", name="getCalendarioBig")
+     * @Template()
+     */
+    public function getCalendarioBigAction(Request $request)
+    {
+        #Recuperando o id do médico
+        $idMedico     = $request->request->all();
+        
+        #Recuperando o serviço do container
+        $eventosRN = $this->get('eventos_rn');
+        $calendarioRN = $this->get('calendario_rn');
+        
+        #Recuperando o eventos
+        $eventos   = $eventosRN->eventosAllByMedicos($idMedico['data'], "1");
+        #Recuperando o calendário do médico
+        $calendario   = $calendarioRN->findByMedico($idMedico['data']);
+        
+        #Array de resposta
+        $arrayResult  = array();
+        $count        = 0;
+        
+        foreach($eventos as $evento) {
+            $arrayResult[$count]['title']  = $evento->getTitle();
+            $arrayResult[$count]['date_start']  = $evento->getStart()->format("Y-m-d");
+            $arrayResult[$count]['id']          = $evento->getIdAgendamento()->getCalendarioCalendario()->getIdCalendario();
+            $count++;
+        }
+        
+        foreach($calendario as $dia) {
+            $arrayResult[$count]['date_start']       = $dia->getDiaCalendario()->format("Y-m-d");
+            $arrayResult[$count]['overlap']     = false;
+            $arrayResult[$count]['rendering']   = "background";
+            $arrayResult[$count]['color']       = "#ff9f89";
+            $arrayResult[$count]['id']          = $dia->getIdCalendario();
             $count++;
         }
         

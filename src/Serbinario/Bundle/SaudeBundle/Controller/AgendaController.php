@@ -68,12 +68,12 @@ class AgendaController extends Controller {
                     $result = $this->deleteCalendar($id, $calendario);
                 } else if($form->getClickedButton()->getName() == "block") {
                     $result = $this->blockCalendar($id, $calendario);
-                } else if($form->getClickedButton()->getName() == "save") {
+                } else {                                        
                     #Recuperando o calendário
                     $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $id);
-                    
+                 
                     #Verificando se a data já está cadastrada
-                    if($objCalendario != null) {
+                    if($objCalendario == null) {
                         #Executando e recuperando o resultado
                         $result = $calendarioRN->save($calendario);                       
                     } 

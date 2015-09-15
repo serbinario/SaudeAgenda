@@ -35,7 +35,7 @@ class CalendarioType extends AbstractType
                 'label' => 'Dia: ',                
                 'attr' => array(
                     'placeholder' => 'Dia da marcação',
-                    'widget_col'=> '2',
+                    'widget_col'=> '3',
                     "class"    => " datenottime"
                 )
             ))           
@@ -64,7 +64,11 @@ class CalendarioType extends AbstractType
                 ))
             ->add('actions', 'form_actions', [
                 'buttons' => [
-                    'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']]
+                    'save'   => ['type' => 'submit', 'options' => ['label' => 'Salvar']],
+                    'edit'   => ['type' => 'submit', 'options' => ['label' => 'Alterar']],
+                    'delete' => ['type' => 'submit', 'options' => ['label' => 'Excluir']],
+                    'block'  => ['type' => 'submit', 'options' => ['label' => 'Bloquear']],
+                    'cancel' => ['type' => 'reset', 'options'  => ['label' => 'Cancelar']]
                 ]
             ])
         ;

@@ -5,13 +5,15 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+            <link rel="stylesheet" href="{{asset('css/zabuto_calendar.min.css')}}" />
             <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}" />
             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            
             <!-- Ionicons -->
             <link href="{{ asset('css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}" />
             <link rel="stylesheet" href="{{asset('css/jquery.datetimepicker.css')}}" />
-            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />
+            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />            
             <style type="text/css" rel="stylesheet">
                 {#input[type='text']{ text-transform: uppercase; }#}
 
@@ -101,17 +103,7 @@
                                         <a href="{{ path('gridAgendaMedico') }}"><i class="fa fa-circle-o text-aqua"></i> Agenda Médico<i class="fa fa-angle-left pull-right"></i></a>
                                         <a href="{{path('gridEspecialidade')}}"><i class="fa fa-circle-o text-aqua"></i> Especialidade<i class="fa fa-angle-left pull-right"></i></a>
                                         <a href="{{path('gridLocalidade')}}"><i class="fa fa-circle-o text-aqua"></i> Localidade<i class="fa fa-angle-left pull-right"></i></a>
-                                        <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>
-                                        {#<ul class="treeview-menu">
-                                            <li>
-                                                <a href="#"><i class="fa fa-circle-o text-yellow"></i> Cadastros<i class="fa fa-angle-left pull-right"></i></a>
-                                                <ul class="treeview-menu">
-                                                    <li><a href="{{path('saveCGM')}}"><i class="fa fa-circle-o text-yellow"></i> Pessoa Física</a></li>
-                                                    <li><a href="{{path('saveCGMPJuridica')}}"><i class="fa fa-circle-o text-yellow"></i> Pessoa Jurídica</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="{{path('consultaCGM')}}"><i class="fa fa-circle-o text-yellow"></i> Consultar</a></li>
-                                        </ul>#}
+                                        <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>                                       
                                     </li>
                                 </ul>
                             </li>
@@ -147,9 +139,12 @@
             {% endblock %}
             {% block javascripts %}
                 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+                
                 <!-- Include all JavaScripts, compiled by Assetic -->
                 <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
                 <script type="text/javascript" src="{{asset('js/bootstrap3-typeahead.js')}}"></script>
+                <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
+
                 <!-- include form validation  -->
                 <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
                 <script type="text/javascript" src="{{asset('js/bootstrapValidator.min.js')}}"></script>

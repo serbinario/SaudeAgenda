@@ -2,18 +2,27 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Responsive Calendar -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('calendar-responsive/responsive-calendar.css')}}" rel="stylesheet">
-    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
 
     <style>
         #container {
             margin: 30px;
         }
 
-        #responsive-calendar {
-            padding-right: 30px;
-            margin-right: 30px;
+        #my-calendar {                       
+        }
+        
+        #formulario_div {
+            margin-left: 34px;
+        }
+        
+        .blue {
+            background: #0070a3;
+            color: white;
+        }
+        
+        .gray {
+            background: #999999;
+            color: white;
         }
         
     </style>
@@ -54,43 +63,8 @@
                         <!-- Responsive Calendar -->
                         <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
                             <div class="row">
-                                <div class="responsive-calendar">
-                                    <div class="controls">
-                                        <a class="pull-left" data-go="prev"><div class="btn btn-primary btn-xs">Prev</div></a>
-                                        <h4><span data-head-year></span> <span data-head-month></span></h4>
-                                        <a class="pull-right" data-go="next"><div class="btn btn-primary btn-xs">Next</div></a>
-                                    </div><hr/>
-                                    <div class="day-headers">
-                                        <div class="day header">Dom</div>
-                                        <div class="day header">Seg</div>
-                                        <div class="day header">Ter</div>
-                                        <div class="day header">Qua</div>
-                                        <div class="day header">Qui</div>
-                                        <div class="day header">Sex</div>
-                                        <div class="day header">Sab</div>
-                                    </div>
-                                    <div class="days" data-group="days"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="panel panel-primary">                                    
-                                    <!-- Default panel contents -->
-                                    <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
-                                    <div class="panel-body">
-                                        <form class="form">
-                                            <select class="form-control">
-                                                
-                                            </select>
-                                        </form>
-                                    </div>
-
-                                    <!-- List group -->
-                                    <ul class="list-group">
-                                        <li class="list-group-item">Paulo Vaz</li>
-                                        <li class="list-group-item">Alexandre Lira</li>
-                                    </ul>
-                                </div>
-                            </div>
+                                <div id="my-calendar"></div>
+                            </div>                           
                         </div>                        
                         <!-- Formulário -->
                         <div class="col-md-9" id="formulario_div">
@@ -119,39 +93,91 @@
 
 {% block javascripts %}
     {{parent()}}    
-    <!-- Responsive Calendar -->
-    <script type="text/javascript" src="{{asset('fullcalendar/moment.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
     
     <!-- Scripts -->
     <script type="text/javascript">
-        $(document).ready(function () {        
-            //Ajax para recuperação do calendário do médico em questão
+        $(document).ready(function () {
+            //Estados iniciais dos botões
+            function stateInitButtons() {
+                $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_save").removeAttr("disabled");
+                $("#serbinario_bundle_saudebundle_calendario_diaCalendario").removeAttr("readonly");
+                $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");                
+            }
+            
+            //Estados secundário dos botões
+            function stateSecButtons() {
+                $("#serbinario_bundle_saudebundle_calendario_actions_edit").removeAttr("disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_delete").removeAttr("disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_block").removeAttr("disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_save").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("readonly", "readonly");                
+            }
+            
+            //Executando o estado inicial dos botões
+            stateInitButtons();            
+            
+            //Quando o botão cancelar for clicado
+            $("#serbinario_bundle_saudebundle_calendario_actions_cancel").click(function(){
+                stateInitButtons();
+            });            
+            
+            
             $.ajax({
-                url: "{{ path('getCalendario') }}",  //URL solicitada
-                dataType: "JSON", //Tipo de dado de transfência
+                url: "{{ path("getCalendario")}}",                    
                 method: "POST",
-                data : {"id" : "{{ id }}"},
-                success: function(data) {    
-                    //Variável para armazenar os eventos
-                    var eventsReturn = "{";
-                    
-                    for(var i = 0; i < data.length; i++) {
-                        eventsReturn += '"' + data[i] + '" : {},';                        
-                    }      
-                    
-                    eventsReturn = eventsReturn.substring(0, eventsReturn.length - 1) + "}";
-                    
-                    //Responsive Calendar
-                    $(".responsive-calendar").responsiveCalendar({
-                        time: "{{ dataAtual }}"  ,
-                        events: JSON.parse(eventsReturn)
+                data : {"id" : "{{ id }}" },
+                success: function(data) {
+                    //Criação do calendário Zabuto
+                    $("#my-calendar").zabuto_calendar({
+                        action: function () {
+                            //Recuperando o elemento
+                            var elemento = document.getElementById(this.id);
+                            
+                            //Verificando se ele é ativo ou bloqueado
+                            if($(elemento).hasClass("event-styled")) {
+                                var arrayData = this.id.split("_"); 
+                                var data      = arrayData[arrayData.length - 1];
+                                
+                                $.ajax({
+                                    url: "{{ path('getCalendarioByDate') }}",  //URL solicitada
+                                    dataType: "JSON", //Tipo de dado de transfência
+                                    method: "POST",
+                                    data : {"date" : data, "idMedico" : "{{ id }}" },
+                                    success: function(data) {
+                                        //Chamadando o estado secundário dos botões
+                                        stateSecButtons();
+                                        
+                                        if(data) {
+                                            $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").removeAttr("selected");
+                                            $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").removeAttr("selected");
+                                            $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");                                        
+
+                                            $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").val(data.qtdTotalCalendario);
+                                            $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").val(data.qtdReservaCalendario);
+                                            $("#serbinario_bundle_saudebundle_calendario_diaCalendario").val(data.diaCalendario);
+                                            $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour option:contains("+data.hour+")").attr("selected", true);
+                                            $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute option:contains("+data.minute+")").attr("selected", true);
+                                            $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option:contains("+data.localidade+")").attr("selected", true);
+                                        }
+                                    }
+                                });  
+                            }
+                        },
+                        language: "pt",
+                        legend: [
+                            {type: "block", label: "Ativos", classname: "blue"},
+                            {type: "block", label: "Bloqueados", classname: "gray"},
+                        ],
+                        data: data
                     });
                 }
-            });         
+            });
+	
+	         
+            
         });
     </script>
 

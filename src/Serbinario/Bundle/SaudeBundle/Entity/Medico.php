@@ -43,6 +43,13 @@ class Medico
     private $quantidadeVagas;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="status_medico", type="boolean", nullable=false,  options={"default" = true})
+     */
+    private $statusMedico = true;
+    
+    /**
      * @var Time
      *
      * @ORM\Column(name="horario_inicio", type="time", nullable=false)
@@ -167,7 +174,8 @@ class Medico
      * 
      * @return type
      */
-    function getLocalidade() {
+    public function getLocalidade() 
+    {
         return $this->localidade;
     }
     
@@ -175,7 +183,8 @@ class Medico
      * 
      * @param \Localidade $localidade
      */
-    function setLocalidade($localidade) {
+    public function setLocalidade($localidade)
+    {
         $this->localidade = $localidade;
     }
     
@@ -183,7 +192,8 @@ class Medico
      * 
      * @return type
      */
-    function getQuantidadeVagas() {
+    public function getQuantidadeVagas() 
+    {
         return $this->quantidadeVagas;
     }
     
@@ -191,7 +201,8 @@ class Medico
      * 
      * @param type $quantidadeVagas
      */
-    function setQuantidadeVagas($quantidadeVagas) {
+    public function setQuantidadeVagas($quantidadeVagas) 
+    {
         $this->quantidadeVagas = $quantidadeVagas;
     }
     
@@ -199,7 +210,8 @@ class Medico
      * 
      * @return type
      */
-    function getHorarioInicio() {
+    public function getHorarioInicio()
+    {
         return $this->horarioInicio;
     }
     
@@ -207,7 +219,8 @@ class Medico
      * 
      * @return type
      */
-    function getHorarioFim() {
+    public function getHorarioFim()
+    {
         return $this->horarioFim;
     }
     
@@ -215,7 +228,8 @@ class Medico
      * 
      * @param \Serbinario\Bundle\SaudeBundle\Entity\Time $horarioInicio
      */
-    function setHorarioInicio($horarioInicio) {
+    public function setHorarioInicio($horarioInicio)
+    {
         $this->horarioInicio = $horarioInicio;
     }
     
@@ -223,7 +237,8 @@ class Medico
      * 
      * @param \Serbinario\Bundle\SaudeBundle\Entity\Time $horarioFim
      */
-    function setHorarioFim($horarioFim) {
+    public function setHorarioFim($horarioFim) 
+    {
         $this->horarioFim = $horarioFim;
     }
     
@@ -231,7 +246,8 @@ class Medico
      * 
      * @return type
      */
-    function getFoto() {
+    public function getFoto() 
+    {
         return $this->foto;
     }
     
@@ -239,7 +255,28 @@ class Medico
      * 
      * @param \FotosMedico $foto
      */
-    function setFoto($foto) {
+    public function setFoto($foto) 
+    {
         $this->foto = $foto;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusMedico() 
+    {
+        return $this->statusMedico;
+    }
+
+    /**
+     * 
+     * @param type $statusMedico
+     */
+    public function setStatusMedico($statusMedico) 
+    {
+        $this->statusMedico = $statusMedico;
+    }
+
+
 }

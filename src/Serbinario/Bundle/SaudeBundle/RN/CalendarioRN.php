@@ -96,4 +96,28 @@ class CalendarioRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $date
+     * @return type
+     */
+    public function findByDate($date)
+    {
+         $result = $this->calendarioDAO->findByDate($date);
+        
+        return $result;
+    }
+    
+    /**
+     * 
+     * @param type $date
+     * @return type
+     */
+    public function findByDateAndIdMedico($date, $idMedico)
+    {
+         $result = $this->calendarioDAO->findByDateAndIdMedico($date, $idMedico);
+        
+        return $result;
+    }
 }

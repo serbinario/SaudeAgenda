@@ -49,6 +49,13 @@ class Calendario
      * @ORM\Column(name="horario_calendario", type="time", nullable=false)
      */
     private $horarioCalendario;
+    
+    /**
+     * @var Boolean
+     *
+     * @ORM\Column(name="status_calendario", type="boolean", nullable=false, options={"default" = true})
+     */
+    private $statusCalendario = true;
 
     /**
      * @var \Localidade
@@ -207,6 +214,24 @@ class Calendario
     public function setHorarioCalendario($horarioCalendario) 
     {
         $this->horarioCalendario = $horarioCalendario;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getStatusCalendario() 
+    {
+        return $this->statusCalendario;
+    }
+    
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Boolean $statusCalendario
+     */
+    public function setStatusCalendario($statusCalendario) 
+    {
+        $this->statusCalendario = $statusCalendario;
     }
 
 

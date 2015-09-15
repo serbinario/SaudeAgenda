@@ -108,6 +108,47 @@ class CalendarioDAO
         } 
     }
     
+   /**
+    * 
+    * @param type $date
+    * @return type
+    */
+    public function findByDate($date)
+    {
+       try {
+            $obj = $this->manager->getRepository('Serbinario\Bundle\SaudeBundle\Entity\Calendario')->findBy(array("diaCalendario" => $date));
+            
+            return $obj;
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
+    
+    /**
+    * 
+    * @param type $date
+    * @return type
+    */
+    public function findByDateAndIdMedico($date, $idMedico)
+    {
+       try {
+           $qb     = $this->manager->createQueryBuilder();
+           $result = $qb->select("a")
+                    ->from("Serbinario\Bundle\SaudeBundle\Entity\Calendario", "a")
+                    ->join("a.medicoMedico", "b")
+                    ->where("b.idMedico = :id")
+                    ->andWhere("a.diaCalendario = :date")
+                    ->setParameter("id", $idMedico)
+                    ->setParameter("date", $date->format("Y-m-d"))
+                    ->getQuery()
+                    ->getResult();
+        
+            return $result ? $result[0] : null;     
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
+    
     /**
      * 
      * @param type $id
@@ -119,8 +160,8 @@ class CalendarioDAO
         $result = $qb->select("a")
                     ->from("Serbinario\Bundle\SaudeBundle\Entity\Calendario", "a")
                     ->join("a.medicoMedico", "b")
-                    ->where("b.idMedico = :id")
-                    ->setParameter("id", $id)
+                    ->where("b.idMedico = :id")                   
+                    ->setParameter("id", $id)                    
                     ->getQuery()
                     ->getResult();
         

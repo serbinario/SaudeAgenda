@@ -257,6 +257,32 @@ class AgendaController extends Controller {
     }
     
     /**
+     * @Route("/validarDiaMedico", name="validarDiaMedico")
+     */
+    public function validarDiaMedicoAction(Request $request) {
+        
+        $idMedico   = $request->request->get('idMedico');
+        $data       = $request->request->get('data');
+        $msg     = "";
+        
+        $calendarioRN       = $this->get("calendario_rn");
+        $result             = $calendarioRN->validarDiaMedico($idMedico, $data);
+        //var_dump($result);exit();
+        
+        if ($result) {
+            $msg = 'sucesso';
+        } else {
+            $msg = 'erro';
+        }
+        
+        $dados = array (
+            'msg'    => $msg
+        );
+        
+        return new JsonResponse($dados);
+    }
+    
+    /**
      * @Route("/getCalendarioByDate", name="getCalendarioByDate")
      * @Template()
      */

@@ -167,4 +167,25 @@ class CalendarioDAO
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @param type $data
+     * @return type
+     */
+    public function validarDiaMedico($id, $data)
+    {
+        $qb     = $this->manager->createQueryBuilder();
+        $result = $qb->select("a")
+                    ->from("Serbinario\Bundle\SaudeBundle\Entity\Calendario", "a")
+                    ->join("a.medicoMedico", "b")
+                    ->where("b.idMedico = :id AND a.diaCalendario = :data")                   
+                    ->setParameter("id", $id)
+                    ->setParameter("data", $data)
+                    ->getQuery()
+                    ->getResult();
+        
+        return $result;
+    }
 }

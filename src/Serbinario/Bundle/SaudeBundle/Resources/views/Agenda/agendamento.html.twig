@@ -112,7 +112,22 @@
                         </div>
                     </div>
                     <div class="box-footer">
+                        <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close" type="button" data-dismiss="modal">×</button>
+                                        <h4 class="modal-title">Realizar agendamento</h4>
+                                    </div>
+                                    <div class="modal-body" style="alignment-baseline: central">
 
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div><!-- /.box-footer-->
                 </div><!-- /.box -->
 
@@ -164,7 +179,7 @@
                                         overlap: r.overlap,
                                         rendering: r.rendering,
                                         color: r.color,
-                                        id : r.color
+                                        id: r.color
                                     });
                                 });
                             }
@@ -173,31 +188,41 @@
                     });
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
-                    var myDate = new Date();
 
-                    //How many days to add from today?
-                    var daysToAdd = 15;
-                    //console.log(view.id);
-                    myDate.setDate(myDate.getDate() + daysToAdd);
-                    //console.log(date.getDay());
-                    if (date < myDate) {
-                        //TRUE Clicked date smaller than today + daysToadd
-                        alert("You cannot book on this day!");
-                    } else {
-                        //FLASE Clicked date larger than today + daysToadd
-                        alert("Excellent choice! We can book today..");
+                
+                    var idMedico = "{{id}}";
+                    var data     = date.format();
+                    
+                    var dados = {
+                       idMedico : idMedico,
+                       data     : data
                     }
-
+                    
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: '{{path('validarDiaMedico')}}',
+                        data: dados,
+                        datatype: 'json'
+                    }).done(function (json) {
+                        
+                        if (json['msg'] === "sucesso") {
+                            var content = $('.modal-body');
+                            $(".modal-profile").modal({show: true});
+                        } else {
+                            alert("Não é possível fazer agendamentos para este dia");
+                        }
+                        
+                    });
                 }
             });
-            
-            {#eventClick: function (event) {
-                   // var modal = $("#modal");
-                   // modal.find(".modal-title").html(event.title);
-                   // modal.modal();
-                    console.log(event.title);
-                }#}
-            //FullCalendar
+
+        {#eventClick: function (event) {
+               // var modal = $("#modal");
+               // modal.find(".modal-title").html(event.title);
+               // modal.modal();
+                console.log(event.title);
+            }#}
+                        //FullCalendar
         {#$('#fullcalendar').fullCalendar({
             defaultDate: '2015-02-12',
             editable: true,
@@ -252,33 +277,33 @@
             ]
         });#}
 
-                    $.ajax({
-                        url: "{{ path("getCalendario")}}",
-                        method: "POST",
-                        data: {"id": "{{ id }}"},
-                        success: function (data) {
-                            //Criação do calendário Zabuto
-                            $("#my-calendar").zabuto_calendar({
-                                action: function () {
-                                    //Recuperando o elemento
-                                    var elemento = document.getElementById(this.id);
+                $.ajax({
+                    url: "{{ path("getCalendario")}}",
+                    method: "POST",
+                    data: {"id": "{{ id }}"},
+                    success: function (data) {
+                        //Criação do calendário Zabuto
+                        $("#my-calendar").zabuto_calendar({
+                            action: function () {
+                                //Recuperando o elemento
+                                var elemento = document.getElementById(this.id);
 
-                                    //Verificando se ele é ativo ou bloqueado
-                                    if ($(elemento).hasClass("event-styled")) {
-                                        var arrayData = this.id.split("_");
-                                        var data = arrayData[arrayData.length - 1];
+                                //Verificando se ele é ativo ou bloqueado
+                                if ($(elemento).hasClass("event-styled")) {
+                                    var arrayData = this.id.split("_");
+                                    var data = arrayData[arrayData.length - 1];
 
-                                    }
-                                },
-                                language: "pt",
-                                legend: [
-                                    {type: "block", label: "Ativos", classname: "blue"},
-                                    {type: "block", label: "Bloqueados", classname: "gray"},
-                                ],
-                                data: data
-                            });
-                        }
-                    });
+                                }
+                            },
+                            language: "pt",
+                            legend: [
+                                {type: "block", label: "Ativos", classname: "blue"},
+                                {type: "block", label: "Bloqueados", classname: "gray"},
+                            ],
+                            data: data
+                        });
+                    }
                 });
+            });
     </script>
 {% endblock %}

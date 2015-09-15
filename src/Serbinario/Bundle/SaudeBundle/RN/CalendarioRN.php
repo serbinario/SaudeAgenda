@@ -120,4 +120,18 @@ class CalendarioRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @param type $data
+     * @return type
+     */
+    public function validarDiaMedico($id, $data)
+    {
+         $result = $this->calendarioDAO->validarDiaMedico($id, $data);
+        
+        return $result;
+    }
+   
 }

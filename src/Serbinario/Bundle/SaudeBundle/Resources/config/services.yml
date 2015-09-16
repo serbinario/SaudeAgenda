@@ -11,6 +11,10 @@ parameters:
     rn.class.calendario:        Serbinario\Bundle\SaudeBundle\RN\CalendarioRN
     dao.class.eventos:          Serbinario\Bundle\SaudeBundle\DAO\EventosDAO 
     rn.class.eventos:           Serbinario\Bundle\SaudeBundle\RN\EventosRN
+    dao.class.paciente:         Serbinario\Bundle\SaudeBundle\DAO\PacienteDAO 
+    rn.class.paciente:          Serbinario\Bundle\SaudeBundle\RN\PacienteRN
+    dao.class.agendamento:      Serbinario\Bundle\SaudeBundle\DAO\AgendamentoDAO 
+    rn.class.agendamento:       Serbinario\Bundle\SaudeBundle\RN\AgendamentoRN
 
     
 services:
@@ -61,4 +65,20 @@ services:
     eventos_rn:
         class:  %rn.class.eventos%
         arguments:  [ @eventos_dao ]
+        
+    paciente_dao:
+        class:  %dao.class.paciente%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    paciente_rn:
+        class:  %rn.class.paciente%
+        arguments:  [ @paciente_dao ]
+    
+    agendamento_dao:
+        class:  %dao.class.agendamento%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    agendamento_rn:
+        class:  %rn.class.agendamento%
+        arguments:  [ @agendamento_dao ]
        

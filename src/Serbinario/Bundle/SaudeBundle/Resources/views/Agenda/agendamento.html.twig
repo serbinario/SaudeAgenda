@@ -113,14 +113,26 @@
                     </div>
                     <div class="box-footer">
                         <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
-                            <div class="modal-dialog modal-md">
+                            <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button class="close" type="button" data-dismiss="modal">×</button>
                                         <h4 class="modal-title">Realizar agendamento</h4>
                                     </div>
                                     <div class="modal-body" style="alignment-baseline: central">
-
+                                        <form action="{{path('savePaciente')}}" role="form" method="POST">
+                                            <div class="form-group col-lg-12">
+                                                <label for="email">Nomde do Paciente</label>
+                                                <input type="text" class="form-control" name="nome" id="nome" />
+                                                <input type="hidden" class="form-control" value="{{id}}" name="idMedico" id="idMedico" />
+                                                <input type="hidden" class="form-control" value="" name="data" id="data" />
+                                            </div>
+                                            <div class="col-md-3 column">
+                                                <div class="form-group">
+                                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -189,121 +201,61 @@
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
 
-                
+
                     var idMedico = "{{id}}";
-                    var data     = date.format();
-                    
+                    var data = date.format();
+
                     var dados = {
-                       idMedico : idMedico,
-                       data     : data
+                        idMedico: idMedico,
+                        data: data
                     }
-                    
+
                     jQuery.ajax({
                         type: 'POST',
                         url: '{{path('validarDiaMedico')}}',
                         data: dados,
                         datatype: 'json'
                     }).done(function (json) {
-                        
+
                         if (json['msg'] === "sucesso") {
-                            var content = $('.modal-body');
+                            $("#data").val(data);
+                            //var content = $('.modal-body');
                             $(".modal-profile").modal({show: true});
                         } else {
                             alert("Não é possível fazer agendamentos para este dia");
                         }
-                        
+
                     });
                 }
             });
 
-        {#eventClick: function (event) {
-               // var modal = $("#modal");
-               // modal.find(".modal-title").html(event.title);
-               // modal.modal();
-                console.log(event.title);
-            }#}
-                        //FullCalendar
-        {#$('#fullcalendar').fullCalendar({
-            defaultDate: '2015-02-12',
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            events: [
-                {
-                    title: 'Todos os eventos',
-                    start: '2015-02-01'
-                },
-                {
-                    title: 'Evento Longo',
-                    start: '2015-02-07',
-                    end: '2015-02-10'
-                },
-                {
-                    id: 999,
-                    title: 'Evento repetitivo',
-                    start: '2015-02-09T16:00:00'
-                },
-                {
-                    id: 999,
-                    title: 'Evento repetitivo',
-                    start: '2015-02-16T16:00:00'
-                },
-                {
-                    title: 'Conferência',
-                    start: '2015-02-11',
-                    end: '2015-02-13'
-                },
-                {
-                    title: 'Reunião',
-                    start: '2015-02-12T10:30:00',
-                    end: '2015-02-12T12:30:00'
-                },
-                {
-                    title: 'Almoço',
-                    start: '2015-02-12T12:00:00'
-                },
-                {
-                    title: 'Reunião',
-                    start: '2015-02-12T14:30:00'
-                },
-                {
-                    title: 'Jantar',
-                    start: '2015-02-12T20:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2015-02-28'
+            $.ajax({
+                url: "{{ path("getCalendario")}}",
+                method: "POST",
+                data: {"id": "{{ id }}"},
+                success: function (data) {
+                    //Criação do calendário Zabuto
+                    $("#my-calendar").zabuto_calendar({
+                        action: function () {
+                            //Recuperando o elemento
+                            var elemento = document.getElementById(this.id);
+
+                            //Verificando se ele é ativo ou bloqueado
+                            if ($(elemento).hasClass("event-styled")) {
+                                var arrayData = this.id.split("_");
+                                var data = arrayData[arrayData.length - 1];
+
+                            }
+                        },
+                        language: "pt",
+                        legend: [
+                            {type: "block", label: "Ativos", classname: "blue"},
+                            {type: "block", label: "Bloqueados", classname: "gray"},
+                        ],
+                        data: data
+                    });
                 }
-            ]
-        });#}
-
-                $.ajax({
-                    url: "{{ path("getCalendario")}}",
-                    method: "POST",
-                    data: {"id": "{{ id }}"},
-                    success: function (data) {
-                        //Criação do calendário Zabuto
-                        $("#my-calendar").zabuto_calendar({
-                            action: function () {
-                                //Recuperando o elemento
-                                var elemento = document.getElementById(this.id);
-
-                                //Verificando se ele é ativo ou bloqueado
-                                if ($(elemento).hasClass("event-styled")) {
-                                    var arrayData = this.id.split("_");
-                                    var data = arrayData[arrayData.length - 1];
-
-                                }
-                            },
-                            language: "pt",
-                            legend: [
-                                {type: "block", label: "Ativos", classname: "blue"},
-                                {type: "block", label: "Bloqueados", classname: "gray"},
-                            ],
-                            data: data
-                        });
-                    }
-                });
             });
+        });
     </script>
 {% endblock %}

@@ -387,4 +387,66 @@ class AgendaController extends Controller {
         #Retorno
         return $result;
     }
+    
+    /**
+     * @Route("/savePaciente", name="savePaciente")
+     * @Template("SaudeBundle:Agenda:agendamento.html.twig")
+     */
+    public function salvarPacienteAction(Request $request)
+    {
+        $dados = $request->request->all();
+        
+        $nome       = isset($dados['nome']) ? $dados['nome'] : "";
+        $idMedico   = isset($dados['idMedico']) ? $dados['idMedico'] : "";
+        $dataString = isset($dados['data']) ? $dados['data'] : "";
+        
+        if(!$nome || !$idMedico || !$dataString) {
+            $this->addFlash("warning", "Deve ser informado o nome do paciente para agendamento");
+            return  $this->redirect($this->generateUrl("agendamentoByMedico", array("id" => $idMedico)));
+        }
+        
+        //Convertendo data para um objeto DateTime
+        $data = \DateTime::createFromFormat('Y-m-d', $dataString);
+        
+        //Serviços RN
+        $pacienteRN     = $this->get('paciente_rn');
+        $calendarioRN   = $this->get('calendario_rn');
+        $eventosRN      = $this->get('eventos_rn');
+        $agendamentoRN  = $this->get('agendamento_rn');
+        
+        //Recuperando o dia do calendário do médico para agendamento
+        $calendario = $calendarioRN->validarDiaMedico($idMedico, $dados['data']);
+        
+        //Recuperando o usuário
+        $maneger = $this->getDoctrine()->getManager();
+        $usuario   = $maneger->getRepository("\Serbinario\Bundle\SaudeBundle\Entity\Usuarios")->find("1");
+        
+        //Persistindo paciente
+        $paciente       = new \Serbinario\Bundle\SaudeBundle\Entity\Paciente();
+        $paciente->setNomePaciente($nome);
+        $pacienteObj    = $pacienteRN->save($paciente);
+        
+        //Persistindo agendamento
+        $agendamento = new \Serbinario\Bundle\SaudeBundle\Entity\Agendamento();
+        $agendamento->setCalendarioCalendario($calendario[0]);
+        $agendamento->setPacientePaciente($pacienteObj);
+        $agendamento->setUsuariosUsuarios($usuario);
+        $agendamento->setObservacaoAgendamento("nenhuma");
+        $agendamentoObj = $agendamentoRN->save($agendamento);
+        
+        //Persistindo evento
+        $evento = new \Serbinario\Bundle\SaudeBundle\Entity\Eventos();
+        $evento->setIdAgendamento($agendamentoObj);
+        $evento->setStart($data);
+        $evento->setTitle($nome);
+        $eventoObj = $eventosRN->save($evento);
+        
+        if($pacienteObj && $agendamentoObj && $eventoObj) {
+            $this->addFlash("success", "Consulta agendada com sucesso para o paciente: {$nome}!");
+        } else {
+            $this->addFlash("danger", "Erro ao realizar o agendamento, tente novamente!");
+        }
+        
+        return  $this->redirect($this->generateUrl("agendamentoByMedico", array("id" => $idMedico)));
+    }
 }

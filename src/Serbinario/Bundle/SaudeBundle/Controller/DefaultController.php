@@ -20,41 +20,41 @@ use Serbinario\Bundle\SaudeBundle\UTIL\GridClass;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="index")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-    
-    
-    /**
-     * @Route("/login", name="login")
-     * @Template()
-     */
-    public function loginAction(Request $request)
-    {
-        $dados = $request->request->all();
-        
-        if($dados['_username'] == "agenda" && $dados['_password'] == "agenda") {
-           return $this->redirect($this->generateUrl("home"));
-        } else {
-           $this->addFlash("danger", "Login ou senha inválidos");
-        }
-        
-        return $this->redirect($this->generateUrl("index"));
-    }
-    
-    /**
-     * @Route("/logout", name="logout")
-     * @Template()
-     */
-    public function logoutAction()
-    {        
-        return $this->redirect($this->generateUrl("index"));
-    }
+//    /**
+//     * @Route("/", name="index")
+//     * @Template()
+//     */
+//    public function indexAction()
+//    {
+//        return array();
+//    }
+//    
+//    
+//    /**
+//     * @Route("/login", name="login")
+//     * @Template()
+//     */
+//    public function loginAction(Request $request)
+//    {
+//        $dados = $request->request->all();
+//        
+//        if($dados['_username'] == "agenda" && $dados['_password'] == "agenda") {
+//           return $this->redirect($this->generateUrl("home"));
+//        } else {
+//           $this->addFlash("danger", "Login ou senha inválidos");
+//        }
+//        
+//        return $this->redirect($this->generateUrl("index"));
+//    }
+//    
+//    /**
+//     * @Route("/logout", name="logout")
+//     * @Template()
+//     */
+//    public function logoutAction()
+//    {        
+//        return $this->redirect($this->generateUrl("index"));
+//    }
     
     /**
      * @Route("/home", name="home")

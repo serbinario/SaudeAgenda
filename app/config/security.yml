@@ -1,12 +1,14 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
-security:
-
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+security:    
+    encoders:
+        Serbinario\Bundle\SecurityBundle\Entity\User:
+            algorithm: bcrypt
+            
     providers:
-        in_memory:
-            memory: ~
-
+        our_db_provider:
+            entity:
+                class: SerBinarioSecurityBundle:User
+                #property: username
+                    
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -14,11 +16,23 @@ security:
             security: false
 
         main:
+            provider: our_db_provider
+            remember_me:
+                key:      "%secret%"
+                lifetime: 604800 # 1 week in seconds
+                path:     /home
             anonymous: ~
-            # activate different ways to authenticate
+            form_login:
+                login_path: /security/login
+                check_path: /security/login_check                
+            logout:
+                path:   /security/logout
+                target: /home
+        
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/security/login , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/security/login_check , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/*, roles: ROLE_USER }
+        
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

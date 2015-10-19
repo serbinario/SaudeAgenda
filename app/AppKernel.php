@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Serbinario\Bundle\SaudeBundle\SaudeBundle(),
+            new Serbinario\Bundle\SecurityBundle\SerBinarioSecurityBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
         );

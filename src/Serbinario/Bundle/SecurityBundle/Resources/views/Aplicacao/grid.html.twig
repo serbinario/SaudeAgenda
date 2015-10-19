@@ -1,0 +1,222 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.css')}}" />
+    <style type="text/css" class="init">
+        td.details-control {
+            background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
+        }
+
+        a.editar {
+            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
+            width: 22px;
+        }
+
+        a.visualizar {
+            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
+            width: 23px;
+        }
+
+        a.excluir {
+            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
+            width: 21px;
+        }
+
+        td.bt {
+            padding: 10px 0;
+            width: 126px;
+        }
+
+        td.bt a {
+            float: left;
+            height: 22px;
+            margin: 0 10px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Cadastros
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            {% for label, flashes in app.session.flashbag.all %}
+                {% for flash in flashes %}
+                    <div class="alert alert-{{ label }} alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4>Alerta!</h4>
+                        {{ flash }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <!-- Default box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Aplicações Cadastradas</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row clearfix">                     
+                        <div class="col-md-12 column">
+                            <section>
+                                <a class="btn btn-primary" style="margin-left: 17px;" href="{{ path('saveAplicacao') }}" role="button">Adicionar Aplicação</a><br><br>
+                                <table id="example" class="display" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>                                   
+                                            <th>Nome da Aplicação</th> 
+                                            <th>Acão</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tfoot>
+                                        <tr>                                    
+                                            <th>Nome da Aplicação</th> 
+                                            <th>Acão</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+
+                </div><!-- /.box-footer-->
+            </div><!-- /.box -->
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+    
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0
+        </div>
+        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/dataTables.bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/shCore.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/javax_faces.js')}}"></script>
+    <script type="text/javascript" language="javascript" class="init">
+        function format(d) {
+
+        }
+
+        $(document).ready(function ()
+        {
+            var dt = $('#example').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "bFilter": true, //Ativa o Search global
+                "ajax": {
+                    "url": "{{ path('gridAplicacao') }}",
+                    "type": "POST"
+                },
+                "columns": [
+                    {"data": "nome"},
+                    {
+                        "class": "bt",
+                        "orderable": false,
+                        "data": null,
+                        "render": function (data, type, row, full, meta) {
+                            return '<a href="updateAplicacao/' + data.id + '" class="editar" title="Editar">'
+                        }
+                    }
+                ],
+                "order": [[0, 'asc']],
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+            dt.on('xhr', function () {
+                var json = dt.ajax.json();
+            });
+
+            // Array to track the ids of the details displayed rows
+            var detailRows = [];
+
+            $('#example tbody').on('click', 'tr td:first-child', function () {
+                var tr = $(this).closest('tr');
+                var row = dt.row(tr);
+                var idx = $.inArray(tr.attr('id'), detailRows);
+
+                if (row.child.isShown()) {
+                    tr.removeClass('details');
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice(idx, 1);
+                }
+
+                else {
+                    tr.addClass('details');
+                    row.child(format(row.data())).show();
+
+                    // Add to the 'open' array
+                    if (idx === -1) {
+                        detailRows.push(tr.attr('id'));
+                    }
+                }
+            });
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on('draw', function () {
+                $.each(detailRows, function (i, id) {
+                    $('#' + id + ' td:first-child').trigger('click');
+                });
+            });
+
+            // Apply the search -- EUUUUUUUUUUUUUUUUUUUUUUUUU
+            dt.columns().eq(0).each(function (colIdx) {
+                $('input', dt.column(colIdx).footer()).on('keyup change', function () {
+                    dt
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                });
+            });
+
+        });
+    </script>
+{% endblock %}
+

@@ -3,3 +3,8 @@ saude:
     type:     annotation
     prefix:   /
 
+security:
+    resource: "@SerBinarioSecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /security
+

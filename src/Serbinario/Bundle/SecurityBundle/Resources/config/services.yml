@@ -1,0 +1,64 @@
+parameters:
+    rn.class.user:       Serbinario\Bundle\SecurityBundle\RN\UserRN 
+    dao.class.user:      Serbinario\Bundle\SecurityBundle\DAO\UserDAO    
+    rn.class.role:       Serbinario\Bundle\SecurityBundle\RN\RoleRN 
+    dao.class.role:      Serbinario\Bundle\SecurityBundle\DAO\RoleDAO    
+    rn.class.perfil:     Serbinario\Bundle\SecurityBundle\RN\PerfilRN 
+    dao.class.perfil:    Serbinario\Bundle\SecurityBundle\DAO\PerfilDAO
+    rn.class.projeto:    Serbinario\Bundle\SecurityBundle\RN\ProjetoRN 
+    dao.class.projeto:   Serbinario\Bundle\SecurityBundle\DAO\ProjetoDAO
+    rn.class.aplicacao:  Serbinario\Bundle\SecurityBundle\RN\AplicacaoRN 
+    dao.class.aplicacao: Serbinario\Bundle\SecurityBundle\DAO\AplicacaoDAO
+    rn.class.permissao:  Serbinario\Bundle\SecurityBundle\RN\PermissaoRN 
+    dao.class.permissao: Serbinario\Bundle\SecurityBundle\DAO\PermissaoDAO
+    
+services:
+    dao_user:
+        class:        %dao.class.user%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_user:
+        class:        %rn.class.user%
+        arguments:    [ @dao_user ]
+    
+    dao_role:
+        class:        %dao.class.role%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_role:
+        class:        %rn.class.role%
+        arguments:    [ @dao_role ]
+    
+    dao_perfil:
+        class:        %dao.class.perfil%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_perfil:
+        class:        %rn.class.perfil%
+        arguments:    [ @dao_perfil ]
+        
+    dao_projeto:
+        class:        %dao.class.projeto%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_projeto:
+        class:        %rn.class.projeto%
+        arguments:    [ @dao_projeto ]
+    
+    dao_aplicacao:
+        class:        %dao.class.aplicacao%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_aplicacao:
+        class:        %rn.class.aplicacao%
+        arguments:    [ @dao_aplicacao ]
+    
+    dao_permissao:
+        class:        %dao.class.permissao%
+        arguments:    [ @doctrine.orm.entity_manager ]
+        
+    rn_permissao:
+        class:        %rn.class.permissao%
+        arguments:    [ @dao_permissao ]
+        
+    

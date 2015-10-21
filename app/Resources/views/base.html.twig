@@ -123,6 +123,31 @@
                                     </li>
                                 </ul>
                             </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-user"></i> <span>Administrador</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{{path('gridUser')}}"><i class="fa fa-circle-o text-yellow"></i>Usuários</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_DEV') %}
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-user"></i> <span>Desenvolvedor</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{{path('gridProjetos')}}"><i class="fa fa-circle-o text-yellow"></i>Projetos</a></li>
+                                    <li><a href="{{path('gridAplicacao')}}"><i class="fa fa-circle-o text-yellow"></i>Aplicações</a></li>
+                                    <li><a href="{{path('gridPermissao')}}"><i class="fa fa-circle-o text-yellow"></i>Permissões</a></li>
+                                    <li><a href="{{path('gridPerfil')}}"><i class="fa fa-circle-o text-yellow"></i>Perfís</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
                             {#<li class="treeview">
                                 <a href="#">
                                     <i class="fa fa-user"></i> <span>Usuários</span>

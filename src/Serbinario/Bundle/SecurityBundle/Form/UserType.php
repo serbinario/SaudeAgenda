@@ -5,6 +5,7 @@ namespace Serbinario\Bundle\SecurityBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Serbinario\Bundle\SecurityBundle\Form\FotoUserType;
 
 class UserType extends AbstractType
 {
@@ -33,6 +34,18 @@ class UserType extends AbstractType
                     'placeholder' => 'Email',
                     'widget_col'=> '4',
             )))
+            ->add('foto', new FotoUserType(), array(   
+                'label'        => "Foto",
+                'required'     => false,
+            ))
+            ->add('isActive', 'checkbox', array( 
+                'label' => 'Ativo',
+                'required' => false,
+                'attr'    => array(
+                    'inline' => true,
+                    'align_with_widget'=> true 
+                    )
+                ))
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']],

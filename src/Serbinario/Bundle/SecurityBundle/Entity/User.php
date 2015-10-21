@@ -3,13 +3,13 @@
 namespace Serbinario\Bundle\SecurityBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Serbinario\Bundle\SecurityBundle\Entity\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable
 {
     
     /**
@@ -56,6 +56,13 @@ class User implements UserInterface, \Serializable
      *      )
      **/
     private $roles;
+    
+    /**
+     * @var \FotoMedico
+     *
+     * @ORM\OneToOne(targetEntity="FotoUser", mappedBy="user", cascade={"all"})
+     */
+    private $foto;
     
 
     public function __construct()
@@ -128,6 +135,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
             // see section on salt below
             // $this->salt,
         ));
@@ -140,6 +148,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
@@ -313,4 +322,61 @@ class User implements UserInterface, \Serializable
     {
         return $this->roles;
     }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function isAccountNonLocked() 
+    {
+        return true;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isCredentialsNonExpired() 
+    {
+        return true;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getFoto() 
+    {
+        return $this->foto;
+    }
+    
+    /**
+     * 
+     * @param type $foto
+     */
+    public function setFoto($foto) 
+    {
+        $this->foto = $foto;
+    }
+
+
+
 }

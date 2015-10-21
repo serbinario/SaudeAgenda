@@ -47,6 +47,16 @@ class UserController extends Controller
                 $encoded = $encoder->encodePassword($user, $user->getPassword());
                 $user->setPassword($encoded);
                 
+                if (!is_null($user->getFoto()) && $user->getFoto()->getFile() != null) {
+                    #Criando um novo nome para o arquivo
+                    $originalName = $user->getFoto()->getFile()->getClientOriginalName();
+                    $arrayName = explode(".", $originalName);
+                    $newName = md5(uniqid(null, true)) . "." . $arrayName[count($arrayName) - 1];
+
+                    $user->getFoto()->upload($newName);
+                    $user->getFoto()->setUser($user);
+                }
+                
                 #Perfís 
                 foreach ($perfisRequest as $perfil) {
                     $objPerfil = $perfilRN->find($perfil);
@@ -115,7 +125,13 @@ class UserController extends Controller
         $user->setPassword("");
         
         #Criando o formulário
-        $form = $this->createForm(new UserType(), $user);
+        $form = $this->createForm(new UserType(), $user);     
+        
+        #Verifica a existência da foto do usuário
+        if($user->getFoto()) {
+            $documentoOld = $user->getFoto();
+            $pathOld      = $documentoOld->getAbsolutePath();
+        }       
         
         #Verficando se é uma submissão
         if ($request->getMethod() === "POST") {
@@ -136,6 +152,33 @@ class UserController extends Controller
                     $user->setPassword($encoded);
                 } else {
                     $user->setPassword($oldPassword);
+                }
+                
+                #Fazendo o upload da foto
+                if (!is_null($user->getFoto()) && $user->getFoto()->getFile() !== null) {
+                    
+                    if(isset($documentoOld)) {
+                        $doctrine = $this->getDoctrine()->getManager();
+                        $documentoOld->removeFile($pathOld);
+                        $doctrine->remove($documentoOld);
+                        $doctrine->flush();
+                    }
+
+                    #Criando um novo nome para o arquivo
+                    $originalName = $user->getFoto()->getFile()->getClientOriginalName();
+                    $arrayName = explode(".", $originalName);
+                    $newName = md5(uniqid(null, true)) . "." . $arrayName[count($arrayName) - 1];
+
+                    $user->getFoto()->upload($newName);
+                    $user->getFoto()->setUser($user);
+
+                    $doctrine = $this->getDoctrine()->getManager();
+                    $doctrine->persist($user->getFoto());
+                    $doctrine->flush();
+                } else {
+                    if(!isset($documentoOld)) {
+                         $user->setFoto(null);
+                    }             
                 }
                 
                 #Recuperando os perfís e permissões

@@ -419,7 +419,7 @@ class CGMController extends Controller
         $dados = $request->request->get("idFoto");
         
         $manager   = $this->getDoctrine()->getManager();
-        $documento = $manager->getRepository("Softage\Bundles\EscolaBundle\Entity\FotoCGM")->find($dados);
+        $documento = $manager->getRepository("Serbinario\Bundle\SaudeBundle\Entity\FotoCGM")->find($dados);
         
         try {
             $documento->removeFile($documento->getAbsolutePath());

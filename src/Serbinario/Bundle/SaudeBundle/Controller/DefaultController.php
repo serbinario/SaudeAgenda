@@ -272,7 +272,7 @@ class DefaultController extends Controller
         return array("form" => $form->createView(), "logo" => $medicoRecuperada->getFoto());
     }
     
-     /**
+    /**
      * @Route("/deleteFotoMedico", name="deleteFotoMedico")
      */
     public function deleteFotoMedicoAction(Request $request)

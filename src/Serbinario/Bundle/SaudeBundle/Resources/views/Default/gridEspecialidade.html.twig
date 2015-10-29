@@ -74,7 +74,9 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')%}
                     <a class="btn btn-primary" href="{{ path('saveEspecialidade') }}" role="button">Cadastrar Especialidade</a>
+                    {% endif %}
                     <div class="row clearfix">
                         <br><br>
                         <div class="col-md-12 column">
@@ -83,14 +85,18 @@
                                     <thead>
                                         <tr>
                                             <th>Nome</th>
+                                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')%}
                                             <th>Acão</th>
+                                            {% endif %}
                                         </tr>
                                     </thead>
 
                                     <tfoot>
                                         <tr>
                                             <th>Nome</th>
+                                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')%}
                                             <th>Acão</th>
+                                            {% endif %}
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -132,6 +138,7 @@
                 },
                 "columns": [
                     {"data": "nome"},
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')%}
                     {
                         "class": "bt",
                         "orderable": false,
@@ -141,6 +148,7 @@
                                     '
                         }
                     },
+                    {% endif %}
                 ],
                 "order": [[1, 'asc']],
                 language: {

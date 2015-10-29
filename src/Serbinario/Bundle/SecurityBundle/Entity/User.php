@@ -58,11 +58,27 @@ class User implements AdvancedUserInterface, \Serializable
     private $roles;
     
     /**
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
+     **/
+    private $cgm;
+    
+    /**
      * @var \FotoMedico
      *
      * @ORM\OneToOne(targetEntity="FotoUser", mappedBy="user", cascade={"all"})
      */
     private $foto;
+    
+    /**
+     * @var \Psf
+     *
+     * @ORM\ManyToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\Psf")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="psf_id_psf", referencedColumnName="id_psf")
+     * })
+     */
+    private $psfPsf;
     
 
     public function __construct()
@@ -377,6 +393,44 @@ class User implements AdvancedUserInterface, \Serializable
         $this->foto = $foto;
     }
 
+    /**
+     * 
+     * @return type
+     */
+    public function getPsfPsf() 
+    {
+        return $this->psfPsf;
+    }
+    
+    /**
+     * 
+     * @param type $psfPsf
+     */
+    public function setPsfPsf($psfPsf) 
+    {
+        $this->psfPsf = $psfPsf;
+    }
+    
+    /**
+     * Set cgm
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm
+     * @return Paciente
+     */
+    public function setCgm(\Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm = null)
+    {
+        $this->cgm = $cgm;
 
+        return $this;
+    }
 
+    /**
+     * Get cgm
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CGM 
+     */
+    public function getCgm()
+    {
+        return $this->cgm;
+    }
 }

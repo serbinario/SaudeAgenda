@@ -244,13 +244,13 @@ class AgendaController extends Controller {
         }
         
         foreach($calendario as $dia) {
-            $arrayResult[$count]['date_start']       = $dia->getDiaCalendario()->format("Y-m-d");
+            $arrayResult[$count]['date_start']  = $dia->getDiaCalendario()->format("Y-m-d");
             $arrayResult[$count]['overlap']     = false;
             $arrayResult[$count]['rendering']   = "background";
             $arrayResult[$count]['color']       = "#ff9f89";
             $arrayResult[$count]['id']          = $dia->getIdCalendario();
             $count++;
-        }
+        }        
         
         #Responsta Json
         return new JsonResponse($arrayResult);      
@@ -419,8 +419,9 @@ class AgendaController extends Controller {
         
         //Recuperando o usuário
         $maneger = $this->getDoctrine()->getManager();
-        $usuario   = $maneger->getRepository("\Serbinario\Bundle\SaudeBundle\Entity\Usuarios")->find("1");
-        
+        $user    = $this->get('security.token_storage')->getToken()->getUser();
+        //$usuario = $maneger->getRepository("\Serbinario\Bundle\SaudeBundle\Entity\Usuarios")->find($user->getId());
+       
         //Persistindo paciente
         $paciente       = new \Serbinario\Bundle\SaudeBundle\Entity\Paciente();
         $paciente->setNomePaciente($nome);
@@ -430,7 +431,7 @@ class AgendaController extends Controller {
         $agendamento = new \Serbinario\Bundle\SaudeBundle\Entity\Agendamento();
         $agendamento->setCalendarioCalendario($calendario[0]);
         $agendamento->setPacientePaciente($pacienteObj);
-        $agendamento->setUsuariosUsuarios($usuario);
+        $agendamento->setUsuariosUsuarios($user);
         $agendamento->setObservacaoAgendamento("nenhuma");
         $agendamentoObj = $agendamentoRN->save($agendamento);
         

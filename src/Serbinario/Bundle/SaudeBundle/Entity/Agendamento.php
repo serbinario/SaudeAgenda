@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Agendamento
  *
- * @ORM\Table(name="agendamento", indexes={@ORM\Index(name="fk_consulta_paciente1_idx", columns={"paciente_id_paciente"}), @ORM\Index(name="fk_consulta_calendario1_idx", columns={"calendario_id_calendario"}), @ORM\Index(name="fk_consulta_usuarios1_idx", columns={"usuarios_id_usuarios"})})
+ * @ORM\Table(name="agendamento", indexes={@ORM\Index(name="fk_consulta_paciente1_idx", columns={"paciente_id_paciente"}), @ORM\Index(name="fk_consulta_calendario1_idx", columns={"calendario_id_calendario"}), @ORM\Index(name="fk_consulta_usuarios1_idx", columns={"user_id_user"})})
  * @ORM\Entity
  */
 class Agendamento
@@ -51,9 +51,9 @@ class Agendamento
     /**
      * @var \Usuarios
      *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\ManyToOne(targetEntity="\Serbinario\bundle\SecurityBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuarios_id_usuarios", referencedColumnName="id_usuarios")
+     *   @ORM\JoinColumn(name="user_id_user", referencedColumnName="id")
      * })
      */
     private $usuariosUsuarios;
@@ -142,10 +142,10 @@ class Agendamento
     /**
      * Set usuariosUsuarios
      *
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\Usuarios $usuariosUsuarios
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\Usuarios $usuariosUsuarios
      * @return Agendamento
      */
-    public function setUsuariosUsuarios(\Serbinario\Bundle\SaudeBundle\Entity\Usuarios $usuariosUsuarios = null)
+    public function setUsuariosUsuarios(\Serbinario\Bundle\SecurityBundle\Entity\User $usuariosUsuarios = null)
     {
         $this->usuariosUsuarios = $usuariosUsuarios;
 
@@ -155,7 +155,7 @@ class Agendamento
     /**
      * Get usuariosUsuarios
      *
-     * @return \Serbinario\Bundle\SaudeBundle\Entity\Usuarios 
+     * @return \Serbinario\Bundle\SecurityBundle\Entity\Usuarios 
      */
     public function getUsuariosUsuarios()
     {

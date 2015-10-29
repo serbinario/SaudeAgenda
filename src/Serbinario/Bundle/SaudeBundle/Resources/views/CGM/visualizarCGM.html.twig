@@ -1,0 +1,223 @@
+{% extends "::base.html.twig" %}
+
+{% block body  %}
+    {{parent()}}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                CGM (CADASTRO GERAL MUNICIPAL)
+                {#<small>it all starts here</small>#}
+            </h1>     
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            {% for label, flashes in app.session.flashbag.all %}
+                {% for flash in flashes %}
+                    <div class="alert alert-{{ label }} alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4>Alerta!</h4>
+                        {{ flash }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <!-- Default box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Visualização CGM - Pessoa Física</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"class="active">
+                                <a href="#dadosPessoais"aria-controls="dadosPessoais"role="tab"data-toggle="tab">
+                                    Informações básicas</a >
+                            </li >
+                            <li role="presentation">
+                                <a href="#dadosComplementares"aria-controls="dadosComplementares"role="tab"data-toggle="tab">
+                                    Documentação</a >
+                            </li >
+                            <li role="presentation">
+                                <a href="#endereco"aria-controls="endereco"role="tab"data-toggle="tab">
+                                    Endereço</a >
+                            </li >
+                        </ul >
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active"id="dadosPessoais">
+                                <br />
+                                <div class="row">
+                                    {% if cgm.foto.path is defined %}
+                                        <div class="col-md-3">
+                                            <img id="logo" src="/eEscola/web/uploads/fotos/{{cgm.foto.path}}" class="img-thumbnail" alt="Foto" />
+                                        </div>
+                                        <div class="col-md-9">
+                                        {% else %}
+                                            <div class="col-md-12">
+                                            {% endif %}
+                                            <div class="table-responsive no-padding">
+                                                <table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><b>Nome</b></td>
+                                                            <td>{{cgm.nome}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Sexo</b></td>
+                                                            <td>{{cgm.sexoSexo.sexo}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Data de Nascimento</b></td>
+                                                            <td>{{cgm.dataNascimento|date('d/m/Y')}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Data de Falecimento</b></td>
+                                                            <td>{% if cgm.dataFalecimento is defined %}{{cgm.dataFalecimento|date('d/m/Y')}}{% endif %}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Nacionalidade</b></td>
+                                                            <td>{{cgm.nacionalidade.nacionalidade}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Naturalidade</b></td>
+                                                            <td>{{cgm.naturalidade}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Inscrição Estadual</b></td>
+                                                            <td>{{cgm.inscricaoEstadual}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>CGM do município</b></td>
+                                                            <td>{{cgm.CGMMunicipio.CGMMunicipio}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 200px; vertical-align: middle;"><b>Telefones</b></td>
+                                                            <td>
+                                                                {% for telefone in cgm.telefones %}
+                                                                    {{telefone.foneCGM}}<br />
+                                                                {% endfor %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>E-mail</b></td>
+                                                            <td>{{cgm.email}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            <div class="tab-pane fade"id="dadosComplementares">
+                                <br />
+                                <div class="table-responsive no-padding">
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 200px;"><b>Pai</b></td>
+                                                <td>{{cgm.pai}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Mãe</b></td>
+                                                <td>{{cgm.mae}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Estado Civil</b></td>
+                                                <td>{{cgm.estadoCivil.estadoCivil}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Escolaridade</b></td>
+                                                <td>{{cgm.escolaridade.escolaridade}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>CPF</b></td>
+                                                <td>{{cgm.cpf}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>RG</b></td>
+                                                <td>{{cgm.rg}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Orgão Emissor</b></td>
+                                                <td>{{cgm.orgaoEmissor}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Data de expedição</b></td>
+                                                <td>{{cgm.dataExpedicao|date('d/m/Y')}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Número CNH</b></td>
+                                                <td>{{cgm.numCNH}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Data de vencimento CNH</b></td>
+                                                <td>{{cgm.vencimentoCNH|date('d/m/Y')}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Categoria CNH</b></td>
+                                                <td>{% if cgm.ctgCNH != null %}{{cgm.ctgCNH.ctgCNH}}{% endif %}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade"id="endereco">
+                                <br />
+                                <div class="table-responsive no-padding">
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 200px;"><b>Logradouro</b></td>
+                                                <td>{{cgm.endereco.logradouro}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Número</b></td>
+                                                <td>{{cgm.endereco.numero}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Complemento</b></td>
+                                                <td>{{cgm.endereco.comp}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>CEP</b></td>
+                                                <td>{{cgm.endereco.cep}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Bairro</b></td>
+                                                <td>{{cgm.endereco.bairro.nomeBairro}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Cidade</b></td>
+                                                <td>{{cgm.endereco.cidade.nomeCidade}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{path('consultaCGM')}}" class="btn bg-navy margin ">Voltar</a>
+                        </div>
+                    </div>
+                </div><!-- /.box-footer-->
+            </div><!-- /.box -->
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0
+        </div>
+        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
+    </footer>
+{% endblock %}

@@ -62,4 +62,13 @@ class Psf
     {
         return $this->nomePsf;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function __toString() 
+    {
+        return $this->nomePsf;
+    }
 }

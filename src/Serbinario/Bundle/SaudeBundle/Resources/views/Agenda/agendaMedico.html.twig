@@ -99,12 +99,26 @@
         $(document).ready(function () {
             //Estados iniciais dos botões
             function stateInitButtons() {
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')%}
                 $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
                 $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
                 $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
                 $("#serbinario_bundle_saudebundle_calendario_actions_save").removeAttr("disabled");
                 $("#serbinario_bundle_saudebundle_calendario_diaCalendario").removeAttr("readonly");
-                $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");                
+                $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");  
+                {% elseif is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR') %}
+                $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_save").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_actions_cancel").attr("disabled", "disabled");                
+                $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").attr("disabled", "disabled");
+                $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").attr("disabled", "disabled");
+                $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("disabled", "disabled"); 
+                {% endif %}
             }
             
             //Estados secundário dos botões

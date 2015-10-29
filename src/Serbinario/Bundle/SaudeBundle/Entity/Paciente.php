@@ -27,6 +27,12 @@ class Paciente
      * @ORM\Column(name="nome_paciente", type="string", length=45, nullable=false)
      */
     private $nomePaciente;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
+     **/
+    private $cgm;
 
 
 
@@ -61,5 +67,28 @@ class Paciente
     public function getNomePaciente()
     {
         return $this->nomePaciente;
+    }
+
+    /**
+     * Set cgm
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm
+     * @return Paciente
+     */
+    public function setCgm(\Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm = null)
+    {
+        $this->cgm = $cgm;
+
+        return $this;
+    }
+
+    /**
+     * Get cgm
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CGM 
+     */
+    public function getCgm()
+    {
+        return $this->cgm;
     }
 }

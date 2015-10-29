@@ -57,10 +57,22 @@
 
                             <div class="tab-pane active" id="user">
                                 <br>
+                                {{ form_row(form.cgm) }}
                                 {{ form_row(form.username) }}   
                                 {{ form_row(form.password) }} 
                                 {{ form_row(form.email) }} 
-                                {{ form_row(form.foto) }} 
+                                {{ form_row(form.psfPsf) }}                                
+                                {{ form_row(form.foto) }}                                
+                                <div class="form-group">
+                                    {% if logo is defined and logo != null %}
+                                        <div class="col-md-offset-2 col-md-6">
+                                            <div id="midias">
+                                                <img id="logo" src="../../../../web/uploads/fotos/{{logo.path}}" class="img-responsive" alt="Foto"  height="300" width="150"/><br />
+                                                <button type="button" class="btn btn-danger removerFoto">Remover Foto</button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
                                 {{ form_row(form.isActive) }}
                             </div>
                             <div class="tab-pane" id="permission">

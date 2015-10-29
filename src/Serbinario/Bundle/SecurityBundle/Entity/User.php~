@@ -1,15 +1,15 @@
 <?php
 
-namespace SerBinario\SecurityBundle\Entity;
+namespace Serbinario\Bundle\SecurityBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="SerBinario\SecurityBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="Serbinario\Bundle\SecurityBundle\Entity\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable
 {
     
     /**
@@ -49,13 +49,36 @@ class User implements UserInterface, \Serializable
     private $perfis;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Role")
+     * @ORM\ManyToMany(targetEntity="Role", cascade={"all"})
      * @ORM\JoinTable(name="role_user",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
      *      )
      **/
     private $roles;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
+     **/
+    private $cgm;
+    
+    /**
+     * @var \FotoMedico
+     *
+     * @ORM\OneToOne(targetEntity="FotoUser", mappedBy="user", cascade={"all"})
+     */
+    private $foto;
+    
+    /**
+     * @var \Psf
+     *
+     * @ORM\ManyToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\Psf")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="psf_id_psf", referencedColumnName="id_psf")
+     * })
+     */
+    private $psfPsf;
     
 
     public function __construct()
@@ -89,19 +112,19 @@ class User implements UserInterface, \Serializable
      * @return type
      */
     public function getRoles()
-    {
+    { 
         #Variáveis ultilizadas
         $arrayRetorno = array('ROLE_USER');
-        $perfis       = $this->getPerfis()->toArray();
-        $roles        = $this->getRoles()->toArray();
-        
+        $perfis       = $this->perfis->toArray();
+        $roles        = $this->roles->toArray();
+         
         #Adicionando roles dos perfis
         if(count($perfis) > 0) {
             foreach($perfis as $perfil) {
-                $roles = $perfil->getRoles()->toArray();
-                if(count($roles) > 0) {
-                    foreach($roles as $role) {
-                       \array_push($arrayRetorno, $role->getRole()); 
+                $rolesPerfil = $perfil->getRoles()->toArray();
+                if(count($rolesPerfil) > 0) {
+                    foreach($rolesPerfil as $role) {
+                       \array_push($arrayRetorno, $role->getNomeRole()); 
                     }
                     
                 }                
@@ -110,9 +133,9 @@ class User implements UserInterface, \Serializable
         
         #Adicionando roles individuais
         foreach($roles as $role) {
-            \array_push($arrayRetorno, $role->getRole()); 
+            \array_push($arrayRetorno, $role->getNomeRole());            
         }
-                
+            
         #Retorno
         return \array_unique($arrayRetorno);
     }
@@ -128,6 +151,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
             // see section on salt below
             // $this->salt,
         ));
@@ -140,6 +164,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
@@ -234,11 +259,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add perfi
      *
-     * @param \SerBinario\SecurityBundle\Entity\Perfil $perfi
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\Perfil $perfi
      *
      * @return User
      */
-    public function addPerfi(\SerBinario\SecurityBundle\Entity\Perfil $perfi)
+    public function addPerfi(\Serbinario\Bundle\SecurityBundle\Entity\Perfil $perfi)
     {
         $this->perfis[] = $perfi;
 
@@ -248,11 +273,19 @@ class User implements UserInterface, \Serializable
     /**
      * Remove perfi
      *
-     * @param \SerBinario\SecurityBundle\Entity\Perfil $perfi
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\Perfil $perfi
      */
-    public function removePerfi(\SerBinario\SecurityBundle\Entity\Perfil $perfi)
+    public function removePerfi(\Serbinario\Bundle\SecurityBundle\Entity\Perfil $perfi)
     {
         $this->perfis->removeElement($perfi);
+    }
+    
+    /**
+     * 
+     */
+    public function clearPerfis()
+    {
+        $this->perfis->clear();
     }
 
     /**
@@ -268,11 +301,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add role
      *
-     * @param \SerBinario\SecurityBundle\Entity\Role $role
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\Role $role
      *
      * @return User
      */
-    public function addRole(\SerBinario\SecurityBundle\Entity\Role $role)
+    public function addRole(\Serbinario\Bundle\SecurityBundle\Entity\Role $role)
     {
         $this->roles[] = $role;
 
@@ -284,8 +317,120 @@ class User implements UserInterface, \Serializable
      *
      * @param \SerBinario\SecurityBundle\Entity\Role $role
      */
-    public function removeRole(\SerBinario\SecurityBundle\Entity\Role $role)
+    public function removeRole(\Serbinario\Bundle\SecurityBundle\Entity\Role $role)
     {
         $this->roles->removeElement($role);
+    }
+    
+    /**
+     * 
+     */
+    public function clearRoles()
+    {
+        $this->roles->clear();
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function listRoles()
+    {
+        return $this->roles;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function isAccountNonLocked() 
+    {
+        return true;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isCredentialsNonExpired() 
+    {
+        return true;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getFoto() 
+    {
+        return $this->foto;
+    }
+    
+    /**
+     * 
+     * @param type $foto
+     */
+    public function setFoto($foto) 
+    {
+        $this->foto = $foto;
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getPsfPsf() 
+    {
+        return $this->psfPsf;
+    }
+    
+    /**
+     * 
+     * @param type $psfPsf
+     */
+    public function setPsfPsf($psfPsf) 
+    {
+        $this->psfPsf = $psfPsf;
+    }
+    
+    /**
+     * Set cgm
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm
+     * @return Paciente
+     */
+    public function setCgm(\Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm = null)
+    {
+        $this->cgm = $cgm;
+
+        return $this;
+    }
+
+    /**
+     * Get cgm
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CGM 
+     */
+    public function getCgm()
+    {
+        return $this->cgm;
     }
 }

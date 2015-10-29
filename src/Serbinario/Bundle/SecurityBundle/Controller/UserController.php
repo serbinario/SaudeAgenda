@@ -242,7 +242,8 @@ class UserController extends Controller
             "perfis" => $perfis,
             "projetos" => $projetos,
             "perfisDoUser"=> $perfisDoUser,
-            "rolesDoUser" => $rolesDoUser
+            "rolesDoUser" => $rolesDoUser,
+            "logo" => $user->getFoto()
         );        
     }
 

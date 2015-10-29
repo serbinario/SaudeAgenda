@@ -8,7 +8,7 @@
             <link rel="stylesheet" href="{{asset('css/zabuto_calendar.min.css')}}" />
             <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}" />
             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-            
+
             <!-- Ionicons -->
             <link href="{{ asset('css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}" />
@@ -49,16 +49,23 @@
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="{{asset('img/Prefeito2.jpg')}}" class="user-image" alt="User Image"/>
-                                        <span class="hidden-xs">DERIVALDO ROMÃO</span>
+                                        {% if  app.security.getToken().getUser().getFoto() != null %}
+                                            <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" class="user-image" alt="User Image"/>
+                                        {% else %}
+                                            <img src="img/avata2.jpg" class="user-image" alt="User Image"/>
+                                        {% endif %}
+                                        <span class="hidden-xs">{{ app.security.getToken().getUser().getUsername() }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
-                                            <img src="{{asset('img/Prefeito2.jpg')}}" class="img-circle" alt="User Image" />
+                                            {% if  app.security.getToken().getUser().getFoto() != null %}
+                                                <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" class="img-circle" alt="User Image"/>
+                                            {% else %}
+                                                <img src="img/avata2.jpg" class="img-circle" alt="User Image"/>
+                                            {% endif %}                                            
                                             <p>
-                                                DERIVALDO ROMÃO DOS SANTOS
-                                                
+                                                {{ app.security.getToken().getUser().getUsername() }}
                                             </p>
                                         </li>
                                         <!-- Menu Footer-->
@@ -80,10 +87,14 @@
                         <!-- Sidebar user panel -->
                         <div class="user-panel">
                             <div class="pull-left image">
-                                <img src="{{asset('img/Prefeito2.jpg')}}" width="160" height="160" class="img-circle" alt="User Image" />
+                                {% if  app.security.getToken().getUser().getFoto() != null %}
+                                    <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" width="160" height="160" class="img-circle" alt="User Image"/>
+                                {% else %}
+                                    <img src="img/avata2.jpg" class="img-circle" width="160" height="160" alt="User Image"/>
+                                {% endif %}                            
                             </div>
                             <div class="pull-left info">
-                                <p>DERIVALDO ROMÃO</p>
+                                <p>{{ app.security.getToken().getUser().getUsername() }}</p>
 
                                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                             </div>
@@ -99,11 +110,39 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li>
-                                        <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Médico<i class="fa fa-angle-left pull-right"></i></a>
-                                        <a href="{{ path('gridAgendaMedico') }}"><i class="fa fa-circle-o text-aqua"></i> Agenda Médico<i class="fa fa-angle-left pull-right"></i></a>
-                                        <a href="{{path('gridEspecialidade')}}"><i class="fa fa-circle-o text-aqua"></i> Especialidade<i class="fa fa-angle-left pull-right"></i></a>
-                                        <a href="{{path('gridLocalidade')}}"><i class="fa fa-circle-o text-aqua"></i> Localidade<i class="fa fa-angle-left pull-right"></i></a>
-                                        <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>                                       
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')  
+                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')
+                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR')
+                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_DELETAR')%}
+                                            <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Médico<i class="fa fa-angle-left pull-right"></i></a>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')                                           
+                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')%}
+                                            <a href="{{ path('gridAgendaMedico') }}"><i class="fa fa-circle-o text-aqua"></i> Agenda Médico<i class="fa fa-angle-left pull-right"></i></a>
+                                        {% endif %} 
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')  
+                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')
+                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR')
+                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')%}
+                                            <a href="{{path('gridEspecialidade')}}"><i class="fa fa-circle-o text-aqua"></i> Especialidade<i class="fa fa-angle-left pull-right"></i></a>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR')  
+                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_ALTERAR')
+                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR')
+                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')%}
+                                            <a href="{{path('gridLocalidade')}}"><i class="fa fa-circle-o text-aqua"></i> Localidade<i class="fa fa-angle-left pull-right"></i></a>
+                                        {% endif %} 
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_PSF_CADASTRAR')  
+                                                or is_granted('ROLE_AGENDAMENTO_PSF_ALTERAR')
+                                                or is_granted('ROLE_AGENDAMENTO_PSF_VISUALIZAR')
+                                                or is_granted('ROLE_AGENDAMENTO_PSF_DELETAR')%}
+                                            <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>                                       
+                                        {% endif %}
                                     </li>
                                 </ul>
                             </li>
@@ -115,38 +154,45 @@
                                 <ul class="treeview-menu">
                                     {#<li><a href="#"><i class="fa fa-circle-o text-red"></i> Level One</a></li>#}
                                     <li>
+                                        {% if is_granted('ROLE_ADMIN') 
+                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
+                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
                                         <a href="{{path('agendamento')}}"><i class="fa fa-circle-o text-aqua"></i> Agendamento<i class="fa fa-angle-left pull-right"></i></a>
+                                        {% endif %}
                                         {#<ul class="treeview-menu">
-                                            <li><a href="{{path('telaRelatorioTransferencia')}}"><i class="fa fa-circle-o text-yellow"></i>Transferência</a></li>
-                                            <li><a href="{{path('telaRelatorioSituacaoMatricula')}}"><i class="fa fa-circle-o text-yellow"></i>Situação Matrícula</a></li>
-                                        </ul>#}
+                                                <li><a href="{{path('telaRelatorioTransferencia')}}"><i class="fa fa-circle-o text-yellow"></i>Transferência</a></li>
+                                                <li><a href="{{path('telaRelatorioSituacaoMatricula')}}"><i class="fa fa-circle-o text-yellow"></i>Situação Matrícula</a></li>
+                                            </ul>#}
                                     </li>
                                 </ul>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-user"></i> <span>Administrador</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="{{path('gridUser')}}"><i class="fa fa-circle-o text-yellow"></i>Usuários</a></li>
-                                </ul>
-                            </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-user"></i> <span>Administrador</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{path('gridUser')}}"><i class="fa fa-circle-o text-yellow"></i>Usuários</a></li>
+                                    </ul>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{path('consultaCGM')}}"><i class="fa fa-circle-o text-yellow"></i>CGM</a></li>
+                                    </ul>
+                                </li>
                             {% endif %}
                             {% if is_granted('ROLE_DEV') %}
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-user"></i> <span>Desenvolvedor</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="{{path('gridProjetos')}}"><i class="fa fa-circle-o text-yellow"></i>Projetos</a></li>
-                                    <li><a href="{{path('gridAplicacao')}}"><i class="fa fa-circle-o text-yellow"></i>Aplicações</a></li>
-                                    <li><a href="{{path('gridPermissao')}}"><i class="fa fa-circle-o text-yellow"></i>Permissões</a></li>
-                                    <li><a href="{{path('gridPerfil')}}"><i class="fa fa-circle-o text-yellow"></i>Perfís</a></li>
-                                </ul>
-                            </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-user"></i> <span>Desenvolvedor</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="{{path('gridProjetos')}}"><i class="fa fa-circle-o text-yellow"></i>Projetos</a></li>
+                                        <li><a href="{{path('gridAplicacao')}}"><i class="fa fa-circle-o text-yellow"></i>Aplicações</a></li>
+                                        <li><a href="{{path('gridPermissao')}}"><i class="fa fa-circle-o text-yellow"></i>Permissões</a></li>
+                                        <li><a href="{{path('gridPerfil')}}"><i class="fa fa-circle-o text-yellow"></i>Perfís</a></li>
+                                    </ul>
+                                </li>
                             {% endif %}
                             {#<li class="treeview">
                                 <a href="#">
@@ -164,7 +210,7 @@
             {% endblock %}
             {% block javascripts %}
                 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-                
+
                 <!-- Include all JavaScripts, compiled by Assetic -->
                 <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
                 <script type="text/javascript" src="{{asset('js/bootstrap3-typeahead.js')}}"></script>

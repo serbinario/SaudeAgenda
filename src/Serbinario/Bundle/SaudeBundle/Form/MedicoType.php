@@ -15,12 +15,15 @@ class MedicoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomeMedico', 'text', array(
-                'label' => 'Nome ',           
-                'attr'  => array(
-                    'placeholder' => 'Nome',
-                    'widget_col'=> '8',
-            )))
+            ->add('cgm', 'entity', array(
+                'label'        => 'CGM: ',
+                'required'     => false,
+                'empty_value' => "Cadastro Geral Municipal:",
+                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGM',
+                'attr' => array(
+                     'widget_col'=> '4',
+                    )
+            ))            
             ->add('emailMedico', 'text', array(
                 'label' => 'E-mail ',           
                 'attr'  => array(

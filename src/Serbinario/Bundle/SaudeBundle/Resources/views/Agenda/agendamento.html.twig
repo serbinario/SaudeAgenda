@@ -112,6 +112,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
+                        <!-- Modal do cadastro do agendamento do paciente -->
                         <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
@@ -182,6 +183,7 @@
                             data: "{{ id }}"
                         },
                         success: function (doc) {
+                            
                             var events = [];
                             if (!!doc) {
                                 $.map(doc, function (r) {
@@ -195,10 +197,12 @@
                                     });
                                 });
                             }
+                            console.log(events);
                             callback(events);
                         }
                     });
                 },
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')%}
                 dayClick: function (date, allDay, jsEvent, view) {
 
 
@@ -227,6 +231,7 @@
 
                     });
                 }
+                {% endif %}
             });
 
             $.ajax({

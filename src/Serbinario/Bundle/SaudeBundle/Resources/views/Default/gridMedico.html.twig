@@ -74,7 +74,9 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <a class="btn btn-primary" href="{{ path('saveMedico') }}" role="button">Cadastrar Médico</a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')%} 
+                        <a class="btn btn-primary" href="{{ path('saveMedico') }}" role="button">Cadastrar Médico</a>
+                    {% endif %}
                     <div class="row clearfix">
                             
                             <br><br>
@@ -86,7 +88,9 @@
                                                 <th>Nome</th>
                                                 <th>E-mail</th>
                                                 <th>Especialidade</th>
+                                                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')%} 
                                                 <th>Acão</th>
+                                                {% endif %} 
                                             </tr>
                                         </thead>
 
@@ -95,7 +99,9 @@
                                                 <th>Nome</th>
                                                 <th>E-mail</th>
                                                 <th>Especialidade</th>
+                                                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')%} 
                                                 <th>Acão</th>
+                                                {% endif %} 
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -140,6 +146,7 @@
                     {"data": "nome"},
                     {"data": "email"},
                     {"data": "especialidade"},
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')%} 
                     {
                         "class": "bt",
                         "orderable": false,
@@ -149,6 +156,7 @@
                                     '
                         }
                     },
+                    {% endif %}
                 ],
                 "order": [[1, 'asc']],
                 language: {

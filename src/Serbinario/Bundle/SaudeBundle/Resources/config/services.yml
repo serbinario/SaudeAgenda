@@ -15,6 +15,8 @@ parameters:
     rn.class.paciente:          Serbinario\Bundle\SaudeBundle\RN\PacienteRN
     dao.class.agendamento:      Serbinario\Bundle\SaudeBundle\DAO\AgendamentoDAO 
     rn.class.agendamento:       Serbinario\Bundle\SaudeBundle\RN\AgendamentoRN
+    dao.class.cgm:      Serbinario\Bundle\SaudeBundle\DAO\CGMDAO 
+    rn.class.cgm:       Serbinario\Bundle\SaudeBundle\RN\CGMRN
 
     
 services:
@@ -81,4 +83,12 @@ services:
     agendamento_rn:
         class:  %rn.class.agendamento%
         arguments:  [ @agendamento_dao ]
+    
+    cgm_dao:
+        class:  %dao.class.cgm%
+        arguments:  [ @doctrine.orm.entity_manager ]
+        public: false
+    cgm_rn:
+        class:  %rn.class.cgm%
+        arguments:  [ @cgm_dao ]
        

@@ -19,14 +19,7 @@ class Medico
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idMedico;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nome_medico", type="string", length=50, nullable=false)
-     */
-    private $nomeMedico;
+    private $idMedico; 
 
     /**
      * @var string
@@ -90,6 +83,12 @@ class Medico
      * @ORM\OneToOne(targetEntity="FotoMedico", mappedBy="medico", cascade={"all"})
      */
     private $foto;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
+     **/
+    private $cgm;
 
     /**
      * Get idMedico
@@ -279,4 +278,57 @@ class Medico
     }
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->localidade = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add localidade
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Localidade $localidade
+     * @return Medico
+     */
+    public function addLocalidade(\Serbinario\Bundle\SaudeBundle\Entity\Localidade $localidade)
+    {
+        $this->localidade[] = $localidade;
+
+        return $this;
+    }
+
+    /**
+     * Remove localidade
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Localidade $localidade
+     */
+    public function removeLocalidade(\Serbinario\Bundle\SaudeBundle\Entity\Localidade $localidade)
+    {
+        $this->localidade->removeElement($localidade);
+    }
+
+    /**
+     * Set cgm
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm
+     * @return Medico
+     */
+    public function setCgm(\Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm = null)
+    {
+        $this->cgm = $cgm;
+
+        return $this;
+    }
+
+    /**
+     * Get cgm
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CGM 
+     */
+    public function getCgm()
+    {
+        return $this->cgm;
+    }
 }

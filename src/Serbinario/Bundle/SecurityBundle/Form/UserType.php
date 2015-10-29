@@ -16,6 +16,15 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('cgm', 'entity', array(
+                'label'        => 'CGM: ',
+                'required'     => false,
+                'empty_value' => "Cadastro Geral Municipal:",
+                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGM',
+                'attr' => array(
+                     'widget_col'=> '4',
+                    )
+            ))
             ->add('username', 'text', array(
                 'label' => 'Login: ',                
                 'attr'  => array(
@@ -37,6 +46,15 @@ class UserType extends AbstractType
             ->add('foto', new FotoUserType(), array(   
                 'label'        => "Foto",
                 'required'     => false,
+            ))
+            ->add('psfPsf', 'entity', array(
+                'label'        => 'Psf: ',
+                'required'     => false,
+                'empty_value' => "Selecione uma PSF:",
+                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Psf',
+                'attr' => array(
+                     'widget_col'=> '4',
+                    )
             ))
             ->add('isActive', 'checkbox', array( 
                 'label' => 'Ativo',

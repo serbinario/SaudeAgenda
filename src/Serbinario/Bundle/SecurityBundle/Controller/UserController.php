@@ -247,6 +247,29 @@ class UserController extends Controller {
             "logo" => $user->getFoto()
         );
     }
+    
+      /**
+     * @Route("/deleteFotoUser", name="deleteFotoUser")
+     */
+    public function deleteFotoUserAction(Request $request)
+    {
+        #Requisição
+        $dados = $request->request->get("idFoto");
+        
+        $manager   = $this->getDoctrine()->getManager();
+        $documento = $manager->getRepository("Serbinario\Bundle\SecurityBundle\Entity\FotoUser")->find($dados);
+        
+        try {
+            $documento->removeFile($documento->getAbsolutePath());
+        
+            $manager->remove($documento);
+            $manager->flush();
+            
+            return new JsonResponse(true);
+        } catch (Exception $ex) {
+            return new JsonResponse(false);
+        }
+    }
 
     /**
      * @Route("/gridUser", name="gridUser")

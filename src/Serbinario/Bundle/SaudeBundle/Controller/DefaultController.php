@@ -272,6 +272,30 @@ class DefaultController extends Controller
         return array("form" => $form->createView(), "logo" => $medicoRecuperada->getFoto());
     }
     
+     /**
+     * @Route("/deleteFotoMedico", name="deleteFotoMedico")
+     */
+    public function deleteFotoMedicoAction(Request $request)
+    {
+        #Requisição
+        $dados = $request->request->get("idFoto");
+        
+        $manager   = $this->getDoctrine()->getManager();
+        $documento = $manager->getRepository("Serbinario\Bundle\SaudeBundle\Entity\FotoMedico")->find($dados);
+        
+        try {
+            $documento->removeFile($documento->getAbsolutePath());
+        
+            $manager->remove($documento);
+            $manager->flush();
+            
+            return new JsonResponse(true);
+        } catch (Exception $ex) {
+            return new JsonResponse(false);
+        }
+    }
+    
+    
     /**
      * @Route("/saveEspecialidade", name="saveEspecialidade")
      * @Template()

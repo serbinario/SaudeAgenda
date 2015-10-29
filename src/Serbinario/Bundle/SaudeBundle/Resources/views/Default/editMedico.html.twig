@@ -90,6 +90,26 @@
 {% block javascripts %}     
     {{ parent() }}
     <script type="text/javascript" language="javascript" class="init">
+        {% if logo is defined and logo != null%}
+            $(document).on("click", ".removerFoto", function() {
+                var dados = {"idFoto" : {{ logo.id }} };
+
+                $.ajax({
+                    url: "{{path('deleteFotoMedico')}}",
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: dados,
+                    success: function(result) {
+                        if (result) {
+                            $("#midias").remove();
+                            alert("foto removida com sucesso");
+                        } else {
+                            alert("Erro ao remover a foto");
+                        }
+                    }
+                });
+            });
+        {% endif %}
         $("#saudebundle_medico_actions_voltar").click(function() {
             javascript:history.back();
         });

@@ -177,7 +177,29 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>    
     <script type="text/javascript" src="{{asset('js/jquery.tree.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
+        {% if logo is defined and logo != null%}
+            $(document).on("click", ".removerFoto", function() {
+                var dados = {"idFoto" : {{ logo.id }} };
+
+                $.ajax({
+                    url: "{{path('deleteFotoUser')}}",
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: dados,
+                    success: function(result) {
+                        if (result) {
+                            $("#midias").remove();
+                            alert("foto removida com sucesso");
+                        } else {
+                            alert("Erro ao remover a foto");
+                        }
+                    }
+                });
+            });
+        {% endif %}
+    
         $("#treeCheckbox, #treeCheckboxPerfil").tree({});
+        
         $('#user a').click(function (e) {
             e.preventDefault()
             $(this).tab('show')

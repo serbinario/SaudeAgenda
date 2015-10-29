@@ -127,12 +127,12 @@ class AgendaController extends Controller {
         if(GridClass::isAjax()) {
             
             $columns = array("a.idMedico",
-                "a.nomeMedico",
+                "c.nome",
                 "a.emailMedico",
                 "b.nomeEspecialidade"
                 );
 
-            $entityJOIN           = array("especialidadeEspecialidade");             
+            $entityJOIN           = array("especialidadeEspecialidade", "cgm");             
             $radiosArray          = array();
             $parametros           = $request->request->all();            
             
@@ -158,7 +158,7 @@ class AgendaController extends Controller {
             {
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdMedico();
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdMedico();
-                $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomeMedico();
+                $radiosArray[$i]['nome']            = $resultRadios[$i]->getCgm()->getNome();
                 $radiosArray[$i]['email']           = $resultRadios[$i]->getEmailMedico();
                 $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getNomeEspecialidade();
 
@@ -205,7 +205,7 @@ class AgendaController extends Controller {
             $arrayResult[$count]['date']      = $dia->getDiaCalendario()->format("Y-m-d");
             $arrayResult[$count]['badge']     = false;
             $arrayResult[$count]['classname'] = $dia->getStatusCalendario() ? "blue" : "gray";
-            $arrayResult[$count]['title']     = $dia->getMedicoMedico()->getNomeMedico();
+            $arrayResult[$count]['title']     = $dia->getMedicoMedico()->getCgm()->getNome();
             
             $count++;
         }

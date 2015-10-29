@@ -99,7 +99,7 @@
                                     <!-- List group -->
                                     <ul class="list-group">
                                         {% for medico in medicos %}
-                                            <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.nomeMedico}}</a>
+                                            <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.cgm.nome}}</a>
                                         {% endfor %}
                                     </ul>
                                 </div>

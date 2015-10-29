@@ -54,7 +54,7 @@
                                         {% else %}
                                             <img src="img/avata2.jpg" class="user-image" alt="User Image"/>
                                         {% endif %}
-                                        <span class="hidden-xs">{{ app.security.getToken().getUser().getUsername() }}</span>
+                                        <span class="hidden-xs">{{ app.security.getToken().getUser().getCgm().getNome() }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
@@ -65,7 +65,7 @@
                                                 <img src="img/avata2.jpg" class="img-circle" alt="User Image"/>
                                             {% endif %}                                            
                                             <p>
-                                                {{ app.security.getToken().getUser().getUsername() }}
+                                                {{ app.security.getToken().getUser().getCgm().getNome() }}
                                             </p>
                                         </li>
                                         <!-- Menu Footer-->
@@ -94,7 +94,7 @@
                                 {% endif %}                            
                             </div>
                             <div class="pull-left info">
-                                <p>{{ app.security.getToken().getUser().getUsername() }}</p>
+                                <p>{{ app.security.getToken().getUser().getCgm().getNome() }}</p>
 
                                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                             </div>

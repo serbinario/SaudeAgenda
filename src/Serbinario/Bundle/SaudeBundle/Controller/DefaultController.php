@@ -163,8 +163,8 @@ class DefaultController extends Controller
             for($i=0;$i < $countRadios; $i++)
             {
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdMedico();
-                $radiosArray[$i]['id']              = $resultRadios[$i]->getCgm()->getNome();
-                $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomeMedico();
+                $radiosArray[$i]['id']              = $resultRadios[$i]->getIdMedico();
+                $radiosArray[$i]['nome']            = $resultRadios[$i]->getCgm()->getNome();
                 $radiosArray[$i]['email']           = $resultRadios[$i]->getEmailMedico();
                 $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getNomeEspecialidade();
 

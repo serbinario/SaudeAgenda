@@ -10,14 +10,13 @@ use Serbinario\Bundle\SecurityBundle\Form\UserType;
 use Serbinario\Bundle\SecurityBundle\UTIL\GridClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
+
     /**
      * @Route("/saveUser", name="saveUser")
      * @Template()
      */
-    public function saveAction(Request $request)
-    {
+    public function saveAction(Request $request) {
         #Criando o formulário
         $form = $this->createForm(new UserType());
 
@@ -26,19 +25,21 @@ class UserController extends Controller
         $projetoRN = $this->get('rn_projeto');
         $perfilRN  = $this->get('rn_perfil');
         $roleRN    = $this->get('rn_role');
-        
+
         $projetos = $projetoRN->all();
         $perfis   = $perfilRN->all();
-        
+
         #Verficando se é uma submissão
         if ($request->getMethod() === "POST") {
             #Repasando a requisição            
             $form->handleRequest($request);
-            
+
             #Recuperando os perfís e permissões
             $permissoes    = $request->request->get("permissao");
-            $perfisRequest = $request->request->get("perfil");           
-      
+            $perfisRequest = $request->request->get("perfil");
+            $permissoes    = $permissoes == null ? array() : $permissoes;
+            $perfisRequest = $perfisRequest == null ? array() : $perfisRequest;
+
             #Verifica se os dados são válidos
             if ($form->isValid()) {
                 #Recuperando os dados
@@ -46,7 +47,7 @@ class UserController extends Controller
                 $encoder = $this->container->get('security.password_encoder');
                 $encoded = $encoder->encodePassword($user, $user->getPassword());
                 $user->setPassword($encoded);
-                
+
                 if (!is_null($user->getFoto()) && $user->getFoto()->getFile() != null) {
                     #Criando um novo nome para o arquivo
                     $originalName = $user->getFoto()->getFile()->getClientOriginalName();
@@ -56,7 +57,7 @@ class UserController extends Controller
                     $user->getFoto()->upload($newName);
                     $user->getFoto()->setUser($user);
                 }
-                
+
                 #Perfís 
                 foreach ($perfisRequest as $perfil) {
                     $objPerfil = $perfilRN->find($perfil);
@@ -69,8 +70,8 @@ class UserController extends Controller
                 #Permissões
                 foreach ($permissoes as $permissao) {
                     $role = $roleRN->findByRole($permissao);
-                    
-                    if($role) {
+
+                    if ($role) {
                         $user->addRole($role[0]);
                     } else {
                         $newRole = new \Serbinario\Bundle\SecurityBundle\Entity\Role();
@@ -78,7 +79,7 @@ class UserController extends Controller
                         $user->addRole($newRole);
                     }
                 }
-               
+
                 #Executando e recuperando o resultado
                 $result = $userRN->save($user);
 
@@ -100,39 +101,37 @@ class UserController extends Controller
 
         #Retorno
         return array("form" => $form->createView(), "perfis" => $perfis, "projetos" => $projetos);
-        
     }
 
     /**
      * @Route("/updateUser/{id}", name="updateUser")
      * @Template()
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         #Recuperando o serviço do container
-        $userRN    = $this->get('rn_user');
+        $userRN = $this->get('rn_user');
         $projetoRN = $this->get('rn_projeto');
-        $perfilRN  = $this->get('rn_perfil');
-        $roleRN    = $this->get('rn_role');
-        
+        $perfilRN = $this->get('rn_perfil');
+        $roleRN = $this->get('rn_role');
+
         #Recuperando os projetos e perfís
         $projetos = $projetoRN->all();
-        $perfis   = $perfilRN->all();
-        
+        $perfis = $perfilRN->all();
+
         #Recuperando o Usuário
         $user = $userRN->find($id);
         $oldPassword = $user->getPassword();
         $user->setPassword("");
-        
+
         #Criando o formulário
-        $form = $this->createForm(new UserType(), $user);     
-        
+        $form = $this->createForm(new UserType(), $user);
+
         #Verifica a existência da foto do usuário
-        if($user->getFoto()) {
+        if ($user->getFoto()) {
             $documentoOld = $user->getFoto();
-            $pathOld      = $documentoOld->getAbsolutePath();
-        }       
-        
+            $pathOld = $documentoOld->getAbsolutePath();
+        }
+
         #Verficando se é uma submissão
         if ($request->getMethod() === "POST") {
             #Repasando a requisição
@@ -144,20 +143,20 @@ class UserController extends Controller
                 $user = $form->getData();
                 $user->clearRoles();
                 $user->clearPerfis();
-                
+
                 #Trabalhando com a nova senha
-                if($user->getPassword() != "") {
+                if ($user->getPassword() != "") {
                     $encoder = $this->container->get('security.password_encoder');
                     $encoded = $encoder->encodePassword($user, $user->getPassword());
                     $user->setPassword($encoded);
                 } else {
                     $user->setPassword($oldPassword);
                 }
-                
+
                 #Fazendo o upload da foto
                 if (!is_null($user->getFoto()) && $user->getFoto()->getFile() !== null) {
-                    
-                    if(isset($documentoOld)) {
+
+                    if (isset($documentoOld)) {
                         $doctrine = $this->getDoctrine()->getManager();
                         $documentoOld->removeFile($pathOld);
                         $doctrine->remove($documentoOld);
@@ -176,15 +175,17 @@ class UserController extends Controller
                     $doctrine->persist($user->getFoto());
                     $doctrine->flush();
                 } else {
-                    if(!isset($documentoOld)) {
-                         $user->setFoto(null);
-                    }             
+                    if (!isset($documentoOld)) {
+                        $user->setFoto(null);
+                    }
                 }
-                
+
                 #Recuperando os perfís e permissões
-                $permissoes    = $request->request->get("permissao");
+                $permissoes = $request->request->get("permissao");
                 $perfisRequest = $request->request->get("perfil");
-                
+                $permissoes = $permissoes == null ? array() : $permissoes;
+                $perfisRequest = $perfisRequest == null ? array() : $perfisRequest;
+
                 #Perfís 
                 foreach ($perfisRequest as $perfil) {
                     $objPerfil = $perfilRN->find($perfil);
@@ -197,8 +198,8 @@ class UserController extends Controller
                 #Permissões
                 foreach ($permissoes as $permissao) {
                     $role = $roleRN->findByRole($permissao);
-                    
-                    if($role) {
+
+                    if ($role) {
                         $user->addRole($role[0]);
                     } else {
                         $newRole = new \Serbinario\Bundle\SecurityBundle\Entity\Role();
@@ -206,7 +207,7 @@ class UserController extends Controller
                         $user->addRole($newRole);
                     }
                 }
-               
+
                 #Executando e recuperando o resultado
                 $result = $userRN->update($user);
 
@@ -217,7 +218,7 @@ class UserController extends Controller
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado Dados');
                 }
-                
+
                 #Retorno
                 return $this->redirectToRoute("gridUser");
             } else {
@@ -225,14 +226,14 @@ class UserController extends Controller
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
             }
         }
-        
-        $rolesDoUser  = array();        
-        foreach($user->listRoles()->toArray() as $role) {
+
+        $rolesDoUser = array();
+        foreach ($user->listRoles()->toArray() as $role) {
             $rolesDoUser[] = $role->getNomeRole();
         }
-        
+
         $perfisDoUser = array();
-        foreach($user->getPerfis()->toArray() as $perfil) {
+        foreach ($user->getPerfis()->toArray() as $perfil) {
             $perfisDoUser[] = $perfil->getNomePerfil();
         }
 
@@ -241,69 +242,60 @@ class UserController extends Controller
             "form" => $form->createView(),
             "perfis" => $perfis,
             "projetos" => $projetos,
-            "perfisDoUser"=> $perfisDoUser,
+            "perfisDoUser" => $perfisDoUser,
             "rolesDoUser" => $rolesDoUser,
             "logo" => $user->getFoto()
-        );        
+        );
     }
 
     /**
      * @Route("/gridUser", name="gridUser")
      * @Template()
      */
-    public function gridAction(Request $request)
-    {
-        if(GridClass::isAjax()) {
-            
+    public function gridAction(Request $request) {
+        if (GridClass::isAjax()) {
+
             $columns = array("a.username",
                 "a.email"
-                );
+            );
 
-            $entityJOIN           = array();             
-            $usersArray           = array();
-            $parametros           = $request->request->all();            
-            
-            $entity               = "Serbinario\Bundle\SecurityBundle\Entity\User"; 
-            $columnWhereMain      = "";
-            $whereValueMain       = "";
-            $whereFull            = "";
-            
-            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
-                    $parametros,
-                    $columns,
-                    $entity,
-                    $entityJOIN,           
-                    $columnWhereMain,
-                    $whereValueMain,
-                    $whereFull);
+            $entityJOIN = array();
+            $usersArray = array();
+            $parametros = $request->request->all();
 
-            $resultUsers    = $gridClass->builderQuery();    
-            $countTotal     = $gridClass->getCount();
-            $countUsers     = count($resultUsers);
+            $entity = "Serbinario\Bundle\SecurityBundle\Entity\User";
+            $columnWhereMain = "";
+            $whereValueMain = "";
+            $whereFull = "";
 
-            for($i=0;$i < $countUsers; $i++)
-            {
-                $usersArray[$i]['DT_RowId'] = "row_".$resultUsers[$i]->getId();
-                $usersArray[$i]['id']       = $resultUsers[$i]->getId();
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), $parametros, $columns, $entity, $entityJOIN, $columnWhereMain, $whereValueMain, $whereFull);
+
+            $resultUsers = $gridClass->builderQuery();
+            $countTotal = $gridClass->getCount();
+            $countUsers = count($resultUsers);
+
+            for ($i = 0; $i < $countUsers; $i++) {
+                $usersArray[$i]['DT_RowId'] = "row_" . $resultUsers[$i]->getId();
+                $usersArray[$i]['id'] = $resultUsers[$i]->getId();
                 $usersArray[$i]['username'] = $resultUsers[$i]->getUsername();
-                $usersArray[$i]['email']    = $resultUsers[$i]->getEmail();
+                $usersArray[$i]['email'] = $resultUsers[$i]->getEmail();
             }
 
             //Se a variável $sqlFilter estiver vazio
-            if(!$gridClass->isFilter()){
+            if (!$gridClass->isFilter()) {
                 $countUsers = $countTotal;
             }
 
-            $columns = array(               
-                'draw'              => $parametros['draw'],
-                'recordsTotal'      => "{$countTotal}",
-                'recordsFiltered'   => "{$countUsers}",
-                'data'              => $usersArray               
+            $columns = array(
+                'draw' => $parametros['draw'],
+                'recordsTotal' => "{$countTotal}",
+                'recordsFiltered' => "{$countUsers}",
+                'data' => $usersArray
             );
 
             return new JsonResponse($columns);
-        }else{            
-            return array();            
+        } else {
+            return array();
         }
     }
 

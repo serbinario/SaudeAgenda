@@ -32,7 +32,8 @@ class UserType extends AbstractType
                     'widget_col'=> '4',
             )))
             ->add('password', 'text', array(
-                'label' => 'Senha: ',                
+                'label' => 'Senha: ',
+                'required'     => false,                
                 'attr'  => array(
                     'placeholder' => 'Senha',
                     'widget_col'=> '4',

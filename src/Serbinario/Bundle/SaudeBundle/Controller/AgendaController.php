@@ -42,7 +42,7 @@ class AgendaController extends Controller {
         $medicoRN     = $this->get("medico_rn");
         
         #Data atual        
-        $dataAtual      = new \DateTime("now");    
+        $dataAtual    = new \DateTime("now");    
         
         #Preenchimento do obj Calendário
         $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();

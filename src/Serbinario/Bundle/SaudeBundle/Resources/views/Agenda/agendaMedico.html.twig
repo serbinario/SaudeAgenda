@@ -120,7 +120,7 @@
                 $("#serbinario_bundle_saudebundle_calendario_actions_save").removeAttr("disabled");
                 $("#serbinario_bundle_saudebundle_calendario_diaCalendario").removeAttr("readonly");
                 $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");  
-                {% elseif is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR') %}
+                {% elseif is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR') or  is_granted('ROLE_ADMIN') %}
                 $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
                 $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
                 $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
@@ -162,12 +162,11 @@
                     $("#my-calendar").zabuto_calendar({
                         action: function () {
                             //Recuperando o elemento
-                            var elemento = document.getElementById(this.id);
-                            
+                            var elemento  = document.getElementById(this.id);
+                            var arrayData = this.id.split("_"); 
+                            var data      = arrayData[arrayData.length - 1];
                             //Verificando se ele é ativo ou bloqueado
-                            if($(elemento).hasClass("event-styled")) {
-                                var arrayData = this.id.split("_"); 
-                                var data      = arrayData[arrayData.length - 1];
+                            if($(elemento).hasClass("event-styled")) {                                
                                 
                                 $.ajax({
                                     url: "{{ path('getCalendarioByDate') }}",  //URL solicitada
@@ -192,6 +191,13 @@
                                         }
                                     }
                                 });  
+                            } else {
+                                var newDate = new Date(data);
+                                var dia     = newDate.getDate().toString().length === 1 ? "0" + (newDate.getDate() + 1) : (newDate.getDate() + 1);
+                                var mes     = newDate.getMonth().toString().length === 1 ? "0" + (newDate.getMonth() + 1) : newDate.getMonth() + 1;
+                                var ano     = newDate.getFullYear();
+                                
+                                $("#serbinario_bundle_saudebundle_calendario_diaCalendario").val(dia + "/" + mes + "/" + ano);
                             }
                         },
                         language: "pt",

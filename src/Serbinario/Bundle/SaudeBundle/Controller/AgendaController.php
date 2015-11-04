@@ -160,7 +160,7 @@ class AgendaController extends Controller {
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdMedico();
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getCgm()->getNome();
                 $radiosArray[$i]['email']           = $resultRadios[$i]->getEmailMedico();
-                $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getCbo()->getNome();
+                $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getCbo()->getDescricao();
 
             }
 

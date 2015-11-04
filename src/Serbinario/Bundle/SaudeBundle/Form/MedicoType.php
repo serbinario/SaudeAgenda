@@ -22,6 +22,7 @@ class MedicoType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGM',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
             ))            
             ->add('emailMedico', 'text', array(
@@ -38,6 +39,7 @@ class MedicoType extends AbstractType
                 'attr' => array(
                     'widget_col'=> '3',
                     'inline' => true,
+                    'class' => 'select2'
                     )
             ))
             ->add('localidade','entity', array(

@@ -3,94 +3,110 @@
 {% block body  %}
     {{parent()}}
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Cadastros
-            </h1>
-        </section>
+    <div id="page-wrapper" class="gray-bg">
 
-        <!-- Main content -->
-        <section class="content">
-            {% for label, flashes in app.session.flashbag.all %}
-                {% for flash in flashes %}
-                    <div class="alert alert-{{ label }} alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4>Alerta!</h4>
-                        {{ flash }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            <!-- Default box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de Localidades</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+        {% include 'SaudeBundle:Default:menu_topo.html.twig' %}
+
+        {# título da página  #}
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>Cadastros</h2>
+                {#<ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">This is</a>
+                    </li>
+                    <li class="active">
+                        <strong>Breadcrumb</strong>
+                    </li>
+                </ol>#}
+            </div>
+        </div>
+
+        {# Conteúdo principal   #}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }} alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4>Alerta!</h4>
+                                {{ flash }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Cadastro de Localidades</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="fullscreen-link">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
+                            {{ form_row(form.nomeLocalidade) }}
+                            {{ form_end(form) }}
+                        </div>
+                        <div class="ibox-footer">
+                           
+                        </div>
                     </div>
                 </div>
-                <div class="box-body">
-                    {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
-                    {{ form_row(form.nomeLocalidade) }}
-                    {{ form_end(form) }}
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-
-                </div><!-- /.box-footer-->
-            </div><!-- /.box -->
-
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0
+            </div>
         </div>
-        <strong>Copyright &copy; 2004-2015 <a target="__blanck" href="http://www.serbinario.com.br/">Serbinário</a>.</strong> Todos os direitos reservados.
-    </footer>
+
+        {% include 'SaudeBundle:Default:rodape.html.twig' %}
+    </div>
 {% endblock %}
-{% block javascripts %}     
+{% block javascripts %}
     {{ parent() }}
 
     <script type="text/javascript" language="javascript" class="init">
 
         $(document).on('click', '#saudebundle_localidade_actions_save', function (event) {
-            var nomelocal = $("#saudebundle_localidade_nomeLocalidade").val();            
-            
+            var nomelocal = $("#saudebundle_localidade_nomeLocalidade").val();
+
             $.ajax({
                 url: "{{ path('validateNomeLocalidade') }}", //URL solicitada
                 dataType: "JSON", //Tipo de dado de transfência
                 method: "POST",
                 data: {"nome": nomelocal},
-                success: function (data) {                                      
-                    if (data) {                        
+                success: function (data) {
+                    if (data) {
                         var html = '<span id="helpBlock2" class="help-block">ESTA LOCALIDADE JÁ ESTÁ CADASTRADA.</span>';
                         $("#saudebundle_localidade_nomeLocalidade").parent().removeClass("has-success");
                         $("#saudebundle_localidade_nomeLocalidade").parent().addClass("has-error");
                         $("#helpBlock2").remove();
                         $("#saudebundle_localidade_nomeLocalidade").parent().append(html);
-                        $("#saudebundle_localidade_nomeLocalidade").focus();                   
+                        $("#saudebundle_localidade_nomeLocalidade").focus();
                     } else {
                         $("#formulario").submit();
                     }
-                    {#else {
-                        var html = '<span id="helpBlock2" class="help-block">LOCALIDADE VÁLIDA.</span>';
-                        $("#saudebundle_localidade_nomeLocalidade").parent().removeClass("has-error");
-                        $("#saudebundle_localidade_nomeLocalidade").parent().addClass("has-success");
-                        $("#helpBlock2").remove();
-                        $("#saudebundle_localidade_nomeLocalidade").parent().append(html);                        
-                    }#}
-                }
-            }); 
-            
-            return false;
-           
-        });
+        {#else {
+            var html = '<span id="helpBlock2" class="help-block">LOCALIDADE VÁLIDA.</span>';
+            $("#saudebundle_localidade_nomeLocalidade").parent().removeClass("has-error");
+            $("#saudebundle_localidade_nomeLocalidade").parent().addClass("has-success");
+            $("#helpBlock2").remove();
+            $("#saudebundle_localidade_nomeLocalidade").parent().append(html);
+        }#}
+                                }
+                            });
+
+                            return false;
+
+                        });
 
 
-        $("#saudebundle_localidade_actions_voltar").click(function () {
-            javascript:history.back();
-        });
+                        $("#saudebundle_localidade_actions_voltar").click(function () {
+                            javascript:history.back();
+                        });
     </script>
 {% endblock %}

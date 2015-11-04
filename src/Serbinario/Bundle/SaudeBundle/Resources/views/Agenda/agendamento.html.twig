@@ -41,118 +41,136 @@
 {% block body  %}
     {{parent()}}
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Agenda
-            </h1>
-        </section>
+    <div id="page-wrapper" class="gray-bg">
 
-        <!-- Main content -->
-        <section class="content">
-            {% for label, flashes in app.session.flashbag.all %}
-                {% for flash in flashes %}
-                    <div class="alert alert-{{ label }} alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4>Alerta!</h4>
-                        {{ flash }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            <!-- Default box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Agendamento</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row" id="container">
-                        <!-- Responsive Calendar -->
-                        <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
-                            <div class="row">
+        {% include 'SaudeBundle:Default:menu_topo.html.twig' %}
+
+        {# título da página  #}
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>Agenda</h2>
+                {#<ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">This is</a>
+                    </li>
+                    <li class="active">
+                        <strong>Breadcrumb</strong>
+                    </li>
+                </ol>#}
+            </div>
+        </div>
+
+        {# Conteúdo principal   #}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }} alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4>Alerta!</h4>
+                                {{ flash }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Agendamento</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="fullscreen-link">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row" id="container">
                                 <!-- Responsive Calendar -->
                                 <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
                                     <div class="row">
-                                        <div id="my-calendar"></div>
-                                    </div>                           
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="panel panel-primary">
-                                    <!-- Default panel contents -->
-                                    <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
-                                    <div class="panel-body">
-                                        <form class="form">
-                                            <select class="form-control">
-                                                <option>Especialidades</option>
-                                                {% for especializacoe in especializacoes %}
-                                                    <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.nomeEspecialidade}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </form>
+                                        <!-- Responsive Calendar -->
+                                        <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
+                                            <div class="row">
+                                                <div id="my-calendar"></div>
+                                            </div>                           
+                                        </div>
                                     </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="panel panel-primary">
+                                            <!-- Default panel contents -->
+                                            <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
+                                            <div class="panel-body">
+                                                <form class="form">
+                                                    <select class="form-control">
+                                                        <option>Especialidades</option>
+                                                        {% for especializacoe in especializacoes %}
+                                                            <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.cbo.descricao}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </form>
+                                            </div>
 
-                                    <!-- List group -->
-                                    <ul class="list-group">
-                                        {% for medico in medicos %}
-                                            <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.cgm.nome}}</a>
-                                        {% endfor %}
-                                    </ul>
+                                            <!-- List group -->
+                                            <ul class="list-group">
+                                                {% for medico in medicos %}
+                                                    <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.cgm.nome}}</a>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- FullCalendar -->
+                                <div class="col-md-9">
+                                    <div id="fullcalendar"></div>                
                                 </div>
                             </div>
                         </div>
-
-                        <!-- FullCalendar -->
-                        <div class="col-md-9">
-                            <div id="fullcalendar"></div>                
+                        <div class="ibox-footer">
+                            
+                            <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal">×</button>
+                                            <h4 class="modal-title">Realizar agendamento</h4>
+                                        </div>
+                                        <div class="modal-body" style="alignment-baseline: central">
+                                            <form action="{{path('savePaciente')}}" role="form" method="POST">
+                                                <div class="form-group col-lg-12">
+                                                    <label for="email">Nomde do Paciente</label>
+                                                    <input type="text" class="form-control" name="nome" id="nome" />
+                                                    <input type="hidden" class="form-control" value="{{id}}" name="idMedico" id="idMedico" />
+                                                    <input type="hidden" class="form-control" value="" name="data" id="data" />
+                                                </div>
+                                                <div class="col-md-3 column">
+                                                    <div class="form-group">
+                                                        <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
                         </div>
                     </div>
-                    <div class="box-footer">
-                        <!-- Modal do cadastro do agendamento do paciente -->
-                        <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button class="close" type="button" data-dismiss="modal">×</button>
-                                        <h4 class="modal-title">Realizar agendamento</h4>
-                                    </div>
-                                    <div class="modal-body" style="alignment-baseline: central">
-                                        <form action="{{path('savePaciente')}}" role="form" method="POST">
-                                            <div class="form-group col-lg-12">
-                                                <label for="email">Nomde do Paciente</label>
-                                                <input type="text" class="form-control" name="nome" id="nome" />
-                                                <input type="hidden" class="form-control" value="{{id}}" name="idMedico" id="idMedico" />
-                                                <input type="hidden" class="form-control" value="" name="data" id="data" />
-                                            </div>
-                                            <div class="col-md-3 column">
-                                                <div class="form-group">
-                                                    <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- /.box-footer-->
-                </div><!-- /.box -->
-
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0
+                </div>
+            </div>
         </div>
-        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
-    </footer>
+
+        {% include 'SaudeBundle:Default:rodape.html.twig' %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -2,7 +2,8 @@
 
 {% block stylesheets %}
     {{parent()}}
-    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrapAtualizado.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/plugins/dataTables/dataTables.bootstrap.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/plugins/dataTables/dataTables.responsive.css')}}" />
     <style type="text/css" class="init">
         td.details-control {
             background: url({{asset("imagens/icone-produto-plus.png")}}) no-repeat center center;
@@ -46,86 +47,109 @@
 {% block body  %}
     {{parent()}}
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                CGM (CADASTRO GERAL MUNICIPAL)
-            </h1>
-        </section>
+    <div id="page-wrapper" class="gray-bg">
 
-        <!-- Main content -->
-        <section class="content">
-            {% for label, flashes in app.session.flashbag.all %}
-                {% for flash in flashes %}
-                    <div class="alert alert-{{ label }} alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4>Alerta!</h4>
-                        {{ flash }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            <!-- Default box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Consultar CGM - Pessoa Física/Jurídica <small>A consula serve tanto para pessoas físicas quanto jurídicas</small></h3>
-                    <small style="color: red; margin-right: 16px" class="navbar-right">* No campo <b>pesquisar</b> não use acentuação</small>
-                </div>
-                <div class="box-body">          
+        {% include 'SaudeBundle:Default:menu_topo.html.twig' %}
+
+        {# título da página  #}
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>CGM (CADASTRO GERAL MUNICIPAL)</h2>
+                {#<ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">This is</a>
+                    </li>
+                    <li class="active">
+                        <strong>Breadcrumb</strong>
+                    </li>
+                </ol>#}
+            </div>
+        </div>
+
+        {# Conteúdo principal   #}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }} alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4>Alerta!</h4>
+                                {{ flash }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Consultar CGM - Pessoa Física/Jurídica <small>A consula serve tanto para pessoas físicas quanto jurídicas</small></h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="fullscreen-link">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                           <div class="row clearfix">
+                                <br>
                             <div class="col-md-12 column">
                                 <section>
                                     <a href="{{path('saveCGM')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Física</a>
                                     <a href="{{path('saveCGMPJuridica')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Jurídica</a><br /><br />
-                                    <div class="table-responsive no-padding">
-                                    <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Detalhe</th>
-                                                <th>Código</th>
-                                                <th>Nome</th>
-                                                <th>CPF/CNPJ</th>
-                                                <th>RG</th>
-                                                <th>CGM do município</th>
-                                                <th>Acão</th>
-                                            </tr>
-                                        </thead>
+                                    <div class="table table-responsive no-padding">
+                                        <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Detalhe</th>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>CPF/CNPJ</th>
+                                                    <th>RG</th>
+                                                    <th>CGM do município</th>
+                                                    <th>Acão</th>
+                                                </tr>
+                                            </thead>
 
-                                        <tfoot>
-                                            <tr>
-                                                <th>Detalhe</th>
-                                                <th>Código</th>
-                                                <th>Nome</th>
-                                                <th>CPF/CNPJ</th>
-                                                <th>RG</th>
-                                                <th>CGM do município</th>
-                                                <th>Acão</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Detalhe</th>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>CPF/CNPJ</th>
+                                                    <th>RG</th>
+                                                    <th>CGM do município</th>
+                                                    <th>Acão</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </section>
                             </div>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                    
-                </div><!-- /.box-footer-->
-            </div><!-- /.box -->
-
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0
+                           </div>
+                        </div>
+                        <div class="ibox-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <strong>Copyright &copy; 2015-2016 <a href="">Softage</a>.</strong> Todos os direitos reservados.
-    </footer>
+
+        {% include 'SaudeBundle:Default:rodape.html.twig' %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{parent()}}
-    <script type="text/javascript" src="{{asset('js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/dataTables.bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/plugins/jeditable/jquery.jeditable.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/plugins/dataTables/jquery.dataTables.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/plugins/dataTables/dataTables.bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/plugins/dataTables/dataTables.responsive.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/shCore.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/javax_faces.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">

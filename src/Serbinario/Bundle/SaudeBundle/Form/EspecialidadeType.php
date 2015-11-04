@@ -22,6 +22,7 @@ class EspecialidadeType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CBO',
                 'attr' => array(
                      'widget_col'=> '3',
+                    'class' => 'select2'
                     )
                 ))
             ->add('descricaoEspecialidade', 'text', array(
@@ -29,6 +30,7 @@ class EspecialidadeType extends AbstractType
                 'attr'  => array(
                     'placeholder' => 'Descrição da especialidade',
                     'widget_col'=> '6',
+                    
             )))
             ->add('actions', 'form_actions', [
                 'buttons' => [

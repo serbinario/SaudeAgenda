@@ -2,18 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
             <link rel="stylesheet" href="{{asset('css/zabuto_calendar.min.css')}}" />
-            <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}" />
-            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            <!-- tamplate -->
+            <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.css')}}" />
+            
+            <!-- plugins -->
+            <link rel="stylesheet" href="{{asset('css/plugins/select2/select2.min.css')}}" />
+            
+            <link rel="stylesheet" href="{{asset('css/animate.css')}}" />
+            <link rel="stylesheet" href="{{asset('css/style.css')}}" />
 
             <!-- Ionicons -->
             <link href="{{ asset('css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}" />
             <link rel="stylesheet" href="{{asset('css/jquery.datetimepicker.css')}}" />
-            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />            
+            <link rel="stylesheet" href="{{asset('css/bootstrapValidator.min.css')}}" />
             <style type="text/css" rel="stylesheet">
                 {#input[type='text']{ text-transform: uppercase; }#}
 
@@ -21,232 +28,157 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body class="skin-blue-light sidebar-mini wysihtml5-supported">
-        <div class="wrapper ">
-            {% block body %}
-                <header class="main-header">
-                    <!-- Logo -->
-                    <a href="{{path('home')}}" class="logo">
-                        <!-- mini logo for sidebar mini 50x50 pixels -->
-                        <span class="logo-mini"><b>A</b>MD</span>
-                        {#<span class="logo-mini"><img style="margin-top: -7px; margin-left: -2px;" id="logo" src="/eEscola/web/imagens/logo_sistema_menu_sbl.png" class="" alt="Foto" /></span>#}
-                        <!-- logo for regular state and mobile devices -->
-                        <span class="logo-lg"><b>AGENDA</b> MÉDICA</span>
-                        {#<span class="logo-lg"><img style="margin-top: -7px;" id="logo" src="/eEscola/web/imagens/logo_sistema_menu.png" class="img-responsive" alt="Foto" /></span>#}
-                    </a>
-                    <!-- Header Navbar: style can be found in header.less -->
-                    <nav class="navbar navbar-static-top" role="navigation">
-                        <!-- Sidebar toggle button-->
-                        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </a>
-                        <div class="navbar-custom-menu">
-                            <ul class="nav navbar-nav">
 
-                                <!-- User Account: style can be found in dropdown.less -->
-                                <li class="dropdown user user-menu">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        {% if  app.security.getToken().getUser().getFoto() != null %}
-                                            <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" class="user-image" alt="User Image"/>
-                                        {% else %}
-                                            <img src="img/avata2.jpg" class="user-image" alt="User Image"/>
-                                        {% endif %}
-                                        <span class="hidden-xs">{{ app.security.getToken().getUser().getCgm().getNome() }}</span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <!-- User image -->
-                                        <li class="user-header">
-                                            {% if  app.security.getToken().getUser().getFoto() != null %}
-                                                <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" class="img-circle" alt="User Image"/>
-                                            {% else %}
-                                                <img src="img/avata2.jpg" class="img-circle" alt="User Image"/>
-                                            {% endif %}                                            
-                                            <p>
-                                                {{ app.security.getToken().getUser().getCgm().getNome() }}
-                                            </p>
-                                        </li>
-                                        <!-- Menu Footer-->
-                                        <li class="user-footer">
-                                            <div class="pull-right">
-                                                <a href="{{path('logout')}}" class="btn btn-default btn-flat">Sair</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
+    <body>
+        <div id="wrapper ">
+        {% block body %}
+            {#  Menu lateral  #}
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element">
+                                <span>
+                                    {% if  app.security.getToken().getUser().getFoto() != null %}
+                                        <img alt="image" class="img-circle" style="width: 48px; height: 48px;" src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" />
+                                    {% else %}
+                                        <img src="{{asset('img/profile_small.jpg')}}" class="img-circle" alt="User Image"/>
+                                    {% endif %}
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.security.getToken().getUser().getCgm().getNome() }}</strong>
+                                        </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="{{path('home')}}">Home</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{path('logout')}}">Sair</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                <span><b>A</b>MD</span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Cadastros</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')  
+                                        or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')
+                                        or is_granted('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR')
+                                        or is_granted('ROLE_AGENDAMENTO_MEDICO_DELETAR')%}
+                                    <li><a href="{{path('gridMedico')}}">Especialista</a></li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')                                           
+                                        or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')%}
+                                    <li><a href="{{ path('gridAgendaMedico') }}">Agenda Médico</a></li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')  
+                                        or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')
+                                        or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR')
+                                        or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')%}
+                                    <li><a href="{{path('gridEspecialidade')}}">Especialidade</a></li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR')  
+                                        or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_ALTERAR')
+                                        or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR')
+                                        or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')%}
+                                    <li><a href="{{path('gridLocalidade')}}">Localidade</a></li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_PSF_CADASTRAR')  
+                                        or is_granted('ROLE_AGENDAMENTO_PSF_ALTERAR')
+                                        or is_granted('ROLE_AGENDAMENTO_PSF_VISUALIZAR')
+                                        or is_granted('ROLE_AGENDAMENTO_PSF_DELETAR')%}                                      
+                                    <li><a href="{{path('gridPsf')}}">Postos de Saúde</a></li>
+                                {% endif %}
                             </ul>
-                        </div>
-                    </nav>
-                </header>
-
-                <aside class="main-sidebar">
-                    <!-- sidebar: style can be found in sidebar.less -->
-                    <section class="sidebar ">
-                        <!-- Sidebar user panel -->
-                        <div class="user-panel">
-                            <div class="pull-left image">
-                                {% if  app.security.getToken().getUser().getFoto() != null %}
-                                    <img src="{{ asset(app.security.getToken().getUser().getFoto().getWebPath()) }}" width="160" height="160" class="img-circle" alt="User Image"/>
-                                {% else %}
-                                    <img src="img/avata2.jpg" class="img-circle" width="160" height="160" alt="User Image"/>
-                                {% endif %}                            
-                            </div>
-                            <div class="pull-left info">
-                                <p>{{ app.security.getToken().getUser().getCgm().getNome() }}</p>
-
-                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                            </div>
-                        </div>
-                        <!-- /.search form -->
-                        <!-- sidebar menu: : style can be found in sidebar.less -->
-                        <ul class="sidebar-menu">
-                            <li class="header">MENU DE NAVEGAÇÃO</li>
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-users"></i> <span>Cadastros</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')  
-                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')
-                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR')
-                                                or is_granted('ROLE_AGENDAMENTO_MEDICO_DELETAR')%}
-                                            <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Especialista<i class="fa fa-angle-left pull-right"></i></a>
-                                        {% endif %}
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')                                           
-                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')%}
-                                            <a href="{{ path('gridAgendaMedico') }}"><i class="fa fa-circle-o text-aqua"></i> Agenda Médico<i class="fa fa-angle-left pull-right"></i></a>
-                                        {% endif %} 
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')  
-                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_ALTERAR')
-                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR')
-                                                or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')%}
-                                            <a href="{{path('gridEspecialidade')}}"><i class="fa fa-circle-o text-aqua"></i> Especialidade<i class="fa fa-angle-left pull-right"></i></a>
-                                        {% endif %}
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR')  
-                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_ALTERAR')
-                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR')
-                                                or is_granted('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')%}
-                                            <a href="{{path('gridLocalidade')}}"><i class="fa fa-circle-o text-aqua"></i> Localidade<i class="fa fa-angle-left pull-right"></i></a>
-                                        {% endif %} 
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_PSF_CADASTRAR')  
-                                                or is_granted('ROLE_AGENDAMENTO_PSF_ALTERAR')
-                                                or is_granted('ROLE_AGENDAMENTO_PSF_VISUALIZAR')
-                                                or is_granted('ROLE_AGENDAMENTO_PSF_DELETAR')%}
-                                            <a href="{{path('gridPsf')}}"><i class="fa fa-circle-o text-aqua"></i> Postos de Saúde<i class="fa fa-angle-left pull-right"></i></a>                                       
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-file-text-o"></i> <span>Consuta</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    {#<li><a href="#"><i class="fa fa-circle-o text-red"></i> Level One</a></li>#}
-                                    <li>
-                                        {% if is_granted('ROLE_ADMIN') 
-                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
-                                                or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
-                                        <a href="{{path('agendamento')}}"><i class="fa fa-circle-o text-aqua"></i> Agendamento<i class="fa fa-angle-left pull-right"></i></a>
-                                        {% endif %}
-                                        {#<ul class="treeview-menu">
-                                                <li><a href="{{path('telaRelatorioTransferencia')}}"><i class="fa fa-circle-o text-yellow"></i>Transferência</a></li>
-                                                <li><a href="{{path('telaRelatorioSituacaoMatricula')}}"><i class="fa fa-circle-o text-yellow"></i>Situação Matrícula</a></li>
-                                            </ul>#}
-                                    </li>
-                                </ul>
-                            </li>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> <span>Administrador</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="{{path('gridUser')}}"><i class="fa fa-circle-o text-yellow"></i>Usuários</a></li>
-                                    </ul>
-                                    <ul class="treeview-menu">
-                                        <li><a href="{{path('consultaCGM')}}"><i class="fa fa-circle-o text-yellow"></i>CGM</a></li>
-                                    </ul>
-                                </li>
-                            {% endif %}
-                            {% if is_granted('ROLE_DEV') %}
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> <span>Desenvolvedor</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="{{path('gridProjetos')}}"><i class="fa fa-circle-o text-yellow"></i>Projetos</a></li>
-                                        <li><a href="{{path('gridAplicacao')}}"><i class="fa fa-circle-o text-yellow"></i>Aplicações</a></li>
-                                        <li><a href="{{path('gridPermissao')}}"><i class="fa fa-circle-o text-yellow"></i>Permissões</a></li>
-                                        <li><a href="{{path('gridPerfil')}}"><i class="fa fa-circle-o text-yellow"></i>Perfís</a></li>
-                                    </ul>
-                                </li>
-                            {% endif %}
-                            {#<li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-user"></i> <span>Usuários</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="{{path('viewSaveUser')}}"><i class="fa fa-circle-o text-yellow"></i>Cadastrar</a></li>
-                                </ul>
-                            </li>#}
-                        </ul>
-                    </section>
-                    <!-- /.sidebar -->
-                </aside>
-            {% endblock %}
-            {% block javascripts %}
-                <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-
-                <!-- Include all JavaScripts, compiled by Assetic -->
-                <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
-                <script type="text/javascript" src="{{asset('js/bootstrap3-typeahead.js')}}"></script>
-                <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
-
-                <!-- include form validation  -->
-                <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
-                <script type="text/javascript" src="{{asset('js/bootstrapValidator.min.js')}}"></script>
-                <script type="text/javascript" src="{{asset('js/jquery.datetimepicker.js')}}"></script>
-                <script src="{{ asset('js/fastclick.min.js') }}"></script>
-                <script src="{{ asset('js/app.min.js') }}"></script>
-                <script type="text/javascript" >
-                    $(document).ready(function () {
-                        $('.datepicker').datetimepicker({
-                            format: 'd/m/Y H:i',
-                            mask: false,
-                            lang: 'pt-BR'
-                        });
-
-                        $('.datenottime').datetimepicker({
-                            format: 'd/m/Y',
-                            mask: false,
-                            timepicker: false,
-                            lang: 'pt-BR'
-                        });
-
-                        $('.timepicker').datetimepicker({
-                            format: 'H:i:s',
-                            datepicker: false,
-                            timepicker: false,
-                            mask: true,
-                            lang: 'pt-BR'
-                        });
-                    });
-                </script>
-            {% endblock %}
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                {% if is_granted('ROLE_ADMIN') 
+                                        or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
+                                        or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
+                                <li><a href="{{path('agendamento')}}">Agendamento</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Administrador</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="{{path('gridUser')}}">Usuários</a></li>
+                                <li><a href="{{path('consultaCGM')}}">CGM</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_DEV') %}
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Desenvolvedor</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="{{path('gridProjetos')}}">Projetos</a></li>
+                                <li><a href="{{path('gridAplicacao')}}">Aplicações</a></li>
+                                <li><a href="{{path('gridPermissao')}}">Permissões</a></li>
+                                <li><a href="{{path('gridPerfil')}}">Perfís</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
         </div>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+
+            <!-- Include all JavaScripts, compiled by Assetic -->
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/inspinia.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/plugins/pace/pace.min.js')}}"></script>
+            
+            <!-- plugins -->
+            <script type="text/javascript" src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
+            
+            <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
+
+            <!-- include form validation  -->
+            <script type="text/javascript" src="{{asset('js/bootstrapValidator.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/jquery.datetimepicker.js')}}"></script>
+            <script src="{{ asset('js/fastclick.min.js') }}"></script>
+            <script type="text/javascript" >
+                $(document).ready(function () {
+                    $('.datepicker').datetimepicker({
+                        format: 'd/m/Y H:i',
+                        mask: false,
+                        lang: 'pt-BR'
+                    });
+
+                    $('.datenottime').datetimepicker({
+                        format: 'd/m/Y',
+                        mask: false,
+                        timepicker: false,
+                        lang: 'pt-BR'
+                    });
+
+                    $('.timepicker').datetimepicker({
+                        format: 'H:i:s',
+                        datepicker: false,
+                        timepicker: false,
+                        mask: true,
+                        lang: 'pt-BR'
+                    });
+                    
+                    // Add slimscroll to element
+                    $('.scroll_content').slimscroll({
+                        height: '200px'
+                    })
+                });
+            </script>
+        {% endblock %}
     </body>
 </html>

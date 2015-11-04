@@ -3,108 +3,122 @@
 {% block body  %}
     {{parent()}}
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                CGM (CADASTRO GERAL MUNICIPAL)
-                {#<small>it all starts here</small>#}
-            </h1>     
-        </section>
+    <div id="page-wrapper" class="gray-bg">
 
-        <!-- Main content -->
-        <section class="content">
-            {% for label, flashes in app.session.flashbag.all %}
-                {% for flash in flashes %}
-                    <div class="alert alert-{{ label }} alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4>Alerta!</h4>
-                        {{ flash }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            <!-- Default box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">CGM - Pessoa Física</h3>
-                    {#<div class="box-tools pull-right">
-                      <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    </div>#}
-                </div>
-                {{ form_start(form, { 'style': 'horizontal', 'id' : 'formInstituicao'}) }}
-                <div class="box-body">
-                    <div class="nav-tabs-custom">
-                        <ul class="nav nav-tabs">
-                            <li role="presentation"class="active">
-                                <a href="#dadosPessoais"aria-controls="dadosPessoais"role="tab"data-toggle="tab">
-                                    Informações básicas</a >
-                            </li >
-                            <li role="presentation">
-                                <a href="#dadosComplementares"aria-controls="dadosComplementares"role="tab"data-toggle="tab">
-                                    Documentação</a >
-                            </li >
-                            <li role="presentation">
-                                <a href="#endereco"aria-controls="endereco"role="tab"data-toggle="tab">
-                                    Endereço</a >
-                            </li >
-                        </ul >
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active"id="dadosPessoais">
-                                <br />
-                                {{ form_row(form.nome) }}
-                                {{ form_row(form.sexoSexo) }}
-                                {{ form_row(form.dataNascimento) }}
-                                {{ form_row(form.dataFalecimento) }}
-                                {{ form_row(form.nacionalidade) }}
-                                {{ form_row(form.naturalidade) }}
-                                {{ form_row(form.inscricaoEstadual) }}
-                                {{ form_row(form.CGMMunicipio) }}
-                                {{ form_row(form.telefones) }}
-                                {{ form_row(form.email) }}
-                                {{ form_row(form.foto) }}
-                            </div>    
-                            <div class="tab-pane fade"id="dadosComplementares">
-                                <br />
-                                {{ form_row(form.pai) }}
-                                {{ form_row(form.mae) }}
-                                {{ form_row(form.estadoCivil) }}
-                                {{ form_row(form.escolaridade) }}
-                                {{ form_row(form.CpfCnpj) }}
-                                {{ form_row(form.rg) }}
-                                {{ form_row(form.orgaoEmissor) }}
-                                {{ form_row(form.dataExpedicao) }}
-                                {{ form_row(form.numCNH) }}
-                                {{ form_row(form.vencimentoCNH) }}
-                                {{ form_row(form.ctgCNH) }}
+        {% include 'SaudeBundle:Default:menu_topo.html.twig' %}
+
+        {# título da página  #}
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>CGM (CADASTRO GERAL MUNICIPAL)</h2>
+                {#<ol class="breadcrumb">
+                    <li>
+                        <a href="index.html">This is</a>
+                    </li>
+                    <li class="active">
+                        <strong>Breadcrumb</strong>
+                    </li>
+                </ol>#}
+            </div>
+        </div>
+
+        {# Conteúdo principal   #}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }} alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4>Alerta!</h4>
+                                {{ flash }}
                             </div>
-                            <div class="tab-pane fade"  id="endereco">
-                                <br />
-                                {{ form_row(form.endereco.logradouro) }}
-                                {{ form_row(form.endereco.numero) }}
-                                {{ form_row(form.endereco.comp) }}
-                                {{ form_row(form.endereco.cep) }}
-                                {{ form_row(form.endereco.bairro) }}
-                                {{ form_row(form.endereco.cidade) }}
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>CGM - Pessoa Física</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="fullscreen-link">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
                             </div>
                         </div>
+                        {{ form_start(form, { 'style': 'horizontal', 'id' : 'formInstituicao'}) }}
+                        <div class="ibox-content">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation"class="active">
+                                        <a href="#dadosPessoais"aria-controls="dadosPessoais"role="tab"data-toggle="tab">
+                                            Informações básicas</a >
+                                    </li >
+                                    <li role="presentation">
+                                        <a href="#dadosComplementares"aria-controls="dadosComplementares"role="tab"data-toggle="tab">
+                                            Documentação</a >
+                                    </li >
+                                    <li role="presentation">
+                                        <a href="#endereco"aria-controls="endereco"role="tab"data-toggle="tab">
+                                            Endereço</a >
+                                    </li >
+                                </ul >
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active"id="dadosPessoais">
+                                        <br />
+                                        {{ form_row(form.nome) }}
+                                        {{ form_row(form.sexoSexo) }}
+                                        {{ form_row(form.dataNascimento) }}
+                                        {{ form_row(form.dataFalecimento) }}
+                                        {{ form_row(form.nacionalidade) }}
+                                        {{ form_row(form.naturalidade) }}
+                                        {{ form_row(form.inscricaoEstadual) }}
+                                        {{ form_row(form.CGMMunicipio) }}
+                                        {{ form_row(form.telefones) }}
+                                        {{ form_row(form.email) }}
+                                        {{ form_row(form.foto) }}
+                                    </div>    
+                                    <div class="tab-pane fade"id="dadosComplementares">
+                                        <br />
+                                        {{ form_row(form.pai) }}
+                                        {{ form_row(form.mae) }}
+                                        {{ form_row(form.estadoCivil) }}
+                                        {{ form_row(form.escolaridade) }}
+                                        {{ form_row(form.CpfCnpj) }}
+                                        {{ form_row(form.rg) }}
+                                        {{ form_row(form.orgaoEmissor) }}
+                                        {{ form_row(form.dataExpedicao) }}
+                                        {{ form_row(form.numCNH) }}
+                                        {{ form_row(form.vencimentoCNH) }}
+                                        {{ form_row(form.ctgCNH) }}
+                                    </div>
+                                    <div class="tab-pane fade"  id="endereco">
+                                        <br />
+                                        {{ form_row(form.endereco.logradouro) }}
+                                        {{ form_row(form.endereco.numero) }}
+                                        {{ form_row(form.endereco.comp) }}
+                                        {{ form_row(form.endereco.cep) }}
+                                        {{ form_row(form.endereco.bairro) }}
+                                        {{ form_row(form.endereco.cidade) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-footer">
+                            {{ form_row(form.actions) }}
+                        </div>
+                        {{ form_end(form) }}
                     </div>
-                </div><!-- /.box-body -->
-
-                <div class="box-footer">
-                    {{ form_row(form.actions) }}
-                </div><!-- /.box-footer-->
-                {{ form_end(form) }}
-            </div><!-- /.box -->
-
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0
+                </div>
+            </div>
         </div>
-        <strong>Copyright &copy; <a href="">Serbinário</a>.</strong> Todos os direitos reservados.
-    </footer>
+
+        {% include 'SaudeBundle:Default:rodape.html.twig' %}
+    </div>
 {% endblock %}
 {% block javascripts %}
     {{parent()}}

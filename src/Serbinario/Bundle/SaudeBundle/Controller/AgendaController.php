@@ -361,7 +361,7 @@ class AgendaController extends Controller {
         
         #Excluindo
         $result     = $calendarioRN->remove($objCalendario);
-        
+      
         #Retorno
         return $result;
     }

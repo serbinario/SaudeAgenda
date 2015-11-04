@@ -14,11 +14,20 @@ class EspecialidadeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nomeEspecialidade', 'text', array(
-                'label' => 'Nome ',           
+        $builder            
+            ->add('cbo', 'entity', array(
+                'label'        => 'CBO: ',
+                'required'     => false,
+                'empty_value' => "Selecione o CBO",
+                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CBO',
+                'attr' => array(
+                     'widget_col'=> '3',
+                    )
+                ))
+            ->add('descricaoEspecialidade', 'text', array(
+                'label' => 'Descrição: ',           
                 'attr'  => array(
-                    'placeholder' => 'Nome',
+                    'placeholder' => 'Descrição da especialidade',
                     'widget_col'=> '6',
             )))
             ->add('actions', 'form_actions', [

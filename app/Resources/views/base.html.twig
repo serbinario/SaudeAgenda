@@ -115,7 +115,7 @@
                                                 or is_granted('ROLE_AGENDAMENTO_MEDICO_ALTERAR')
                                                 or is_granted('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR')
                                                 or is_granted('ROLE_AGENDAMENTO_MEDICO_DELETAR')%}
-                                            <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Médico<i class="fa fa-angle-left pull-right"></i></a>
+                                            <a href="{{path('gridMedico')}}"><i class="fa fa-circle-o text-aqua"></i> Especialista<i class="fa fa-angle-left pull-right"></i></a>
                                         {% endif %}
                                         {% if is_granted('ROLE_ADMIN') 
                                                 or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')                                           

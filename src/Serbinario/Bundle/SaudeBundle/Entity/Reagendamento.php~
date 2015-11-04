@@ -49,4 +49,83 @@ class Reagendamento
     private $consultaConsultaRemarcado;
 
 
+
+    /**
+     * Get idReagendamento
+     *
+     * @return integer 
+     */
+    public function getIdReagendamento()
+    {
+        return $this->idReagendamento;
+    }
+
+    /**
+     * Set observacaoReagendamento
+     *
+     * @param string $observacaoReagendamento
+     * @return Reagendamento
+     */
+    public function setObservacaoReagendamento($observacaoReagendamento)
+    {
+        $this->observacaoReagendamento = $observacaoReagendamento;
+
+        return $this;
+    }
+
+    /**
+     * Get observacaoReagendamento
+     *
+     * @return string 
+     */
+    public function getObservacaoReagendamento()
+    {
+        return $this->observacaoReagendamento;
+    }
+
+    /**
+     * Set consultaConsultaAdiado
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $consultaConsultaAdiado
+     * @return Reagendamento
+     */
+    public function setConsultaConsultaAdiado(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $consultaConsultaAdiado = null)
+    {
+        $this->consultaConsultaAdiado = $consultaConsultaAdiado;
+
+        return $this;
+    }
+
+    /**
+     * Get consultaConsultaAdiado
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Agendamento 
+     */
+    public function getConsultaConsultaAdiado()
+    {
+        return $this->consultaConsultaAdiado;
+    }
+
+    /**
+     * Set consultaConsultaRemarcado
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $consultaConsultaRemarcado
+     * @return Reagendamento
+     */
+    public function setConsultaConsultaRemarcado(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $consultaConsultaRemarcado = null)
+    {
+        $this->consultaConsultaRemarcado = $consultaConsultaRemarcado;
+
+        return $this;
+    }
+
+    /**
+     * Get consultaConsultaRemarcado
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Agendamento 
+     */
+    public function getConsultaConsultaRemarcado()
+    {
+        return $this->consultaConsultaRemarcado;
+    }
 }

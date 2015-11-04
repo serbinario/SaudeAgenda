@@ -29,16 +29,16 @@ class Eventos
     private $title;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="start", type="datetime", nullable=true)
+     * @ORM\Column(name="start", type="date", nullable=true)
      */
     private $start;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="end", type="datetime", nullable=true)
+     * @ORM\Column(name="end", type="date", nullable=true)
      */
     private $end;
 
@@ -53,4 +53,106 @@ class Eventos
     private $idAgendamento;
 
 
+
+    /**
+     * Get idEventos
+     *
+     * @return integer 
+     */
+    public function getIdEventos()
+    {
+        return $this->idEventos;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Eventos
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set start
+     *
+     * @param \DateTime $start
+     * @return Eventos
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return \DateTime 
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     * @return Eventos
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return \DateTime 
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /**
+     * Set idAgendamento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $idAgendamento
+     * @return Eventos
+     */
+    public function setIdAgendamento(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $idAgendamento = null)
+    {
+        $this->idAgendamento = $idAgendamento;
+
+        return $this;
+    }
+
+    /**
+     * Get idAgendamento
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Agendamento 
+     */
+    public function getIdAgendamento()
+    {
+        return $this->idAgendamento;
+    }
 }

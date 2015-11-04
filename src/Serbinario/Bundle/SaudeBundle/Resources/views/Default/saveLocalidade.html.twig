@@ -52,8 +52,44 @@
 {% endblock %}
 {% block javascripts %}     
     {{ parent() }}
+
     <script type="text/javascript" language="javascript" class="init">
-        $("#saudebundle_localidade_actions_voltar").click(function() {
+
+        $(document).on('click', '#saudebundle_localidade_actions_save', function (event) {
+            var nomelocal = $("#saudebundle_localidade_nomeLocalidade").val();            
+            
+            $.ajax({
+                url: "{{ path('validateNomeLocalidade') }}", //URL solicitada
+                dataType: "JSON", //Tipo de dado de transfência
+                method: "POST",
+                data: {"nome": nomelocal},
+                success: function (data) {                                      
+                    if (data) {                        
+                        var html = '<span id="helpBlock2" class="help-block">ESTA LOCALIDADE JÁ ESTÁ CADASTRADA.</span>';
+                        $("#saudebundle_localidade_nomeLocalidade").parent().removeClass("has-success");
+                        $("#saudebundle_localidade_nomeLocalidade").parent().addClass("has-error");
+                        $("#helpBlock2").remove();
+                        $("#saudebundle_localidade_nomeLocalidade").parent().append(html);
+                        $("#saudebundle_localidade_nomeLocalidade").focus();                   
+                    } else {
+                        $("#formulario").submit();
+                    }
+                    {#else {
+                        var html = '<span id="helpBlock2" class="help-block">LOCALIDADE VÁLIDA.</span>';
+                        $("#saudebundle_localidade_nomeLocalidade").parent().removeClass("has-error");
+                        $("#saudebundle_localidade_nomeLocalidade").parent().addClass("has-success");
+                        $("#helpBlock2").remove();
+                        $("#saudebundle_localidade_nomeLocalidade").parent().append(html);                        
+                    }#}
+                }
+            }); 
+            
+            return false;
+           
+        });
+
+
+        $("#saudebundle_localidade_actions_voltar").click(function () {
             javascript:history.back();
         });
     </script>

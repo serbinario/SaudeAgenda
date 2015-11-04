@@ -1,0 +1,129 @@
+<?php
+
+namespace Serbinario\Bundle\SaudeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Calendario
+ *
+ * @ORM\Table(name="qtd_default")
+ * @ORM\Entity
+ */
+class QtdDefault 
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_qtd_default", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idQtdDefault;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="qtd_default", type="integer", nullable=false)
+     */
+    private $qtdDefault;
+    
+    /**
+     * @var \Medico
+     *
+     * @ORM\ManyToOne(targetEntity="Medico", inversedBy="qtdDefaults")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="medico_id", referencedColumnName="id_medico")
+     * })
+     */
+    private $medico;
+    
+    /**
+     * @var \Psf
+     *
+     * @ORM\ManyToOne(targetEntity="Psf", inversedBy="qtdDefaults")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="psf_id", referencedColumnName="id_psf")
+     * })
+     */
+    private $psf;
+
+    /**
+     * Get idQtdDefault
+     *
+     * @return integer 
+     */
+    public function getIdQtdDefault()
+    {
+        return $this->idQtdDefault;
+    }
+
+    /**
+     * Set qtdDefault
+     *
+     * @param integer $qtdDefault
+     * @return QtdDefault
+     */
+    public function setQtdDefault($qtdDefault)
+    {
+        $this->qtdDefault = $qtdDefault;
+
+        return $this;
+    }
+
+    /**
+     * Get qtdDefault
+     *
+     * @return integer 
+     */
+    public function getQtdDefault()
+    {
+        return $this->qtdDefault;
+    }
+
+    /**
+     * Set medico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medico
+     * @return QtdDefault
+     */
+    public function setMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medico = null)
+    {
+        $this->medico = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Get medico
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Medico 
+     */
+    public function getMedico()
+    {
+        return $this->medico;
+    }
+
+    /**
+     * Set psf
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Psf $psf
+     * @return QtdDefault
+     */
+    public function setPsf(\Serbinario\Bundle\SaudeBundle\Entity\Psf $psf = null)
+    {
+        $this->psf = $psf;
+
+        return $this;
+    }
+
+    /**
+     * Get psf
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Psf 
+     */
+    public function getPsf()
+    {
+        return $this->psf;
+    }
+}

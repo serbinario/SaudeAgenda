@@ -83,4 +83,17 @@ class PsfRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @param type $idPsf
+     * @return type
+     */
+    public function deleleNotId($idPsf, $id = array())
+    {
+        $result = $this->psfDAO->deleleNotId($idPsf, $id);
+        
+        return $result;
+    }
 }

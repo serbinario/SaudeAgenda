@@ -68,4 +68,27 @@ class Paciente
     {
         return $this->nomePaciente;
     }
+
+    /**
+     * Set cgm
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm
+     * @return Paciente
+     */
+    public function setCgm(\Serbinario\Bundle\SaudeBundle\Entity\CGM $cgm = null)
+    {
+        $this->cgm = $cgm;
+
+        return $this;
+    }
+
+    /**
+     * Get cgm
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CGM 
+     */
+    public function getCgm()
+    {
+        return $this->cgm;
+    }
 }

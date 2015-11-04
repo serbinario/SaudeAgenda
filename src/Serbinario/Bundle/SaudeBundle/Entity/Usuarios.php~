@@ -46,4 +46,83 @@ class Usuarios
     private $psfPsf;
 
 
+
+    /**
+     * Get idUsuarios
+     *
+     * @return integer 
+     */
+    public function getIdUsuarios()
+    {
+        return $this->idUsuarios;
+    }
+
+    /**
+     * Set loginUsuarios
+     *
+     * @param string $loginUsuarios
+     * @return Usuarios
+     */
+    public function setLoginUsuarios($loginUsuarios)
+    {
+        $this->loginUsuarios = $loginUsuarios;
+
+        return $this;
+    }
+
+    /**
+     * Get loginUsuarios
+     *
+     * @return string 
+     */
+    public function getLoginUsuarios()
+    {
+        return $this->loginUsuarios;
+    }
+
+    /**
+     * Set senhaUsuarios
+     *
+     * @param string $senhaUsuarios
+     * @return Usuarios
+     */
+    public function setSenhaUsuarios($senhaUsuarios)
+    {
+        $this->senhaUsuarios = $senhaUsuarios;
+
+        return $this;
+    }
+
+    /**
+     * Get senhaUsuarios
+     *
+     * @return string 
+     */
+    public function getSenhaUsuarios()
+    {
+        return $this->senhaUsuarios;
+    }
+
+    /**
+     * Set psfPsf
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Psf $psfPsf
+     * @return Usuarios
+     */
+    public function setPsfPsf(\Serbinario\Bundle\SaudeBundle\Entity\Psf $psfPsf = null)
+    {
+        $this->psfPsf = $psfPsf;
+
+        return $this;
+    }
+
+    /**
+     * Get psfPsf
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Psf 
+     */
+    public function getPsfPsf()
+    {
+        return $this->psfPsf;
+    }
 }

@@ -76,8 +76,13 @@ class Calendario
      * })
      */
     private $medicoMedico;
-
-
+    
+    /**
+     * @var \QtdCalendario
+     * 
+     * @ORM\OneToMany(targetEntity="QtdCalendario", mappedBy="psf", cascade={"all"})
+     */
+    private $qtdCalendarios;
 
     /**
      * Get idCalendario
@@ -235,4 +240,44 @@ class Calendario
     }
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->qtdCalendarios = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add qtdCalendarios
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios
+     * @return Calendario
+     */
+    public function addQtdCalendario(\Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios)
+    {
+        $this->qtdCalendarios[] = $qtdCalendarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove qtdCalendarios
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios
+     */
+    public function removeQtdCalendario(\Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios)
+    {
+        $this->qtdCalendarios->removeElement($qtdCalendarios);
+    }
+
+    /**
+     * Get qtdCalendarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQtdCalendarios()
+    {
+        return $this->qtdCalendarios;
+    }
 }

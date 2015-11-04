@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class FotoMedico 
+class FotoCGM 
 {
     /**
      * @ORM\Id
@@ -38,14 +38,10 @@ class FotoMedico
     private $file;
     
     /**
-     * @var \Medico
-     *
-     * @ORM\OneToOne(targetEntity="Medico", inversedBy="foto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_medico", referencedColumnName="id_medico")
-     * })
-     */
-    private $medico;
+     * @ORM\OneToOne(targetEntity="CGM", inversedBy="foto")
+     * @ORM\JoinColumn(name="id_cgm", referencedColumnName="id_cgm", unique=false)
+     **/
+    private $cgm;
     
     /**
      * Get id
@@ -230,16 +226,16 @@ class FotoMedico
      * 
      * @return type
      */
-    function getMedico() {
-        return $this->medico;
+    function getCgm() {
+        return $this->cgm;
     }
     
     /**
      * 
-     * @param type $medico
+     * @param type $cgm
      */
-    function setMedico($medico) {
-        $this->medico = $medico;
+    function setCgm($cgm) {
+        $this->cgm = $cgm;
     }
 
 }

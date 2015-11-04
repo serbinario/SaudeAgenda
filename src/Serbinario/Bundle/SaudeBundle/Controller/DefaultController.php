@@ -106,13 +106,10 @@ class DefaultController extends Controller
                 } else {
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado médico');
-                }                
+                }
                 
-                #Criando o formulário
-                $form = $this->createForm(new MedicoType());
-               
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridMedico");
             } else {
                 #Messagem de retorno
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
@@ -135,10 +132,10 @@ class DefaultController extends Controller
             $columns = array("a.idMedico",
                 "c.nome",
                 "a.emailMedico",
-                "b.nomeEspecialidade"
+                "d.descricao"
                 );
 
-            $entityJOIN           = array("especialidadeEspecialidade", "cgm");             
+            $entityJOIN           = array("especialidadeEspecialidade", "cgm", "b.cbo");             
             $radiosArray          = array();
             $parametros           = $request->request->all();            
             
@@ -166,7 +163,7 @@ class DefaultController extends Controller
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdMedico();
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getCgm()->getNome();
                 $radiosArray[$i]['email']           = $resultRadios[$i]->getEmailMedico();
-                $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getNomeEspecialidade();
+                $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getCbo()->getDescricao();
 
             }
 
@@ -262,7 +259,7 @@ class DefaultController extends Controller
                 }
                
                 #Retorno
-                return array("form" => $form->createView(), "logo" => $medico->getFoto());
+                return $this->redirectToRoute("gridMedico");
             } else {
                 $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
             }
@@ -301,12 +298,12 @@ class DefaultController extends Controller
      * @Template()
      */
     public function saveEspecialidadeAction(Request $request)
-    {        
+    {    
         #Criando o formulário
         $form    = $this->createForm(new EspecialidadeType());
         
         #Recuperando o serviço do container
-        $especialidadeRN = $this->get('especialidade_rn');
+        $especialidadeRN = $this->get('especialidade_rn');            
         
          #Verficando se é uma submissão
         if($request->getMethod() === "POST") {
@@ -354,10 +351,10 @@ class DefaultController extends Controller
         if(GridClass::isAjax()) {
             
             $columns = array("a.idEspecialidade",
-                "a.nomeEspecialidade",
+                "b.descricao",
                 );
 
-            $entityJOIN           = array();             
+            $entityJOIN           = array("cbo");             
             $radiosArray          = array();
             $parametros           = $request->request->all();            
             
@@ -383,7 +380,7 @@ class DefaultController extends Controller
             {
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdEspecialidade();
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdEspecialidade();
-                $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomeEspecialidade();
+                $radiosArray[$i]['nome']            = $resultRadios[$i]->getCbo()->getDescricao();
 
             }
 
@@ -519,12 +516,9 @@ class DefaultController extends Controller
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado a localidade');
                 }                
-                
-                #Criando o formulário
-                $form = $this->createForm(new LocalidadeType());
-               
+                            
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridLocalidade");
             } else {
                 #Messagem de retorno
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
@@ -603,7 +597,7 @@ class DefaultController extends Controller
     public function editLocalidadeAction(Request $request, $id)
     {     
         #Recuperando o serviço do modelo
-        $localidadeRN = $this->get("localidade_rn");
+        $localidadeRN = $this->get("localidade_rn");      
         
         #Criando o formulário
         $form = $this->createForm(new LocalidadeType());
@@ -638,7 +632,7 @@ class DefaultController extends Controller
                 }
                
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridLocalidade");
             } else {
                 $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
             }
@@ -655,10 +649,10 @@ class DefaultController extends Controller
     public function savePsfAction(Request $request)
     {        
         #Criando o formulário
-        $form    = $this->createForm(new PsfType());
+        $form = $this->createForm(new PsfType());       
         
         #Recuperando o serviço do container
-        $psfRN = $this->get('psf_rn');
+        $psfRN    = $this->get('psf_rn');        
         
          #Verficando se é uma submissão
         if($request->getMethod() === "POST") {
@@ -679,13 +673,10 @@ class DefaultController extends Controller
                 } else {
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado o posto');
-                }                
+                }             
                 
-                #Criando o formulário
-                $form = $this->createForm(new PsfType());
-               
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridPsf");
             } else {
                 #Messagem de retorno
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
@@ -773,10 +764,10 @@ class DefaultController extends Controller
             #Recupera o candidato selecionado
             $psfRecuperada = $psfRN->findId($id);
         }
-               
+             //var_dump($psfRecuperada);exit; 
         #Preenche o formulário com os dados do candidato
         $form->setData($psfRecuperada);
-        
+         
         #Verficando se é uma submissão
         if($request->getMethod() === "POST") {
                       
@@ -786,7 +777,15 @@ class DefaultController extends Controller
             #Verifica se os dados são válidos
             if($form->isValid()) {
                 #Recuperando os dados
-                $psf = $form->getData();               
+                $psf = $form->getData();   
+                
+                //Trantando qtdDefaults
+                $idQtdDefaults = array();
+                foreach ($psf->getQtdDefaults() as $qtdDefault) {
+                    $idQtdDefaults[] = $qtdDefault->getIdQtdDefault();
+                    $qtdDefault->setPsf($psf);
+                }
+                $psfRN->deleleNotId($psf->getIdPsf() ,$idQtdDefaults);
                                 
                 #Resultado da operação
                 $result =  $psfRN->update($psf);
@@ -799,7 +798,7 @@ class DefaultController extends Controller
                 }
                
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridPsf");
             } else {
                 $this->addFlash('warning', 'Há campos obrigatório que não foram preenchidos');
             }
@@ -807,6 +806,38 @@ class DefaultController extends Controller
         
         #Retorno
         return array("form" => $form->createView());
+    }
+    
+    /**
+     * @Route("/validateNomePsf", name="validateNomePsf")
+     */
+    public function validateNomePsfAction(Request $request)
+    {
+        #Manager do Doctrine
+        $manager = $this->getDoctrine()->getManager();
+        
+        #Recuperando os dados da requisição
+        $nome    = $request->request->get("nome");        
+        $result  = $manager->getRepository("SaudeBundle:Psf")->findBy(array("nomePsf" => $nome));
+        
+        #Retorno
+        return new JsonResponse($result ? true : false);
+    }
+    
+    /**
+     * @Route("/validateNomeLocalidade", name="validateNomeLocalidade")
+     */
+    public function validateNomeLocalidadeAction(Request $request)
+    {
+        #Manager do Doctrine
+        $manager = $this->getDoctrine()->getManager();
+        
+        #Recuperando os dados da requisição
+        $nome    = $request->request->get("nome");        
+        $result  = $manager->getRepository("SaudeBundle:Localidade")->findBy(array("nomeLocalidade" => $nome));
+        
+        #Retorno
+        return new JsonResponse($result ? true : false);
     }
     
 }

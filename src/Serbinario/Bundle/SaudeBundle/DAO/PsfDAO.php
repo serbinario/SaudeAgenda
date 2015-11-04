@@ -106,4 +106,38 @@ class PsfDAO
             return null;
         } 
     }
+    
+    /**
+     * 
+     * @param type $id
+     */
+    public function deleleNotId($idPsf, $id = array())
+    {
+        try {
+            $qb = $this-> manager->createQueryBuilder();
+            $qb->select('a');
+            $qb->from('SaudeBundle:QtdDefault', 'a');
+            $qb->join("a.psf", "b");
+            
+            if($id) {
+               $qb->where($qb->expr()->notIn("a.idQtdDefault", $id)); 
+            }
+            
+            $qb->andWhere($qb->expr()->eq("b.idPsf", $idPsf));
+            
+            $arrayResult = $qb->getQuery()->getResult();
+            
+            $this->manager->beginTransaction();
+            foreach($arrayResult as $result) {
+                $this->manager->remove($result);
+                $this->manager->flush();
+            }            
+            $this->manager->commit();
+            
+            return true;
+        } catch (Exception $ex) {
+            $this->manager->rollback();
+            return false;
+        }
+    }
 }

@@ -31,9 +31,33 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
-                    {{ form_row(form.nomePsf) }}
+                    {{ form_start(form, { 'style': 'horizontal' }) }}
+                    <div class="nav-tabs-custom">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" >                        
+                            <li role="presentation" class="active">
+                                <a href="#psf" aria-controls="psf" role="tab" data-toggle="tab">Dados Gerais</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#qtd_default" aria-controls="qtd_default" role="tab" data-toggle="tab">Quantidades Padrões por Especialista</a>
+                            </li>                            
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">  
+
+                            <div class="tab-pane active" id="psf">
+                                <br>                                
+                                {{ form_row(form.nomePsf) }}                                                         
+                            </div>
+                            <div class="tab-pane" id="qtd_default">
+                                <br>   
+                                {{ form_row(form.qtdDefaults)}}
+                            </div>
+                        </div>
+                    </div>
                     {{ form_end(form) }}
+
                 </div><!-- /.box-body -->
                 <div class="box-footer">
 
@@ -54,8 +78,34 @@
 {% block javascripts %}     
     {{ parent() }}
     <script type="text/javascript" language="javascript" class="init">
-        $("#saudebundle_psf_actions_voltar").click(function() {
+       {# $(document).on("focusout", "#saudebundle_psf_nomePsf", function (event) {
+            var nomePsf = $("#saudebundle_psf_nomePsf").val();
+            $.ajax({
+                url: "{{ path('validateNomePsf') }}", //URL solicitada
+                dataType: "JSON", //Tipo de dado de transfência
+                method: "POST",
+                data: {"nome" : nomePsf},
+                success: function (data) {
+                    if(data) {
+                        var html = '<span id="helpBlock2" class="help-block">ESTE POSTO JÁ ESTÁ CADASTRADO.</span>';
+                        $("#saudebundle_psf_nomePsf").parent().removeClass("has-success");
+                        $("#saudebundle_psf_nomePsf").parent().addClass("has-error");
+                        $("#helpBlock2").remove();
+                        $("#saudebundle_psf_nomePsf").parent().append(html);
+                    } else {
+                        var html = '<span id="helpBlock2" class="help-block">POSTO VÁLIDO.</span>';
+                        $("#saudebundle_psf_nomePsf").parent().removeClass("has-error");
+                        $("#saudebundle_psf_nomePsf").parent().addClass("has-success");
+                        $("#helpBlock2").remove();
+                        $("#saudebundle_psf_nomePsf").parent().append(html);
+                    }                    
+                }
+            });
+        });#}
+
+        $("#saudebundle_psf_actions_voltar").click(function () {
             javascript:history.back();
         });
     </script>
 {% endblock %}
+

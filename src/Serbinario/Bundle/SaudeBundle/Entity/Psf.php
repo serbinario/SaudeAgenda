@@ -27,7 +27,20 @@ class Psf
      * @ORM\Column(name="nome_psf", type="string", length=45, nullable=false)
      */
     private $nomePsf;
-
+    
+    /**
+     * @var \QtdCalendario
+     * 
+     * @ORM\OneToMany(targetEntity="QtdCalendario", mappedBy="psf", cascade={"all"})
+     */
+    private $qtdCalendarios;
+    
+    /**
+     * @var \QtdDefault
+     * 
+     * @ORM\OneToMany(targetEntity="QtdDefault", mappedBy="psf", cascade={"all"})
+     */
+    private $qtdDefaults;
 
 
     /**
@@ -70,5 +83,78 @@ class Psf
     public function __toString() 
     {
         return $this->nomePsf;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->qtdCalendarios = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add qtdCalendarios
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios
+     * @return Psf
+     */
+    public function addQtdCalendario(\Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios)
+    {
+        $this->qtdCalendarios[] = $qtdCalendarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove qtdCalendarios
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios
+     */
+    public function removeQtdCalendario(\Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios)
+    {
+        $this->qtdCalendarios->removeElement($qtdCalendarios);
+    }
+
+    /**
+     * Get qtdCalendarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQtdCalendarios()
+    {
+        return $this->qtdCalendarios;
+    }
+
+    /**
+     * Add qtdDefaults
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefaults
+     * @return Psf
+     */
+    public function addQtdDefault(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefaults)
+    {
+        $this->qtdDefaults[] = $qtdDefaults;
+
+        return $this;
+    }
+
+    /**
+     * Remove qtdDefaults
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefaults
+     */
+    public function removeQtdDefault(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefaults)
+    {
+        $this->qtdDefaults->removeElement($qtdDefaults);
+    }
+
+    /**
+     * Get qtdDefaults
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQtdDefaults()
+    {
+        return $this->qtdDefaults;
     }
 }

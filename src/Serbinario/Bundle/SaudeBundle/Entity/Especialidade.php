@@ -24,9 +24,20 @@ class Especialidade
     /**
      * @var string
      *
-     * @ORM\Column(name="nome_especialidade", type="string", length=50, nullable=false)
+     * @ORM\Column(name="descricao_especialidade", type="string", length=50, nullable=true)
      */
-    private $nomeEspecialidade;
+    private $descricaoEspecialidade;
+    
+    /**
+     *
+     * @var CBO
+     * 
+     * @ORM\ManyToOne("CBO")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn("cbo_id", referencedColumnName="codigo")
+     * })
+     */
+    private $cbo;
 
 
 
@@ -41,29 +52,58 @@ class Especialidade
     }
 
     /**
-     * Set nomeEspecialidade
+     * 
+     * @return type
+     */
+    public function __toString() 
+    {
+        return $this->cbo->getDescricao();
+    }
+
+    /**
+     * Set cbo
      *
-     * @param string $nomeEspecialidade
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\CBO $cbo
      * @return Especialidade
      */
-    public function setNomeEspecialidade($nomeEspecialidade)
+    public function setCbo(\Serbinario\Bundle\SaudeBundle\Entity\CBO $cbo = null)
     {
-        $this->nomeEspecialidade = $nomeEspecialidade;
+        $this->cbo = $cbo;
 
         return $this;
     }
 
     /**
-     * Get nomeEspecialidade
+     * Get cbo
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\CBO 
+     */
+    public function getCbo()
+    {
+        return $this->cbo;
+    }
+
+    /**
+     * Set descricaoEspecialidade
+     *
+     * @param string $descricaoEspecialidade
+     * @return Especialidade
+     */
+    public function setDescricaoEspecialidade($descricaoEspecialidade)
+    {
+        $this->descricaoEspecialidade = $descricaoEspecialidade;
+
+        return $this;
+    }
+
+    /**
+     * Get descricaoEspecialidade
      *
      * @return string 
      */
-    public function getNomeEspecialidade()
+    public function getDescricaoEspecialidade()
     {
-        return $this->nomeEspecialidade;
+        return $this->descricaoEspecialidade;
     }
-    
-    public function __toString() {
-        return $this->nomeEspecialidade;
-    }
+
 }

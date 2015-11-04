@@ -89,6 +89,13 @@ class Medico
      * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
      **/
     private $cgm;
+    
+    /**
+     * @var \QtdDefault
+     * 
+     * @ORM\OneToMany(targetEntity="QtdDefault", mappedBy="medico", cascade={"all"})
+     */
+    private $qtdDefualts;
 
     /**
      * Get idMedico
@@ -330,5 +337,47 @@ class Medico
     public function getCgm()
     {
         return $this->cgm;
+    }
+
+    /**
+     * Add qtdDefualts
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefualts
+     * @return Medico
+     */
+    public function addQtdDefualt(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefualts)
+    {
+        $this->qtdDefualts[] = $qtdDefualts;
+
+        return $this;
+    }
+
+    /**
+     * Remove qtdDefualts
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefualts
+     */
+    public function removeQtdDefualt(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefualts)
+    {
+        $this->qtdDefualts->removeElement($qtdDefualts);
+    }
+
+    /**
+     * Get qtdDefualts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQtdDefualts()
+    {
+        return $this->qtdDefualts;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function __toString()
+    {
+        return "{$this->cgm->getNome()} - {$this->especialidadeEspecialidade->getCbo()->getDescricao()}";
     }
 }

@@ -9,7 +9,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            'nomeCgm': {
+            'escolabundle_cgm[nome]': {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório"

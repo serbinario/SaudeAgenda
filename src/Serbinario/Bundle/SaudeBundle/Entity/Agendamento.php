@@ -31,7 +31,7 @@ class Agendamento
     /**
      * @var \Calendario
      *
-     * @ORM\ManyToOne(targetEntity="Calendario")
+     * @ORM\ManyToOne(targetEntity="Calendario", inversedBy="agendamento")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="calendario_id_calendario", referencedColumnName="id_calendario")
      * })

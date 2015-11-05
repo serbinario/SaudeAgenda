@@ -19,6 +19,7 @@ class CGMType extends AbstractType
         $builder
             ->add('dataCadastramento', 'datetime', array(
                 'label' => false,
+                'required'     => false,
                 'data'  => $dataHoje,                
                 'attr'  => array(
                     'widget_col'=> '2',
@@ -26,21 +27,24 @@ class CGMType extends AbstractType
                 )
             ))
             ->add('CpfCnpj', 'text', array(
-                'label' => 'CPF *',           
+                'label' => 'CPF *',  
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'CPF',
                     'widget_col'=> '2',
                     "class"    => " mask_cpf"
                 )))
             ->add('rg', 'text', array(
-                'label' => 'RG *',           
+                'label' => 'RG *', 
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'RG',
                     'widget_col'=> '2',
                     "class"    => " mask_numero"
                 )))
             ->add('orgaoEmissor', 'text', array(
-                'label' => 'Orgão Emissor *',           
+                'label' => 'Orgão Emissor *', 
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'Orgão Emissor',
                     'widget_col'=> '2',
@@ -48,6 +52,7 @@ class CGMType extends AbstractType
             ->add('dataExpedicao', 'date', array(
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
+                'required'     => false,
                 'label' => 'Data de expedição *',                
                 'attr' => array(
                     'placeholder' => 'Data de expedição',
@@ -56,7 +61,8 @@ class CGMType extends AbstractType
                 )
             ))
             ->add('nome', 'text', array(
-                'label' => 'Nome *',           
+                'label' => 'Nome *', 
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'Nome',
                     'widget_col'=> '8',
@@ -92,6 +98,7 @@ class CGMType extends AbstractType
                 )))
             ->add('dataNascimento', 'date', array(
                 'widget' => 'single_text',
+                'required'     => false,
                 'format' => 'dd/MM/yyyy',
                 'label' => 'Data de nascimento *',                
                 'attr' => array(

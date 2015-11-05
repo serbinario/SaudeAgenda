@@ -371,4 +371,13 @@ class Medico
     {
         return $this->qtdDefualts;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function __toString()
+    {
+        return "{$this->cgm->getNome()} - {$this->especialidadeEspecialidade->getCbo()->getDescricao()}";
+    }
 }

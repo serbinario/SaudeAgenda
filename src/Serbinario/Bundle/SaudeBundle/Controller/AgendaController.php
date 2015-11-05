@@ -42,7 +42,7 @@ class AgendaController extends Controller {
         $medicoRN     = $this->get("medico_rn");
         
         #Data atual        
-        $dataAtual      = new \DateTime("now");    
+        $dataAtual    = new \DateTime("now");    
         
         #Preenchimento do obj Calendário
         $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();
@@ -202,9 +202,17 @@ class AgendaController extends Controller {
         $count        = 0;
         
         foreach($calendario as $dia) {
+            $classname = "";
+            
+            if (count($dia->getAgendamento()->toArray()) > 0) {
+               $classname = "red";
+            } else {
+               $classname = $dia->getStatusCalendario() ? "blue" : "gray";
+            }
+            
             $arrayResult[$count]['date']      = $dia->getDiaCalendario()->format("Y-m-d");
             $arrayResult[$count]['badge']     = false;
-            $arrayResult[$count]['classname'] = $dia->getStatusCalendario() ? "blue" : "gray";
+            $arrayResult[$count]['classname'] = $classname;
             $arrayResult[$count]['title']     = $dia->getMedicoMedico()->getCgm()->getNome();
             
             $count++;
@@ -361,7 +369,7 @@ class AgendaController extends Controller {
         
         #Excluindo
         $result     = $calendarioRN->remove($objCalendario);
-        
+      
         #Retorno
         return $result;
     }
@@ -382,7 +390,7 @@ class AgendaController extends Controller {
         $objCalendario->setStatusCalendario($objCalendario->getStatusCalendario() ? false : true);        
         
         #Alterando
-        $result     = $calendarioRN->update($objCalendario);
+        $result = $calendarioRN->update($objCalendario);
         
         #Retorno
         return $result;

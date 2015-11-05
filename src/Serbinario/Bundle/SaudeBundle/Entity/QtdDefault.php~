@@ -103,4 +103,27 @@ class QtdDefault
     {
         return $this->medico;
     }
+
+    /**
+     * Set psf
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Psf $psf
+     * @return QtdDefault
+     */
+    public function setPsf(\Serbinario\Bundle\SaudeBundle\Entity\Psf $psf = null)
+    {
+        $this->psf = $psf;
+
+        return $this;
+    }
+
+    /**
+     * Get psf
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Psf 
+     */
+    public function getPsf()
+    {
+        return $this->psf;
+    }
 }

@@ -20,6 +20,9 @@ $(document).ready(function() {
                 validators: {
                     notEmpty: {
                         message: "Este campo é obrigatório"
+                    },
+                    emailAddress: {
+                        message: 'O e-mail informado não é válido'
                     }
                 }
             },

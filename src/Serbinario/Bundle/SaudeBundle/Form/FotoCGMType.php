@@ -16,6 +16,7 @@ class FotoCGMType extends AbstractType
     {
         $builder
             ->add('file', 'file', array(
+                'required'     => false,
                 'label' => false,
             ))
         ;

@@ -16,7 +16,8 @@ class FonesCGMType extends AbstractType
     {
         $builder
             ->add('foneCGM', 'text', array(
-                'label' => 'Telefone',           
+                'label' => 'Telefone',
+                'required'     => false,
                 'attr' => array(
                     'placeholder' => 'Telefone',
                     "class"    => " telefoneCollection"

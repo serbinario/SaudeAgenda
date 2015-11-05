@@ -66,6 +66,7 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Nome',
                     'widget_col'=> '8',
+                    'class' => 'mask_letras'
                 )))
             ->add('pai', 'text', array(
                 'label' => 'Pai',  
@@ -87,7 +88,9 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Naturalidade',
                     'widget_col'=> '4',
+                    'class' => 'mask_letras'
                 )))
+                
             ->add('inscricaoEstadual', 'text', array(
                 'label' => 'Inscrição Estadual',
                 'required'     => false,
@@ -134,6 +137,7 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Número CNH',
                     'widget_col'=> '3',
+                    "class"    => " mask_numero"
                 )))
             ->add('vencimentoCNH', 'date', array(
                 'widget' => 'single_text',

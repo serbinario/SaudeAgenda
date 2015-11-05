@@ -123,6 +123,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript" src="{{asset('js/validacoes/validationForm_cgm.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/mask/mask.js')}}"></script>
     <script type="text/javascript">
         $(document).on('click', '#escolabundle_cgm_actions_cancel', function () {
             window.location.href = '{{path('consultaCGM')}}';

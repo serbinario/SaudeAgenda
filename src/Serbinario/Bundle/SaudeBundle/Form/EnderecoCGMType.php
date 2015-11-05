@@ -28,7 +28,7 @@ class EnderecoCGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Número',
                     'widget_col'=> '4',
-                    "class"    => " mask_numero_string"
+                    "class"    => " mask_numero"
                 )))
             ->add('comp', 'text', array(
                 'label' => 'Complemento',

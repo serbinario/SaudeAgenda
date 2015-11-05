@@ -98,7 +98,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
@@ -145,6 +145,7 @@
             <!-- plugins -->
             <script type="text/javascript" src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
             <script type="text/javascript" src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/jquery.mask.js')}}"></script>
             
             <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
 

@@ -80,9 +80,17 @@ class Calendario
     /**
      * @var \QtdCalendario
      * 
-     * @ORM\OneToMany(targetEntity="QtdCalendario", mappedBy="psf", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="QtdCalendario", mappedBy="calendario", cascade={"all"})
      */
     private $qtdCalendarios;
+    
+    /**
+     *
+     * @var type 
+     * 
+     * @ORM\OneToMany(targetEntity="Agendamento", mappedBy="calendarioCalendario")
+     */
+    private $agendamento;
 
     /**
      * Get idCalendario

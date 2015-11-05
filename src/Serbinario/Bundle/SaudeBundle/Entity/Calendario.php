@@ -83,6 +83,14 @@ class Calendario
      * @ORM\OneToMany(targetEntity="QtdCalendario", mappedBy="calendario", cascade={"all"})
      */
     private $qtdCalendarios;
+    
+    /**
+     *
+     * @var type 
+     * 
+     * @ORM\OneToMany(targetEntity="Agendamento", mappedBy="calendarioCalendario")
+     */
+    private $agendamento;
 
     /**
      * Get idCalendario
@@ -279,5 +287,38 @@ class Calendario
     public function getQtdCalendarios()
     {
         return $this->qtdCalendarios;
+    }
+
+    /**
+     * Add agendamento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento
+     * @return Calendario
+     */
+    public function addAgendamento(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento)
+    {
+        $this->agendamento[] = $agendamento;
+
+        return $this;
+    }
+
+    /**
+     * Remove agendamento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento
+     */
+    public function removeAgendamento(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento)
+    {
+        $this->agendamento->removeElement($agendamento);
+    }
+
+    /**
+     * Get agendamento
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAgendamento()
+    {
+        return $this->agendamento;
     }
 }

@@ -41,6 +41,10 @@
         .highlight {
             background-color: #FE8E8E;
         }
+        .table-responsive {
+            min-height: 0.01%;
+            overflow-x: initial;
+        }
     </style>
 {% endblock %}
 
@@ -105,8 +109,6 @@
                                         <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Detalhe</th>
-                                                    <th>Código</th>
                                                     <th>Nome</th>
                                                     <th>CPF/CNPJ</th>
                                                     <th>RG</th>
@@ -117,8 +119,6 @@
 
                                             <tfoot>
                                                 <tr>
-                                                    <th>Detalhe</th>
-                                                    <th>Código</th>
                                                     <th>Nome</th>
                                                     <th>CPF/CNPJ</th>
                                                     <th>RG</th>
@@ -169,13 +169,6 @@
                     "type": "POST"
                 },
                 "columns": [
-                    {
-                        "class": "details-control",
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ""
-                    },
-                    {"data": "num"},
                     {"data": "nome"},
                     {"data": "cpf"},
                     {"data": "rg"},

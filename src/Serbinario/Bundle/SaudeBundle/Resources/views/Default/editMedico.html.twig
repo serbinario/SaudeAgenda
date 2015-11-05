@@ -96,6 +96,7 @@
 {% endblock %}
 {% block javascripts %}     
     {{ parent() }}
+    <script type="text/javascript" src="{{asset('js/validacoes/validationForm_medico.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
         {% if logo is defined and logo != null%}
             $(document).on("click", ".removerFoto", function () {
@@ -122,6 +123,14 @@
             });
         $(document).ready(function(){
             $(".select2").select2();
+            
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+            
+            $('#saudebundle_medico_actions_voltar').removeClass("btn-default");
+            $('#saudebundle_medico_actions_voltar').addClass("btn-success");
         });
     </script>
 {% endblock %}

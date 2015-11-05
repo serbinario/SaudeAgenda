@@ -41,6 +41,10 @@
         .highlight {
             background-color: #FE8E8E;
         }
+        .table-responsive {
+            min-height: 0.01%;
+            overflow-x: initial;
+        }
     </style>
 {% endblock %}
 
@@ -241,5 +245,8 @@
                             }
                         });
                     });
+                    $(document).ready(function(){
+            $(".select2").select2();
+        });
     </script>
 {% endblock %}

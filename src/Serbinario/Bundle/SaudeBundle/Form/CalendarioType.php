@@ -60,6 +60,7 @@ class CalendarioType extends AbstractType
                     },
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
                 ))
             ->add('actions', 'form_actions', [

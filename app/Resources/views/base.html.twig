@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Serbinario - SAES!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
             <link rel="stylesheet" href="{{asset('css/zabuto_calendar.min.css')}}" />
@@ -12,6 +12,7 @@
             
             <!-- plugins -->
             <link rel="stylesheet" href="{{asset('css/plugins/select2/select2.min.css')}}" />
+            <link rel="stylesheet" href="{{asset('css/plugins/iCheck/custom.css')}}" />
             
             <link rel="stylesheet" href="{{asset('css/animate.css')}}" />
             <link rel="stylesheet" href="{{asset('css/style.css')}}" />
@@ -26,10 +27,10 @@
 
             </style>
         {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="http://www.serbinario.com.br/wp-content/uploads/2015/09/ser-ico.png" />
     </head>
 
-    <body>
+    <body class="pace-done skin-1">
         <div id="wrapper ">
         {% block body %}
             {#  Menu lateral  #}
@@ -47,7 +48,7 @@
                                 </span>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.security.getToken().getUser().getCgm().getNome() }}</strong>
-                                        </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                                        </span>  </span> </a>
                                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                     <li><a href="{{path('home')}}">Home</a></li>
                                     <li class="divider"></li>
@@ -143,6 +144,7 @@
             
             <!-- plugins -->
             <script type="text/javascript" src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
             
             <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
 

@@ -50,6 +50,7 @@ class MedicoType extends AbstractType
                 'expanded' => true,
                 'attr' => array(
                     'widget_col'=> '3',
+                    'class' => 'i-checks'
                     )
                 ))
             ->add('quantidadeVagas', 'text', array(
@@ -66,6 +67,7 @@ class MedicoType extends AbstractType
                     'placeholder' => 'Horário Incicial',
                     'widget_col'=> '2',
                     'data-provide' => 'typeahead',
+                    'class' => 'select2'
                 ))) 
             ->add('horarioFim', 'time', array(
                 'label' => 'Horário Final ',
@@ -74,6 +76,7 @@ class MedicoType extends AbstractType
                     'placeholder' => 'Horário Final',
                     'widget_col'=> '2',
                     'inline' => true,
+                    'class' => 'select2'
                 )))
             ->add('foto', new FotoMedicoType(), array(   
                 'label'        => "Foto",

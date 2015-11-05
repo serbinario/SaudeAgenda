@@ -92,6 +92,7 @@
 
 {% block javascripts %}     
     {{ parent() }}
+    <script type="text/javascript" src="{{asset('js/validacoes/validationForm_psf.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
        {# $(document).on("focusout", "#saudebundle_psf_nomePsf", function (event) {
             var nomePsf = $("#saudebundle_psf_nomePsf").val();
@@ -120,6 +121,10 @@
 
         $("#saudebundle_psf_actions_voltar").click(function () {
             javascript:history.back();
+        });
+         $(document).ready(function(){
+            $('#saudebundle_psf_actions_voltar').removeClass("btn-default");
+            $('#saudebundle_psf_actions_voltar').addClass("btn-success");
         });
     </script>
 {% endblock %}

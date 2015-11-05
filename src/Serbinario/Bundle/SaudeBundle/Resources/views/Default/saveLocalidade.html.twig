@@ -68,7 +68,7 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
+    <script type="text/javascript" src="{{asset('js/validacoes/validationForm_localidade.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
 
         $(document).on('click', '#saudebundle_localidade_actions_save', function (event) {
@@ -108,5 +108,9 @@
                         $("#saudebundle_localidade_actions_voltar").click(function () {
                             javascript:history.back();
                         });
+                        $(document).ready(function(){
+            $('#saudebundle_localidade_actions_voltar').removeClass("btn-default");
+            $('#saudebundle_localidade_actions_voltar').addClass("btn-success");
+        });
     </script>
 {% endblock %}

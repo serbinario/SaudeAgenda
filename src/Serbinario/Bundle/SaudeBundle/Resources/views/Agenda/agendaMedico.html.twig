@@ -107,7 +107,7 @@
 
 {% block javascripts %}
     {{parent()}}    
-    
+    <script type="text/javascript" src="{{asset('js/validacoes/validationForm_agenda.js')}}"></script>
     <!-- Scripts -->
     <script type="text/javascript">
         $(document).ready(function () {
@@ -206,6 +206,11 @@
 	
 	         
             
+        });
+        $(document).ready(function(){
+            $(".select2").select2();
+            $('#serbinario_bundle_saudebundle_calendario_actions_cancel').removeClass("btn-default");
+            $('#serbinario_bundle_saudebundle_calendario_actions_cancel').addClass("btn-success");
         });
     </script>
 

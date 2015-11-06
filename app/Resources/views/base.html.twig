@@ -59,7 +59,7 @@
                                 <span><b>A</b>MD</span>
                             </div>
                         </li>
-                        <li>
+                        <li class="{% if menu is defined and menu == 1 %}active{% endif %}">
                             <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Cadastros</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 {% if is_granted('ROLE_ADMIN') 
@@ -97,18 +97,18 @@
                                 {% endif %}
                             </ul>
                         </li>
-                        <li>
+                        <li class="{% if menu is defined and menu == 2 %}active{% endif %}">
                             <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
-                                <li><a href="{{path('agendamento')}}">Agendamento</a></li>
+                                <li><a href="{{path('agendamento')}}" data="2" class="mmmm">Agendamento</a></li>
                                 {% endif %}
                             </ul>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li>
+                            <li class="{% if menu is defined and menu == 3 %}active{% endif %}">
                             <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Administrador</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li><a href="{{path('gridUser')}}">Usuários</a></li>
@@ -117,13 +117,14 @@
                         </li>
                         {% endif %}
                         {% if is_granted('ROLE_DEV') %}
-                        <li>
+                        <li class="{% if menu is defined and menu == 4 %}active{% endif %}">
                             <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Desenvolvedor</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li><a href="{{path('gridProjetos')}}">Projetos</a></li>
                                 <li><a href="{{path('gridAplicacao')}}">Aplicações</a></li>
                                 <li><a href="{{path('gridPermissao')}}">Permissões</a></li>
                                 <li><a href="{{path('gridPerfil')}}">Perfís</a></li>
+                                
                             </ul>
                         </li>
                         {% endif %}
@@ -180,7 +181,26 @@
                     $('.scroll_content').slimscroll({
                         height: '200px'
                     })
+                   
+                    
                 });
+                
+                {#$(document).on('click', '.mmmm', function(e){
+                    e.preventDefault()
+                    var number = $(this).attr('data');
+                        if (number === '2') {
+                            console.log(number);
+                           
+                            {{ app.session.set('teste', "2") }}
+                            window.location.href = $(this).attr('href');
+                        } else if (number === '3') {
+                            console.log(number);
+                        
+                            {{ app.session.set('teste', "3") }}
+                            window.location.href = $(this).attr('href');
+                        }
+                });#}
+                
             </script>
         {% endblock %}
     </body>

@@ -320,6 +320,27 @@ class CGMController extends Controller
     }
     
     /**
+     * @Route("/deleteCGM/id/{id}", name="deleteCGM")
+     * @Template()
+     */
+    public function deleteCGMAction($id) {
+        
+        $cgmRN = $this->get("cgm_rn");
+        $cgmRecuperado = $cgmRN->findById($id);
+        
+        if(count($cgmRecuperado->getMedico()) > 0 || count($cgmRecuperado->getUser()) > 0) {
+            $this->addFlash('danger', 'Este CGM possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($cgmRN->remove($cgmRecuperado)) {
+            $this->get('session')->getFlashBag()->add('success', 'CGM deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada o CGM');
+        }
+        
+        return $this->redirect($this->generateUrl("consultaCGM"));
+    }
+    
+    /**
      * @Route("/editCGMPJuridica/id/{id}", name="editCGMPJuridica")
      * @Template()
      */

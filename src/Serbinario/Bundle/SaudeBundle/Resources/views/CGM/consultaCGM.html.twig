@@ -17,17 +17,17 @@
 
         a.editar {
             background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
-            width: 22px;
+            width: 20px;
         }
 
         a.visualizar {
             background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
-            width: 23px;
+            width: 20px;
         }
 
         a.excluir {
             background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
-            width: 21px;
+            width: 20px;
         }
 
         td.bt {
@@ -183,7 +183,7 @@
                             if (data.tipoCadastro === '1') {
                                 return '<a href="editCGM/id/' + data.id + '" class="editar" title="Editar">\n\
                                     <a href="visualizarCGM/id/' + data.id + '" class="visualizar" title="Visualizar">\n\
-                                    <a href="deleteMedico/id/' + data.id + '" class="excluir" title="Excluir">'
+                                    <a href="deleteCGM/id/' + data.id + '" class="excluir" title="Excluir">'
                             } else {
                                 return '<a href="editCGMPJuridica/id/' + data.id + '" class="editar" title="Editar">\n\
                                     <a href="visualizarCGMJuridica/id/' + data.id + '" class="visualizar" title="Visualizar">'
@@ -264,16 +264,16 @@
 
         });
         
-        {#$(document).on('click', 'a.excluir', function (event) {
+        $(document).on('click', 'a.excluir', function (event) {
             event.preventDefault();
             var url = $(this).attr('href');
-            bootbox.confirm("Deseja realmente excluir o interessado?", function (result) {
+            bootbox.confirm("Deseja realmente excluir esta pessoa?", function (result) {
                 if (result) {
-                    location.href = url
+                    location.href = url;
                 } else {
                     false;
                 }
             });
-        });#}
+        });
     </script>
 {% endblock %}

@@ -50,6 +50,18 @@ class CGMRN
     
     /**
      * 
+     * @param CGM $cgm
+     * @return type
+     */
+    public function remove(CGM $cgm)
+    {
+        $result = $this->cgmDAO->remove($cgm);
+        
+        return $result;
+    }
+    
+    /**
+     * 
      * @param type $id
      */
     public function findById($id)

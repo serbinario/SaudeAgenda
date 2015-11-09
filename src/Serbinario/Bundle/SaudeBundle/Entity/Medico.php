@@ -85,7 +85,7 @@ class Medico
     private $foto;
     
     /**
-     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM", inversedBy="medico")
      * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
      **/
     private $cgm;

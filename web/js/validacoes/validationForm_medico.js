@@ -18,9 +18,9 @@ $(document).ready(function() {
             },
             'saudebundle_medico[emailMedico]': {
                 validators: {
-                    notEmpty: {
-                        message: "Este campo é obrigatório"
-                    },
+//                    notEmpty: {
+//                        message: "Este campo é obrigatório"
+//                    },
                     emailAddress: {
                         message: 'O e-mail informado não é válido'
                     }

@@ -66,7 +66,8 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Nome',
                     'widget_col'=> '8',
-                    'class' => 'mask_letras'
+                    'class' => 'mask_letras',
+                    'onkeyup' => 'mascara( this, alphanum )'
                 )))
             ->add('pai', 'text', array(
                 'label' => 'Pai',  
@@ -89,15 +90,6 @@ class CGMType extends AbstractType
                     'placeholder' => 'Naturalidade',
                     'widget_col'=> '4',
                     'class' => 'mask_letras'
-                )))
-                
-            ->add('inscricaoEstadual', 'text', array(
-                'label' => 'Inscrição Estadual',
-                'required'     => false,
-                'attr' => array(
-                    'placeholder' => 'Inscrição Estadual',
-                    'widget_col'=> '4',
-                    'help_text'    => 'Número de inscrição estadual'
                 )))
             ->add('dataNascimento', 'date', array(
                 'widget' => 'single_text',

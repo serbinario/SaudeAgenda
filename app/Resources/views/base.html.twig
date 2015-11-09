@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Serbinario - SAES!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
             <link rel="stylesheet" href="{{asset('css/zabuto_calendar.min.css')}}" />
@@ -12,6 +12,7 @@
             
             <!-- plugins -->
             <link rel="stylesheet" href="{{asset('css/plugins/select2/select2.min.css')}}" />
+            <link rel="stylesheet" href="{{asset('css/plugins/iCheck/custom.css')}}" />
             
             <link rel="stylesheet" href="{{asset('css/animate.css')}}" />
             <link rel="stylesheet" href="{{asset('css/style.css')}}" />
@@ -28,10 +29,10 @@
 
             </style>
         {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="http://www.serbinario.com.br/wp-content/uploads/2015/09/ser-ico.png" />
     </head>
 
-    <body>
+    <body class="pace-done">
         <div id="wrapper ">
         {% block body %}
             {#  Menu lateral  #}
@@ -49,7 +50,7 @@
                                 </span>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.security.getToken().getUser().getCgm().getNome() }}</strong>
-                                        </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                                        </span>  </span> </a>
                                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                     <li><a href="{{path('home')}}">Home</a></li>
                                     <li class="divider"></li>
@@ -60,7 +61,7 @@
                                 <span><b>A</b>MD</span>
                             </div>
                         </li>
-                        <li>
+                        <li class="{% if menu is defined and menu == 1 %}active{% endif %}">
                             <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Cadastros</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 {% if is_granted('ROLE_ADMIN') 
@@ -98,18 +99,18 @@
                                 {% endif %}
                             </ul>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
+                        <li class="{% if menu is defined and menu == 2 %}active{% endif %}">
+                            <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Consulta</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
-                                <li><a href="{{path('agendamento')}}">Agendamento</a></li>
+                                <li><a href="{{path('agendamento')}}" data="2" class="mmmm">Agendamento</a></li>
                                 {% endif %}
                             </ul>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li>
+                            <li class="{% if menu is defined and menu == 3 %}active{% endif %}">
                             <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Administrador</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li><a href="{{path('gridUser')}}">Usuários</a></li>
@@ -118,13 +119,14 @@
                         </li>
                         {% endif %}
                         {% if is_granted('ROLE_DEV') %}
-                        <li>
+                        <li class="{% if menu is defined and menu == 4 %}active{% endif %}">
                             <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Desenvolvedor</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li><a href="{{path('gridProjetos')}}">Projetos</a></li>
                                 <li><a href="{{path('gridAplicacao')}}">Aplicações</a></li>
                                 <li><a href="{{path('gridPermissao')}}">Permissões</a></li>
                                 <li><a href="{{path('gridPerfil')}}">Perfís</a></li>
+                                
                             </ul>
                         </li>
                         {% endif %}
@@ -151,6 +153,8 @@
             
             <!-- plugins -->
             <script type="text/javascript" src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/jquery.mask.js')}}"></script>
             
             <script type="text/javascript" src="{{asset('js/zabuto_calendar.min.js')}}"></script>
 
@@ -185,7 +189,26 @@
                     $('.scroll_content').slimscroll({
                         height: '200px'
                     })
+                   
+                    
                 });
+                
+                {#$(document).on('click', '.mmmm', function(e){
+                    e.preventDefault()
+                    var number = $(this).attr('data');
+                        if (number === '2') {
+                            console.log(number);
+                           
+                            {{ app.session.set('teste', "2") }}
+                            window.location.href = $(this).attr('href');
+                        } else if (number === '3') {
+                            console.log(number);
+                        
+                            {{ app.session.set('teste', "3") }}
+                            window.location.href = $(this).attr('href');
+                        }
+                });#}
+                
             </script>
         {% endblock %}
     </body>

@@ -66,6 +66,7 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Nome',
                     'widget_col'=> '8',
+                    'class' => 'mask_letras'
                 )))
             ->add('pai', 'text', array(
                 'label' => 'Pai',  
@@ -87,7 +88,9 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Naturalidade',
                     'widget_col'=> '4',
+                    'class' => 'mask_letras'
                 )))
+                
             ->add('inscricaoEstadual', 'text', array(
                 'label' => 'Inscrição Estadual',
                 'required'     => false,
@@ -134,6 +137,7 @@ class CGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Número CNH',
                     'widget_col'=> '3',
+                    "class"    => " mask_numero"
                 )))
             ->add('vencimentoCNH', 'date', array(
                 'widget' => 'single_text',
@@ -153,6 +157,7 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CategoriaCNH',
                 'attr' => array(
                      'widget_col'=> '3',
+                    'class' => 'select2'
                     )
                 ))
             ->add('estadoCivil', 'entity', array(
@@ -162,6 +167,7 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\EstadoCivil',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
                 ))
             ->add('sexoSexo', 'entity', array(
@@ -171,6 +177,7 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Sexo',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
                 ))
             ->add('nacionalidade', 'entity', array(
@@ -180,6 +187,7 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Nacionalidade',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
                 ))
             ->add('CGMMunicipio', 'entity', array(
@@ -189,7 +197,8 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGMMunicipio',
                 'attr' => array(
                      'widget_col'=> '4',
-                     'help_text'    => 'Se é uma pessoa que reside no município ou não'
+                     'help_text'    => 'Se é uma pessoa que reside no município ou não',
+                    'class' => 'select2'
                     )
                 ))
             ->add('escolaridade', 'entity', array(
@@ -199,6 +208,7 @@ class CGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Escolaridade',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
                 ))
             ->add('telefones', 'bootstrap_collection', array(
@@ -220,7 +230,7 @@ class CGMType extends AbstractType
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']],
-                    'cancel' => ['type' => 'button', 'options' => ['label' => 'Listar']],
+                    'cancel' => [ 'type' => 'button', 'options' => ['label' => 'Voltar']],
                 ]
             ])
         ;

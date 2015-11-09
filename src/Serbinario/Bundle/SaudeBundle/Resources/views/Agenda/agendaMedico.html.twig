@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% set menu = '1' %}
+
 {% block stylesheets %}
     {{ parent() }}
 
@@ -114,6 +116,20 @@
                                         </form>
                                     </section>                                
                                 </div>
+                        <div class="ibox-content">                                                        
+                            <div class="row">
+                                <!-- Responsive Calendar -->
+                                <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
+                                    <div class="row">
+                                        <div id="my-calendar"></div>
+                                    </div>                           
+                                </div>                        
+                                <!-- Formulário -->
+                                <div class="col-md-9" id="formulario_div">
+                                    {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
+                                    {{ form_widget(form) }}                    
+                                    {{ form_end(form) }}                
+                                </div>                                            
                             </div>
                         </div>
 
@@ -446,6 +462,11 @@
                     $(document).find("div.actions.clearfix ul").append('<li class="disabled"><a id="deletarCalendar" role="menuitem">Excluir</a></li>');
 
                 });
+                $(document).ready(function(){
+            $(".select2").select2();
+            $('#serbinario_bundle_saudebundle_calendario_actions_cancel').removeClass("btn-default");
+            $('#serbinario_bundle_saudebundle_calendario_actions_cancel').addClass("btn-success");
+        });
         </script>
 
     {% endblock %}

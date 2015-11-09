@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% set menu = '3' %}
+
 {% block body  %}
     {{parent()}}
 
@@ -9,7 +11,7 @@
 
         {# título da página  #}
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2>CGM (CADASTRO GERAL MUNICIPAL)</h2>
                 {#<ol class="breadcrumb">
                     <li>
@@ -123,6 +125,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript" src="{{asset('js/validacoes/validationForm_cgm.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/mask/mask.js')}}"></script>
     <script type="text/javascript">
         $(document).on('click', '#escolabundle_cgm_actions_cancel', function () {
             window.location.href = '{{path('consultaCGM')}}';
@@ -165,5 +168,19 @@
                 if(digitoGerado!=digitoDigitado)
                         return false;   
             }
+             $(document).ready(function(){
+            $(".select2").select2();
+            $('#escolabundle_cgm_actions_cancel').removeClass("btn-default");
+            $('#escolabundle_cgm_actions_cancel').addClass("btn-success");
+        });
+        
+        $(document).ready(function () {
+
+        // Add slimscroll to element
+        $('.scroll_content').slimscroll({
+            height: '200px'
+        })
+
+    });
     </script>
 {% endblock %}

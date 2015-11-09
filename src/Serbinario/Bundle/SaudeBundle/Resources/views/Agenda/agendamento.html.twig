@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% set menu = '2' %}
+
 {% block stylesheets %}
     {{ parent() }}
     <!-- FullCalendar -->
@@ -107,7 +109,7 @@
                                             <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
                                             <div class="panel-body">
                                                 <form class="form">
-                                                    <select class="form-control">
+                                                    <select class="form-control select2">
                                                         <option>Especialidades</option>
                                                         {% for especializacoe in especializacoes %}
                                                             <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.cbo.descricao}}</option>
@@ -279,6 +281,10 @@
                     });
                 }
             });
+        });
+         $(document).ready(function(){
+            $(".select2").select2();
+
         });
     </script>
 {% endblock %}

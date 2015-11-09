@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% set menu = '3' %}
+
 {% block stylesheets %}
     {{parent()}}
     <link rel="stylesheet" href="{{asset('css/plugins/dataTables/dataTables.bootstrap.css')}}" />
@@ -41,6 +43,10 @@
         .highlight {
             background-color: #FE8E8E;
         }
+        .table-responsive {
+            min-height: 0.01%;
+            overflow-x: initial;
+        }
     </style>
 {% endblock %}
 
@@ -53,7 +59,7 @@
 
         {# título da página  #}
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2>CGM (CADASTRO GERAL MUNICIPAL)</h2>
                 {#<ol class="breadcrumb">
                     <li>
@@ -81,7 +87,7 @@
                     {% endfor %}
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>Consultar CGM - Pessoa Física/Jurídica <small>A consula serve tanto para pessoas físicas quanto jurídicas</small></h5>
+                            <h5>Consultar CGM - Pessoa Física/Jurídica <small>A consulta serve tanto para pessoas físicas quanto jurídicas</small></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -99,14 +105,12 @@
                                 <br>
                             <div class="col-md-12 column">
                                 <section>
-                                    <a href="{{path('saveCGM')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Física</a>
-                                    <a href="{{path('saveCGMPJuridica')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Jurídica</a><br /><br />
+                                    <a href="{{path('saveCGM')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Física</a><br /><br />
+                                    {#<a href="{{path('saveCGMPJuridica')}}" class="btn btn-primary btn-pressure btn-sm btn-sensitive">Nova Pessoa Jurídica</a><br /><br />#}
                                     <div class="table table-responsive no-padding">
                                         <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Detalhe</th>
-                                                    <th>Código</th>
                                                     <th>Nome</th>
                                                     <th>CPF/CNPJ</th>
                                                     <th>RG</th>
@@ -117,8 +121,6 @@
 
                                             <tfoot>
                                                 <tr>
-                                                    <th>Detalhe</th>
-                                                    <th>Código</th>
                                                     <th>Nome</th>
                                                     <th>CPF/CNPJ</th>
                                                     <th>RG</th>
@@ -169,13 +171,6 @@
                     "type": "POST"
                 },
                 "columns": [
-                    {
-                        "class": "details-control",
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ""
-                    },
-                    {"data": "num"},
                     {"data": "nome"},
                     {"data": "cpf"},
                     {"data": "rg"},

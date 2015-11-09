@@ -23,6 +23,7 @@ class UserType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGM',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
             ))
             ->add('username', 'text', array(
@@ -31,7 +32,7 @@ class UserType extends AbstractType
                     'placeholder' => 'Login',
                     'widget_col'=> '4',
             )))
-            ->add('password', 'text', array(
+            ->add('password', 'password', array(
                 'label' => 'Senha: ',
                 'required'     => false,                
                 'attr'  => array(
@@ -55,6 +56,7 @@ class UserType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Psf',
                 'attr' => array(
                      'widget_col'=> '4',
+                    'class' => 'select2'
                     )
             ))
             ->add('isActive', 'checkbox', array( 
@@ -62,7 +64,8 @@ class UserType extends AbstractType
                 'required' => false,
                 'attr'    => array(
                     'inline' => true,
-                    'align_with_widget'=> true 
+                    'align_with_widget'=> true ,
+                    'class' => 'i-checks'
                     )
                 ))
             ->add('actions', 'form_actions', [

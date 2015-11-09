@@ -28,7 +28,7 @@ class EnderecoCGMType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Número',
                     'widget_col'=> '4',
-                    "class"    => " mask_numero_string"
+                    "class"    => " mask_numero"
                 )))
             ->add('comp', 'text', array(
                 'label' => 'Complemento',
@@ -53,6 +53,7 @@ class EnderecoCGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Bairro',
                 'attr' => array(
                      'widget_col'=> '3',
+                    'class' => 'select2'
                     )
                 ))
             ->add('cidade', 'entity', array(
@@ -62,6 +63,7 @@ class EnderecoCGMType extends AbstractType
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Cidade',
                 'attr' => array(
                      'widget_col'=> '3',
+                    'class' => 'select2'
                     )
                 ))
         ;

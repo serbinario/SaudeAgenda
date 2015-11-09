@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% set menu = '3' %}
+
 {% block stylesheets %}
     {{parent()}}
     <link rel="stylesheet" href="{{asset('css/plugins/dataTables/dataTables.bootstrap.css')}}" />
@@ -37,6 +39,10 @@
             float: left;
             height: 22px;
             margin: 0 10px;
+        }
+        .table-responsive {
+            min-height: 0.01%;
+            overflow-x: initial;
         }
     </style>
 

@@ -182,7 +182,8 @@
                         "render": function (data, type, row, full, meta) {
                             if (data.tipoCadastro === '1') {
                                 return '<a href="editCGM/id/' + data.id + '" class="editar" title="Editar">\n\
-                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar" title="Visualizar">'
+                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar" title="Visualizar">\n\
+                                    <a href="deleteMedico/id/' + data.id + '" class="excluir" title="Excluir">'
                             } else {
                                 return '<a href="editCGMPJuridica/id/' + data.id + '" class="editar" title="Editar">\n\
                                     <a href="visualizarCGMJuridica/id/' + data.id + '" class="visualizar" title="Visualizar">'

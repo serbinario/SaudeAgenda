@@ -70,7 +70,7 @@ class Calendario
      /**
      * @var \Medico
      *
-     * @ORM\ManyToOne(targetEntity="Medico")
+     * @ORM\ManyToOne(targetEntity="Medico", inversedBy="calendario")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="medico_id_medico", referencedColumnName="id_medico")
      * })

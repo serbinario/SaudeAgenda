@@ -39,7 +39,12 @@ class Especialidade
      */
     private $cbo;
 
-
+    /**
+     * @var \Medico
+     *
+     * @ORM\OneToMany(targetEntity="Medico", mappedBy="especialidadeEspecialidade", cascade={"all"})
+     */
+    private $medico;
 
     /**
      * Get idEspecialidade
@@ -104,6 +109,14 @@ class Especialidade
     public function getDescricaoEspecialidade()
     {
         return $this->descricaoEspecialidade;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getMedico() {
+        return $this->medico;
     }
 
 }

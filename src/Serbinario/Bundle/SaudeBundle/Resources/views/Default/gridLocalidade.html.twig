@@ -171,7 +171,7 @@
                         "data": null,
                         "render": function (data, type, row, full, meta) {
                                     return '<a href="editLocalidade/id/' + data.id + '" class="editar" title="Editar">\n\
-                                    '
+                                    <a href="deleteLocalidade/id/' + data.id + '" class="excluir" title="Excluir">'
                         }
                     },
                     {% endif %}
@@ -250,7 +250,7 @@
         $(document).on('click', 'a.excluir', function (event) {
             event.preventDefault();
             var url = $(this).attr('href');
-            bootbox.confirm("Deseja realmente excluir a entidade?", function (result) {
+            bootbox.confirm("Deseja realmente excluir a localidade?", function (result) {
                 if (result) {
                     location.href = url
                 } else {

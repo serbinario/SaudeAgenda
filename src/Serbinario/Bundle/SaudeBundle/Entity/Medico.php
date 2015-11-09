@@ -59,7 +59,7 @@ class Medico
     /**
      * @var \Especialidade
      *
-     * @ORM\ManyToOne(targetEntity="Especialidade")
+     * @ORM\ManyToOne(targetEntity="Especialidade", inversedBy="medico")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="especialidade_id_especialidade", referencedColumnName="id_especialidade")
      * })
@@ -96,6 +96,13 @@ class Medico
      * @ORM\OneToMany(targetEntity="QtdDefault", mappedBy="medico", cascade={"all"})
      */
     private $qtdDefualts;
+    
+    /**
+     * @var \Calendario
+     *
+     * @ORM\OneToMany(targetEntity="Calendario", mappedBy="medicoMedico", cascade={"all"})
+     */
+    private $calendario;
 
     /**
      * Get idMedico
@@ -380,4 +387,13 @@ class Medico
     {
         return "{$this->cgm->getNome()} - {$this->especialidadeEspecialidade->getCbo()->getDescricao()}";
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getCalendario() {
+        return $this->calendario;
+    }
+
 }

@@ -239,6 +239,28 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/deleteMedico/id/{id}", name="deleteMedico")
+     * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR')")
+     */
+    public function deleteMedicoAction($id) {
+        
+        $medicoRN = $this->get("medico_rn");
+        $medicoRecuperada = $medicoRN->findId($id);
+        
+        if(count($medicoRecuperada->getCalendario()) > 0) {
+            $this->addFlash('danger', 'Este Especialista possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($medicoRN->remove($medicoRecuperada)) {
+            $this->get('session')->getFlashBag()->add('success', 'Especialista deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada o Especialista');
+        }
+        
+        return $this->redirect($this->generateUrl("gridMedico"));
+    }
+    
+    /**
      * @Route("/deleteFotoMedico", name="deleteFotoMedico")
      */
     public function deleteFotoMedicoAction(Request $request)
@@ -424,6 +446,28 @@ class DefaultController extends Controller
         
         #Retorno
         return array("form" => $form->createView());
+    }
+    
+    /**
+     * @Route("/deleteEspecialidade/id/{id}", name="deleteEspecialidade")
+     * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_EDITAR')")
+     */
+    public function deleteEspecialidadeAction($id) {
+        
+        $especialidadeRN = $this->get("especialidade_rn");
+        $especialidadeRecuperada = $especialidadeRN->findId($id);
+        
+        if(count($especialidadeRecuperada->getMedico()) > 0) {
+            $this->addFlash('danger', 'Esta Especialidade possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($especialidadeRN->remove($especialidadeRecuperada)) {
+            $this->get('session')->getFlashBag()->add('success', 'Especialidade deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada a Especialidade');
+        }
+        
+        return $this->redirect($this->generateUrl("gridEspecialidade"));
     }
     
     /**
@@ -617,6 +661,28 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/deleteLocalidade/id/{id}", name="deleteLocalidade")
+     * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_EDITAR')")
+     */
+    public function deleteLocalidadeAction($id) {
+        
+        $localidadeRN = $this->get("localidade_rn");
+        $localidadeRecuperada = $localidadeRN->findId($id);
+        
+        if(count($localidadeRecuperada->getMedico()) > 0) {
+            $this->addFlash('danger', 'Esta Localidade possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($localidadeRN->remove($localidadeRecuperada)) {
+            $this->get('session')->getFlashBag()->add('success', 'Localidade deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada a Localidade');
+        }
+        
+        return $this->redirect($this->generateUrl("gridLocalidade"));
+    }
+    
+    /**
      * @Route("/savePsf", name="savePsf")
      * @Template()
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR')")
@@ -786,6 +852,28 @@ class DefaultController extends Controller
     }
     
     /**
+     * @Route("/deletePsf/id/{id}", name="deletePsf")
+     * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR')")
+     */
+    public function deletePsfAction($id) {
+        
+        $psfRN = $this->get("psf_rn");
+        $psfRecuperada = $psfRN->findId($id);
+        
+        if(count($psfRecuperada->getQtdCalendarios()) > 0) {
+            $this->addFlash('danger', 'Este Posto de Saúde possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($psfRN->remove($psfRecuperada)) {
+            $this->get('session')->getFlashBag()->add('success', 'Posto de Saúde deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada a Posto de Saúde');
+        }
+        
+        return $this->redirect($this->generateUrl("gridPsf"));
+    }
+    
+    /**
      * @Route("/validateNomePsf", name="validateNomePsf")
      */
     public function validateNomePsfAction(Request $request)
@@ -816,5 +904,6 @@ class DefaultController extends Controller
         #Retorno
         return new JsonResponse($result ? true : false);
     }
+    
     
 }

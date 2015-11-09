@@ -164,12 +164,14 @@ class CGMType extends AbstractType
                 ))
             ->add('sexoSexo', 'entity', array(
                 'label'        => 'Sexo *',
-                'required'     => false,
-                'empty_value' => "Selecione o sexo",
+                'required'     => true,
+                'multiple' => false,
+                'expanded' => true,
+                'data_class' => 'Serbinario\Bundle\SaudeBundle\Entity\Sexo',
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Sexo',
                 'attr' => array(
-                     'widget_col'=> '4',
-                    'class' => 'select2'
+                     'widget_col'=> '3',
+                   
                     )
                 ))
             ->add('nacionalidade', 'entity', array(
@@ -184,13 +186,14 @@ class CGMType extends AbstractType
                 ))
             ->add('CGMMunicipio', 'entity', array(
                 'label'        => 'CGM do município *',
-                'required'     => false,
-                'empty_value' => "Selecione",
+                'required'     => true,
+                'multiple' => false,
+                'expanded' => true,
+                'data_class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGMMunicipio',
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\CGMMunicipio',
                 'attr' => array(
                      'widget_col'=> '4',
                      'help_text'    => 'Se é uma pessoa que reside no município ou não',
-                    'class' => 'select2'
                     )
                 ))
             ->add('escolaridade', 'entity', array(

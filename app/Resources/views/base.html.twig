@@ -109,14 +109,21 @@
                                 {% endif %}
                             </ul>
                         </li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li class="{% if menu is defined and menu == 3 %}active{% endif %}">
-                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Administrador</span><span class="fa arrow"></span></a>
+                        <li class="">
+                            <a href="#"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Relatórios</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
-                                <li><a href="{{path('gridUser')}}">Usuários</a></li>
-                                <li><a href="{{path('consultaCGM')}}">CGM</a></li>
+                                <li><a href="">Relatório 1</a></li>
+                                <li><a href="">Relatórios 2</a></li>
                             </ul>
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="{% if menu is defined and menu == 3 %}active{% endif %}">
+                                <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Administrador</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li><a href="{{path('gridUser')}}">Usuários</a></li>
+                                    <li><a href="{{path('consultaCGM')}}">CGM</a></li>
+                                </ul>
+                            </li>
                         {% endif %}
                         {% if is_granted('ROLE_DEV') %}
                         <li class="{% if menu is defined and menu == 4 %}active{% endif %}">

@@ -184,4 +184,60 @@ class CGMDAO
            return null;
        }
     }
+    
+    /**
+     * 
+     * @param type $Telefone
+     * @param type $idCgm
+     * @return boolean
+     */
+    public function removeTelefonesByUpdate($Telefone, $idCgm)
+    {
+        try {
+            $qb = $this->maneger->createQueryBuilder();
+            $qb->select("e");
+            $qb->from("Serbinario\Bundle\SaudeBundle\Entity\FonesCGM", "e");
+            $qb->innerJoin("e.cgm", "d");
+            $qb->where("d.idCGM =  ?1 AND e.idFonesCGM NOT IN (?2)");
+            $qb->setParameter(1, $idCgm);
+            $qb->setParameter(2, $Telefone);
+
+            $result = $qb->getQuery()->getResult();
+
+            foreach($result as $entity) {
+                $this->maneger->remove($entity);
+            }
+
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }  
+    }
+    
+    /**
+     * 
+     * @param type $idCgm
+     * @return boolean
+     */
+    public function removeTelefonesByUpdateVazio($idCgm)
+    {
+        try {
+            $qb = $this->maneger->createQueryBuilder();
+            $qb->select("e");
+            $qb->from("Serbinario\Bundle\SaudeBundle\Entity\FonesCGM", "e");
+            $qb->innerJoin("e.cgm", "d");
+            $qb->where("d.idCGM =  ?1 ");
+            $qb->setParameter(1, $idCgm);
+
+            $result = $qb->getQuery()->getResult();
+
+            foreach($result as $entity) {
+                $this->maneger->remove($entity);
+            }
+
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }  
+    }
 }

@@ -94,4 +94,29 @@ class CGMRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $Telefone
+     * @param type $idCgm
+     * @return type
+     */
+    public function removeTelefonesByUpdate($Telefone, $idCgm)
+    {
+        $result = $this->cgmDAO->removeTelefonesByUpdate($Telefone, $idCgm);
+        
+        return $result;
+    }
+    
+    /**
+     * 
+     * @param type $idCgm
+     * @return type
+     */
+    public function removeTelefonesByUpdateVazio($idCgm)
+    {
+        $result = $this->cgmDAO->removeTelefonesByUpdateVazio($idCgm);
+        
+        return $result;
+    }
 }

@@ -93,7 +93,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Data de Nascimento</b></td>
-                                                                    <td>{{cgm.dataNascimento|date('d/m/Y')}}</td>
+                                                                    <td>{% if cgm.dataNascimento is defined %}{{cgm.dataNascimento|date('d/m/Y')}}{% endif %}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Data de Falecimento</b></td>
@@ -101,15 +101,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Nacionalidade</b></td>
-                                                                    <td>{{cgm.nacionalidade.nacionalidade}}</td>
+                                                                    <td>{% if cgm.nacionalidade.nacionalidade is defined %}{{cgm.nacionalidade.nacionalidade}}{% endif %}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Naturalidade</b></td>
                                                                     <td>{{cgm.naturalidade}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Inscrição Estadual</b></td>
-                                                                    <td>{{cgm.inscricaoEstadual}}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>CGM do município</b></td>
@@ -148,11 +144,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td><b>Estado Civil</b></td>
-                                                            <td>{{cgm.estadoCivil.estadoCivil}}</td>
+                                                            <td>{% if cgm.estadoCivil.estadoCivil is defined %}{{cgm.estadoCivil.estadoCivil}}{% endif %}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Escolaridade</b></td>
-                                                            <td>{{cgm.escolaridade.escolaridade}}</td>
+                                                            <td>{% if cgm.escolaridade.escolaridade is defined %}{{cgm.escolaridade.escolaridade}}{% endif %}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>CPF</b></td>
@@ -209,11 +205,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td><b>Bairro</b></td>
-                                                            <td>{{cgm.endereco.bairro.nomeBairro}}</td>
+                                                            <td>{% if cgm.endereco.bairro.nomeBairro is defined %}{{cgm.endereco.bairro.nomeBairro}}{% endif %}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Cidade</b></td>
-                                                            <td>{{cgm.endereco.cidade.nomeCidade}}</td>
+                                                            <td>{% if cgm.endereco.cidade.nomeCidade is defined %}{{cgm.endereco.cidade.nomeCidade}}{% endif %}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

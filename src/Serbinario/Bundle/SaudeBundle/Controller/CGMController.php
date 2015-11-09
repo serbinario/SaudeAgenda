@@ -261,6 +261,14 @@ class CGMController extends Controller
                     $telefone->setCgm($cgm);
                 }
                 
+                //Remove telefones
+                $countTelefones = count($idTelefones);
+                if ($countTelefones > 0) {
+                    $cgmRN->removeTelefonesByUpdate($idTelefones, $cgm->getIdCGM());
+                } else {
+                    $cgmRN->removeTelefonesByUpdateVazio($cgm->getIdCGM());
+                }
+                
                 #Fazendo o upload da foto
                 if (!is_null($cgm->getFoto()) && $cgm->getFoto()->getFile() !== null) {
                     

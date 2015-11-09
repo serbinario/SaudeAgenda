@@ -20,8 +20,7 @@ class AgendaController extends Controller {
      * @Route("/agendamento", defaults={"id" = 0},name="agendamento")
      * @Route("/agendamento/id/{id}", name="agendamentoByMedico")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
      */
     public function agendamentoAction($id) {
         
@@ -37,8 +36,7 @@ class AgendaController extends Controller {
     /**
      * @Route("/agendaMedico/{id}", name="agendaMedico")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')  or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
      */
     public function agendaMedicoAction(Request $request, $id)
     {          
@@ -132,8 +130,7 @@ class AgendaController extends Controller {
     /**
      * @Route("/gridAgendaMedico", name="gridAgendaMedico")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
      */
     public function gridAgendaMedicoAction(Request $request)
     {

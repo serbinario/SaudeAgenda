@@ -91,10 +91,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridMedico", name="gridMedico")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR') 
-     *  or has_role('ROLE_AGENDAMENTO_MEDICO_EDITAR')
-     *  or has_role('ROLE_AGENDAMENTO_MEDICO_DELETAR')") 
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')or has_role('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_MEDICO_EDITAR') or has_role('ROLE_AGENDAMENTO_MEDICO_DELETAR')") 
      */
     public function gridMedicoAction(Request $request)
     {
@@ -318,10 +315,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridEspecialidade", name="gridEspecialidade")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR') 
-     *  or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_EDITAR')
-     *  or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')") 
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_EDITAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')") 
      */
     public function gridEspecialidadeAction(Request $request)
     {
@@ -511,10 +505,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridLocalidade", name="gridLocalidade")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR') 
-     *  or has_role('ROLE_AGENDAMENTO_LOCALIDADE_EDITAR')
-     *  or has_role('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_EDITAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')")
      */
     public function gridLocalidadeAction(Request $request)
     {
@@ -675,10 +666,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridPsf", name="gridPsf")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR') 
-     *  or has_role('ROLE_AGENDAMENTO_PSF_VISUALIZAR') 
-     *  or has_role('ROLE_AGENDAMENTO_PSF_EDITAR')
-     *  or has_role('ROLE_AGENDAMENTO_PSF_DELETAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR') or has_role('ROLE_AGENDAMENTO_PSF_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR') or has_role('ROLE_AGENDAMENTO_PSF_DELETAR')")
      */
     public function gridPsfAction(Request $request)
     {

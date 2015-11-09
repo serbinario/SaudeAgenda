@@ -31,16 +31,16 @@ class CalendarioType extends AbstractType
             ->add('diaCalendario', 'date', array(
                 'widget' => 'single_text',
                 'required'     => true,
+                'read_only' => true,
                 'format' => 'dd/MM/yyyy',
                 'label' => 'Dia: ',                
-                'attr' => array(
+                'attr' => array(                    
                     'placeholder' => 'Dia da marcação',
-                    'widget_col'=> '3',
-                    "class"    => " datenottime"
+                    'widget_col'=> '3',                    
                 )
             ))           
             ->add('horarioCalendario', 'time', array(                
-                'required'     => true,                
+                'required'   => true,                  
                 'label' => 'Hora: ',                
                 'attr' => array(                    
                     'widget_col'=> '2'                    
@@ -62,15 +62,23 @@ class CalendarioType extends AbstractType
                      'widget_col'=> '4',
                     )
                 ))
-            ->add('actions', 'form_actions', [
-                'buttons' => [
-                    'save'   => ['type' => 'submit', 'options' => ['label' => 'Salvar']],
-                    'edit'   => ['type' => 'submit', 'options' => ['label' => 'Alterar']],
-                    'delete' => ['type' => 'submit', 'options' => ['label' => 'Excluir']],
-                    'block'  => ['type' => 'submit', 'options' => ['label' => 'Bloquear']],
-                    'cancel' => ['type' => 'reset', 'options'  => ['label' => 'Cancelar']]
-                ]
-            ])
+             ->add('statusCalendario', 'checkbox', array( 
+                'label' => 'Ativo',
+                'required' => false,
+                'attr'    => array(
+                    'inline' => true,
+                    'align_with_widget'=> true 
+                    )
+                ))
+//            ->add('actions', 'form_actions', [
+//                'buttons' => [
+//                    'save'   => ['type' => 'submit', 'options' => ['label' => 'Salvar']],
+//                    'edit'   => ['type' => 'submit', 'options' => ['label' => 'Alterar']],
+//                    'delete' => ['type' => 'submit', 'options' => ['label' => 'Excluir']],
+//                    'block'  => ['type' => 'submit', 'options' => ['label' => 'Bloquear']],
+//                    'cancel' => ['type' => 'reset', 'options'  => ['label' => 'Cancelar']]
+//                ]
+//            ])
         ;
     }
     
@@ -81,7 +89,8 @@ class CalendarioType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Serbinario\Bundle\SaudeBundle\Entity\Calendario',
-            'idMedico' => ''
+            'idMedico' => '',
+            'csrf_protection' => false,
         ));
     }
 

@@ -500,7 +500,7 @@ class DefaultController extends Controller
         if($request->getMethod() === "POST") {
             #Repasando a requisição
             $form->handleRequest($request);
-            
+           
             #Verifica se os dados são válidos
             if($form->isValid()) {
                 #Recuperando os dados

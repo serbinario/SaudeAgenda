@@ -12,7 +12,8 @@
         }
 
         #formulario_div {
-            margin-left: 34px;
+            margin-left: 70px;
+            margin-top: 15px;
         }
 
         .blue {
@@ -28,6 +29,12 @@
         .red {
             background: #800;
             color: white;
+        }
+
+        .wizard > .content > .body { position: relative; }
+        
+        .for-psf {
+            margin-left: 10px;
         }
 
     </style>
@@ -83,79 +90,100 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="ibox-content">
-                            <div class="row">
-                                <!-- Responsive Calendar -->
-                                <div class="col-md-3" id="responsive-calendar" style="width: 216px; margin-top: 12px;">
-                                    <div class="row">
-                                        <div id="my-calendar"></div>
-                                    </div>                           
-                                </div>                        
-                                <!-- Formulário -->
-                                <div class="col-md-9" id="formulario_div">
-                                    {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}                    
-                                    {{ form_widget(form) }}                    
-                                    {{ form_end(form) }}                
-                                </div>                                            
+                        <div class="ibox-content">          
+                            <div class="row">                         
+                                <div id="wizard">
+                                    <h1>Agenda do Médico</h1>
+                                    <section style="width: 100%">                             
+                                        <!-- Responsive Calendar -->
+                                        <div class="col-lg-3" id="responsive-calendar" style="width: 32%; margin-top: 12px;">
+                                            <div id="my-calendar"></div>
+                                        </div>
+                                        <div class="col-lg-9" id="formulario_div" style="width: 60%">
+                                            <!-- Formulário -->
+                                            {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario', 'class' : 'wizard-big'}}) }} 
+                                            {{ form_widget(form) }}
+                                            {{ form_end(form) }}
+                                        </div>
+                                    </section>                                
+
+                                    <h1>Quantidade de vagas por PSF</h1>
+                                    <section>
+                                        <form class="form-inline">
+                                                                                       
+                                        </form>
+                                    </section>                                
+                                </div>
                             </div>
                         </div>
+
                         <div class="ibox-footer">
 
                         </div>
                     </div>
                 </div>
             </div>
-
+            
             {% include 'SaudeBundle:Default:rodape.html.twig' %}
         </div>
     {% endblock %}
 
     {% block javascripts %}
-        {{parent()}}    
+        {{ parent() }}    
 
         <!-- Scripts -->
         <script type="text/javascript">
             $(document).ready(function () {
                 //Estados iniciais dos botões
                 function stateInitButtons() {
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')%}
+                   {# {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')%}
                         $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_save").removeAttr("disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_diaCalendario").removeAttr("readonly");
-                        $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");
-            {% elseif is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR') or  is_granted('ROLE_ADMIN') %}
-                        $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
+                        $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("readonly");
+                        $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");#}
+                    {% if is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR') 
+                            or  is_granted('ROLE_ADMIN')
+                            or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')%}                        
+                        {# $("#serbinario_bundle_saudebundle_calendario_actions_edit").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_block").attr("disabled", "disabled");
                         $("#serbinario_bundle_saudebundle_calendario_actions_save").attr("disabled", "disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_actions_cancel").attr("disabled", "disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").attr("disabled", "disabled");                       
-                        $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").attr("disabled", "disabled");                        
-                        $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").attr("disabled", "disabled"); 
-                        $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").attr("disabled", "disabled");                        
-                        $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").attr("disabled", "disabled");                        
-                        $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("disabled", "disabled");
-            {% endif %}
-                    }
+                        $("#serbinario_bundle_saudebundle_calendario_actions_cancel").attr("disabled", "disabled");#}                     
+                        $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").prop("disabled", "disabled");
+                        $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").prop("disabled", "disabled");
+                        $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").prop("disabled", true);
+                        $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").prop("disabled", true);
+                        $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").val({{ qtdTotal }});
+                        $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").prop("disabled", true);  
+                        $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").val("");
+                        $("#serbinario_bundle_saudebundle_calendario_statusCalendario" ).prop( "disablade", true );
+                        $("#serbinario_bundle_saudebundle_calendario_statusCalendario" ).attr("checked", false);
+                        $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").prop("selected", false);                        
+                    {% endif %}
+                }
 
-                    //Estados secundário dos botões
-                    function stateSecButtons() {
-                        $("#serbinario_bundle_saudebundle_calendario_actions_edit").removeAttr("disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_actions_delete").removeAttr("disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_actions_block").removeAttr("disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_actions_save").attr("disabled", "disabled");
-                        $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("readonly", "readonly");
-                    }
+                //Estados secundário dos botões
+                function stateSecButtons() {
+                    $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").prop("disabled", false);
+                    $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").prop("disabled", false);
+                    $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").prop("disabled", false);
+                    $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").prop("disabled", false);
+                    $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").prop("disabled", false);                 
+                    $("#serbinario_bundle_saudebundle_calendario_statusCalendario" ).prop( "disabled", false );
+                    $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").prop("selected", true);
+                    $("#serbinario_bundle_saudebundle_calendario_diaCalendario").attr("readonly", "readonly");
+                }
+                
 
                     //Executando o estado inicial dos botões
                     stateInitButtons();
 
-                    //Quando o botão cancelar for clicado
+                    {#//Quando o botão cancelar for clicado
                     $("#serbinario_bundle_saudebundle_calendario_actions_cancel").click(function () {
                         stateInitButtons();
-                    });
+                    })#};
 
 
                     $.ajax({
@@ -170,43 +198,57 @@
                                     var elemento = document.getElementById(this.id);
                                     var arrayData = this.id.split("_");
                                     var data = arrayData[arrayData.length - 1];
+                                    
+                                    stateSecButtons();
+                                    
                                     //Verificando se ele é ativo ou bloqueado
                                     if ($(elemento).hasClass("event-styled")) {
-
+                                    
+                                        //Ativando o botão de excluir
+                                        $(document).find("#deletarCalendar").parent().removeClass("disabled");                                                          
+                                        $(document).find("#deletarCalendar").prop("href", "../../agenda/deleteCalendar/" + data + "/ {{ id }}");
+                                        
                                         $.ajax({
                                             url: "{{ path('getCalendarioByDate') }}", //URL solicitada
                                             dataType: "JSON", //Tipo de dado de transfência
                                             method: "POST",
                                             data: {"date": data, "idMedico": "{{ id }}"},
                                             success: function (data) {
-                                                //Chamadando o estado secundário dos botões
-                                                stateSecButtons();
-
-                                                if ($(elemento).find("div").hasClass("red")) {
-                                                    $("#serbinario_bundle_saudebundle_calendario_actions_delete").attr("disabled", "disabled");
-                                                }
-
-                                                if (data) {
+                                                if (data) {                                                    
                                                     $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").removeAttr("selected");
                                                     $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").removeAttr("selected");
                                                     $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option").removeAttr("selected");
-
+                                                    
+                                                    if(!data.statusCalendar) {
+                                                        $(document).find("#serbinario_bundle_saudebundle_calendario_statusCalendario").attr( "checked", false );
+                                                    } else {
+                                                        $(document).find("#serbinario_bundle_saudebundle_calendario_statusCalendario").prop( "checked", true );
+                                                    }
+                                                    
                                                     $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").val(data.qtdTotalCalendario);
                                                     $("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").val(data.qtdReservaCalendario);
                                                     $("#serbinario_bundle_saudebundle_calendario_diaCalendario").val(data.diaCalendario);
                                                     $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour option:contains(" + data.hour + ")").attr("selected", true);
-                                                    $("serbinario_bundle_saudebundle_calendario_horarioCalendario_minute option:contains(" + data.minute + ")").attr("selected", true);
+                                                    $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_minute option:contains(" + data.minute + ")").attr("selected", true);
                                                     $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option:contains(" + data.localidade + ")").attr("selected", true);
                                                 }
                                             }
                                         });
                                     } else {
+                                        stateInitButtons();
+                                        
+                                        //Desativando o botão de excluir
+                                        $(document).find("#deletarCalendar").parent().removeClass("disabled");
+                                        $(document).find("#deletarCalendar").parent().addClass("disabled");
+                                        
                                         var newDate = new Date(data);
                                         var dia = newDate.getDate().toString().length === 1 ? "0" + (newDate.getDate() + 1) : (newDate.getDate() + 1);
                                         var mes = newDate.getMonth().toString().length === 1 ? "0" + (newDate.getMonth() + 1) : newDate.getMonth() + 1;
                                         var ano = newDate.getFullYear();
 
                                         $("#serbinario_bundle_saudebundle_calendario_diaCalendario").val(dia + "/" + mes + "/" + ano);
+                                        
+                                        stateSecButtons();
                                     }
                                 },
                                 language: "pt",
@@ -219,8 +261,189 @@
                             });
                         }
                     });
+                    
+                    
+                    //Steps
+                    $("#wizard").steps({
+                        bodyTag: "section",
+                        headerTag: "h1",
+                        showFinishButtonAlways: true,
+                        forceMoveForward: true,
+                        transitionEffect: 1,
+                        transitionEffectSpeed: 700,
+                        labels: {
+                            cancel: "Voltar",
+                            current: "Passo corrente:",
+                            pagination: "Paginação",
+                            finish: "FInalizar",
+                            next: "Próximo",
+                            previous: "Anterior",
+                            loading: "Carregando ..."
+                        },
+                        onStepChanging: function (event, currentIndex, newIndex) { 
+                            //Se houver algum problema com os índices
+                            if(currentIndex > newIndex ) {
+                                return false;
+                            }                           
+                            
+                            //Recuperando o furmluário
+                            var form = $(this).find("form#formulario");
+                            
+                            //Faz a validação
+                            if(!form.valid()) {
+                                return form.valid();
+                            }
+                            
+                            var qtdTotal    = $(form).find("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").val();
+                            var qtdReser    = $(form).find("#serbinario_bundle_saudebundle_calendario_qtdReservaCalendario").val();
+                            var diaCalen    = $(form).find("#serbinario_bundle_saudebundle_calendario_diaCalendario").val();
+                            var horaCalen   = $(form).find("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour").val();
+                            var minuteCalen = $(form).find("#serbinario_bundle_saudebundle_calendario_horarioCalendario_minute").val();
+                            var localidade  = $(form).find("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option:selected").val();
+                            var status      = $(form).find("#serbinario_bundle_saudebundle_calendario_statusCalendario:checked").val();                           
+                           
+                            $.ajax({
+                                url: "{{ path('agendaMedico', {'id': id}) }}", //URL solicitada
+                                dataType: "JSON", //Tipo de dado de transfência
+                                method: "POST",
+                                data: {
+                                    'serbinario_bundle_saudebundle_calendario[qtdTotalCalendario]' : qtdTotal,
+                                    'serbinario_bundle_saudebundle_calendario[qtdReservaCalendario]' : qtdReser,
+                                    'serbinario_bundle_saudebundle_calendario[diaCalendario]': diaCalen,
+                                    'serbinario_bundle_saudebundle_calendario[horarioCalendario][hour]' : horaCalen,
+                                    'serbinario_bundle_saudebundle_calendario[horarioCalendario][minute]' : minuteCalen,
+                                    'serbinario_bundle_saudebundle_calendario[localidadeLocalidade]' : localidade,
+                                    'serbinario_bundle_saudebundle_calendario[statusCalendario]': status,
+                                },
+                                success : function (data) {
+                                    if(!data) {
+                                        return false;
+                                    }                            
+                                    
+                                    var qtdCalendario = data;
+                                    var idCalendario  = qtdCalendario[0].id;
+                                    
+                                    var divOne = '<div class="form-group"><label>PSF</label><input type="text" disabled="disabled" class="form-control"></div>';
+                                    var divTwo = '<div class="form-group for-psf"><label>Quantidade</label><input type="text" name="qtdCalendarios[]" class="form-control"></div> <br><br>';
+                                    
+                                    //Criando um campo oculto com o id do calendário
+                                    $("form.form-inline").append('<input type="hidden" id="idCalendario" value="'+ idCalendario +'">');
+                                    
+                                    for(var i = 0; i < qtdCalendario.length; i ++) {                     
+                                        $("form.form-inline").append(divOne);
+                                        $("form.form-inline").append(divTwo);                             
+                                    }                                    
+                                                                            
+                                    $("form.form-inline").find("div").not(".for-psf").each(function (index, element) {
+                                        $(this).find('input').val(qtdCalendario[index].nomePsf);
+                                    });
 
+                                    $("form.form-inline").find("div.for-psf").each(function (index, element) {
+                                        $(this).find('input').val(qtdCalendario[index].qtd);
+                                    });                         
+                                   
+                                }                                
 
+                            });                           
+                            
+                            //Retorno
+                            return true; 
+                        },
+                        onCanceled: function (event) {             
+                            window.location.href = "{{ path('gridAgendaMedico') }}";
+                        },
+                        onFinishing: function (event, currentIndex) { 
+                            if(!currentIndex === 1) {
+                                return false; 
+                            }
+                            
+                            var valores = [];
+                            $("input[name='qtdCalendarios[]']").each(function (index, element) {
+                                valores[index] = $(element).val();
+                            });                       
+                            
+                            var idCalendario = $("#idCalendario").val();
+                            
+                            $.ajax({
+                                url: "../../agenda/editQtdCalendarios/" + idCalendario, //URL solicitada
+                                dataType: "JSON", //Tipo de dado de transfência
+                                method: "POST",
+                                data: {valores}
+                            }); 
+                            
+                            return true;                            
+                        },
+                        onFinished: function (event, currentIndex) { 
+                            window.location.href = "{{ path('agendaMedico', {"id" : id}) }}";
+                        },
+                        
+                        
+                    }).validate({
+                        errorPlacement: function (error, element)
+                        {                            
+                            element.before(error);
+                        },
+                        rules: {
+                            serbinario_bundle_saudebundle_calendario_qtdTotalCalendario: {
+                                required: true,
+                                number: true,   
+                                messages: {
+                                  required: "Campo obrigatório",
+                                  number  : "Este campo deve ser um número",
+                                  //minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_qtdReservaCalendario: {
+                                required: true,
+                                number: true,   
+                                messages: {
+                                  required: "Esté campo é obrigatório",
+                                  number  : "Este campo deve ser um número",
+                                  //minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_diaCalendario: {
+                                required: true,
+                                date: true,  
+                                messages: {
+                                  required: "Esté campo é obrigatório",
+                                  date  : "Este campo deve ser uma data",
+                                  //minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_horarioCalendario_hour: {
+                                required: true,
+                                number: true,
+                                messages: {
+                                  required: "Esté campo é obrigatório",
+                                  number  : "Este campo deve ser um número",
+                                  //minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_horarioCalendario_minute: {
+                                required: true,
+                                number: true,
+                                messages: {
+                                  required: "Esté campo é obrigatório",
+                                  number  : "Este campo deve ser um número",
+                                  //minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_localidadeLocalidade: {
+                                required: true,                                
+                                messages: {
+                                  required: "Esté campo é obrigatório",                                  
+                                }
+                            },
+                            serbinario_bundle_saudebundle_calendario_statusCalendario : {
+                                required: false  
+                            }                            
+                        }                        
+                        
+                    });                   
+                    
+                    //Criando o botão de excluir
+                    $(document).find("div.actions.clearfix ul").append('<li class="disabled"><a id="deletarCalendar" role="menuitem">Excluir</a></li>');
 
                 });
         </script>

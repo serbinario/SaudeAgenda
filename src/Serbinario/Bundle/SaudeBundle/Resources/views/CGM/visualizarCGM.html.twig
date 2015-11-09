@@ -93,11 +93,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Data de Nascimento</b></td>
-                                                                    <td>{% if cgm.dataNascimento is defined %}{{cgm.dataNascimento|date('d/m/Y')}}{% endif %}</td>
+                                                                    <td>{% if cgm.dataNascimento.date is defined %}{{cgm.dataNascimento|date('d/m/Y')}}{% endif %}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Data de Falecimento</b></td>
-                                                                    <td>{% if cgm.dataFalecimento is defined %}{{cgm.dataFalecimento|date('d/m/Y')}}{% endif %}</td>
+                                                                    <td>{% if cgm.dataFalecimento.date is defined %}{{cgm.dataFalecimento|date('d/m/Y')}}{% endif %}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Nacionalidade</b></td>
@@ -164,7 +164,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><b>Data de expedição</b></td>
-                                                            <td>{{cgm.dataExpedicao|date('d/m/Y')}}</td>
+                                                            <td>{% if cgm.dataExpedicao.date is defined %}{{cgm.dataExpedicao|date('d/m/Y')}}{% endif %}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Número CNH</b></td>
@@ -172,7 +172,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><b>Data de vencimento CNH</b></td>
-                                                            <td>{{cgm.vencimentoCNH|date('d/m/Y')}}</td>
+                                                            <td>{% if cgm.vencimentoCNH.date is defined %}{{cgm.vencimentoCNH|date('d/m/Y')}}{% endif %}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Categoria CNH</b></td>

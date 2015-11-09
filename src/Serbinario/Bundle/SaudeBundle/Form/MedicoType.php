@@ -26,7 +26,8 @@ class MedicoType extends AbstractType
                     )
             ))            
             ->add('emailMedico', 'text', array(
-                'label' => 'E-mail ',           
+                'label' => 'E-mail ', 
+                'required'     => false,
                 'attr'  => array(
                     'placeholder' => 'E-mail',
                     'widget_col'=> '8',

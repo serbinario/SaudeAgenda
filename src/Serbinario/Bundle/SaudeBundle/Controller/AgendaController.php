@@ -49,7 +49,8 @@ class AgendaController extends Controller {
         
         #Preenchimento do obj Calendário
         $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();
-        $medico     = $medicoRN->findId($id);       
+        $medico     = $medicoRN->findId($id);
+        $nomeMedico = $medico->getCgm()->getNome();
         $calendario->setQtdTotalCalendario($medico->getQuantidadeVagas());
                
         #Criando o formulário
@@ -108,7 +109,7 @@ class AgendaController extends Controller {
                
                 $arrayQtdCalendarios = array();
                 $count = 0;
-                foreach ($qtdCaledarios as $qtd) {
+                foreach ($qtdCaledarios as $qtd) {                    
                     $arrayQtdCalendarios[$count]['nomePsf'] = $qtd->getPsf()->getNomePsf();
                     $arrayQtdCalendarios[$count]['qtd']     = $qtd->getQtdCalendario(); 
                     $arrayQtdCalendarios[$count]['id']      = $qtd->getCalendario()->getIdCalendario(); 
@@ -124,7 +125,12 @@ class AgendaController extends Controller {
         }      
        
         #Retorno
-        return array("form" => $form->createView(), "id" => $id, "qtdTotal" => $calendario->getQtdTotalCalendario());
+        return array(
+            "form" => $form->createView(), 
+            "id" => $id, 
+            "qtdTotal" => $calendario->getQtdTotalCalendario(),
+            "nomeMedico" => $nomeMedico
+        );
     }
     
     /**

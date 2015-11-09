@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Serbinario\Bundle\SecurityBundle\Form\UserType;
 use Serbinario\Bundle\SecurityBundle\UTIL\GridClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class UserController extends Controller {
 

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Serbinario\Bundle\SaudeBundle\UTIL\GridClass;
 use Serbinario\Bundle\SaudeBundle\Form\CalendarioType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/agenda")
@@ -19,6 +20,7 @@ class AgendaController extends Controller {
      * @Route("/agendamento", defaults={"id" = 0},name="agendamento")
      * @Route("/agendamento/id/{id}", name="agendamentoByMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
      */
     public function agendamentoAction($id) {
         
@@ -32,8 +34,9 @@ class AgendaController extends Controller {
     }
     
     /**
-     * @Route("/agendaMedico/id/{id}", name="agendaMedico")
+     * @Route("/agendaMedico/{id}", name="agendaMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')  or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
      */
     public function agendaMedicoAction(Request $request, $id)
     {          
@@ -56,71 +59,78 @@ class AgendaController extends Controller {
         if ($request->getMethod() === "POST") {
             #Repasando a requisição
             $form->handleRequest($request);
-
+            
             #Verifica se os dados são válidos
             if ($form->isValid()) {
                 #Recuperando os dados
-                $calendario = $form->getData();
+                $calendario = $form->getData();                
                 
                 #Set o médico do calendário
                 $calendario->setMedicoMedico($medico);
                
-                 #dispachando a requisição dependendo do butão clicado
-                if($form->getClickedButton()->getName() == "edit") {
-                    $result = $this->editCalendar($id, $calendario);
-                } else if($form->getClickedButton()->getName() == "delete") {                   
-                    $result = $this->deleteCalendar($id, $calendario);
-                } else if($form->getClickedButton()->getName() == "block") {
-                    $result = $this->blockCalendar($id, $calendario);
-                } else {                                        
-                    #Recuperando o calendário
-                    $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $id);
-                 
-                    #Verificando se a data já está cadastrada
-                    if($objCalendario == null) {
-                        #Executando e recuperando o resultado
-                        $result = $calendarioRN->save($calendario);                       
-                    } 
-                    
-                }            
+                #Recuperando o calendário
+                $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $id);          
+                $result        = "";
+                $qtdCaledarios = array();
                 
-                #Tratamento da mensagem de retorno
-                if ($result) {
-                    #Messagem de retorno
-                    $this->get('session')->getFlashBag()->add('success', 'Dados cadastrado com sucesso');
+                #Persistindo o calendário
+                if($objCalendario) {
+                    $objCalendario->setDiaCalendario($calendario->getDiaCalendario());
+                    $objCalendario->setHorarioCalendario($calendario->getHorarioCalendario());
+                    $objCalendario->setQtdTotalCalendario($calendario->getQtdTotalCalendario());
+                    $objCalendario->setQtdReservaCalendario($calendario->getQtdReservaCalendario());
+                    $objCalendario->setStatusCalendario($calendario->getStatusCalendario());
+                    $objCalendario->setLocalidadeLocalidade($calendario->getLocalidadeLocalidade());
+                    
+                    $qtdCaledarios = $objCalendario->getQtdCalendarios()->toArray();                    
+                    $result        = $calendarioRN->update($objCalendario);
                 } else {
-                     if($objCalendario) {
-                        #Messagem de retorno
-                        $this->get('session')->getFlashBag()->add('danger', 'Data já cadastrada, escolha outra data ou exclua a mesma!');
-                     } else {
-                         #Messagem de retorno
-                        $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado Dados');
-                     }                  
+                    
+                    foreach ($medico->getQtdDefualts()->toArray() as $qtdDefault)
+                    {
+                        $qtdCalendario = new \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario();
+                        $qtdCalendario->setCalendario($calendario);
+                        $qtdCalendario->setPsf($qtdDefault->getPsf());
+                        $qtdCalendario->setQtdCalendario($qtdDefault->getQtdDefault());
+                        
+                        $result = $calendario->addQtdCalendario($qtdCalendario);
+                    }
+                    
+                    $qtdCaledarios = $calendario->getQtdCalendarios()->toArray();
+                    $result        = $calendarioRN->save($calendario);                    
                 }
                 
-                #Preenchimento do obj Calendário
-                $calendario = new \Serbinario\Bundle\SaudeBundle\Entity\Calendario();
-                $medico     = $medicoRN->findId($id);  
-                $calendario->setQtdTotalCalendario($medico->getQuantidadeVagas());
-        
-                #Criando o formulário
-                $form = $this->createForm(new CalendarioType(), $calendario, array("idMedico"=> $id));
-
-                #Retorno
-                return array("form" => $form->createView(), "dataAtual" => $dataAtual->format("Y-m"), "id" => $id);
+                #Tratamento da mensagem de retorno
+                if (!$result) {
+                    #retorno
+                    return new JsonResponse(false); 
+                } 
+               
+                $arrayQtdCalendarios = array();
+                $count = 0;
+                foreach ($qtdCaledarios as $qtd) {
+                    $arrayQtdCalendarios[$count]['nomePsf'] = $qtd->getPsf()->getNomePsf();
+                    $arrayQtdCalendarios[$count]['qtd']     = $qtd->getQtdCalendario(); 
+                    $arrayQtdCalendarios[$count]['id']      = $qtd->getCalendario()->getIdCalendario(); 
+                    
+                    $count++;
+                }
+               
+                #retorno
+                return new JsonResponse($arrayQtdCalendarios);
             } else {
-                #Messagem de retorno
-                $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
+               return new JsonResponse(false); 
             }
-        }
-      
+        }      
+       
         #Retorno
-        return array("form" => $form->createView(), "dataAtual" => $dataAtual->format("Y-m"), "id" => $id);
+        return array("form" => $form->createView(), "id" => $id, "qtdTotal" => $calendario->getQtdTotalCalendario());
     }
     
     /**
      * @Route("/gridAgendaMedico", name="gridAgendaMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')")
      */
     public function gridAgendaMedicoAction(Request $request)
     {
@@ -320,6 +330,7 @@ class AgendaController extends Controller {
             $arrayResult->offsetSet("hour", $result->getHorarioCalendario()->format("H"));
             $arrayResult->offsetSet("minute", $result->getHorarioCalendario()->format("i"));
             $arrayResult->offsetSet("localidade", $result->getLocalidadeLocalidade()->getNomeLocalidade());
+            $arrayResult->offsetSet("statusCalendar", $result->getStatusCalendario());
               
         }
         
@@ -327,75 +338,116 @@ class AgendaController extends Controller {
         return new JsonResponse($arrayResult->getArrayCopy());
     }
     
+//    /**
+//     * 
+//     * @param type $idMedico
+//     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+//     * @return type
+//     */
+//    private function editCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+//    {
+//        #Recuperando o serviço do container
+//        $calendarioRN = $this->get('calendario_rn');
+//        
+//        #Recuperando o calendário do banco
+//        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
+//        $objCalendario->setDiaCalendario($calendario->getDiaCalendario());
+//        $objCalendario->setHorarioCalendario($calendario->getHorarioCalendario());
+//        $objCalendario->setLocalidadeLocalidade($calendario->getLocalidadeLocalidade());
+//        $objCalendario->setQtdTotalCalendario($calendario->getQtdTotalCalendario());
+//        $objCalendario->setQtdReservaCalendario($calendario->getQtdReservaCalendario());        
+//        
+//        #Alterando
+//        $result     = $calendarioRN->update($objCalendario);
+//        
+//        #Retorno
+//        return $result;
+//    }
+//    
     /**
-     * 
-     * @param type $idMedico
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
-     * @return type
+     * @Route("/deleteCalendar/{date}/{idMedico}", name="deleteCalendar")
+     * @Template()
      */
-    private function editCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
-    {
-        #Recuperando o serviço do container
-        $calendarioRN = $this->get('calendario_rn');
-        
-        #Recuperando o calendário do banco
-        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
-        $objCalendario->setDiaCalendario($calendario->getDiaCalendario());
-        $objCalendario->setHorarioCalendario($calendario->getHorarioCalendario());
-        $objCalendario->setLocalidadeLocalidade($calendario->getLocalidadeLocalidade());
-        $objCalendario->setQtdTotalCalendario($calendario->getQtdTotalCalendario());
-        $objCalendario->setQtdReservaCalendario($calendario->getQtdReservaCalendario());        
-        
-        #Alterando
-        $result     = $calendarioRN->update($objCalendario);
-        
-        #Retorno
-        return $result;
-    }
-    
-    /**
-     * 
-     * @param type $idMedico
-     * @param \Serbinario\Bundle\SaudeBundle\Controller\Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
-     * @return type
-     */
-    private function deleteCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    public function deleteCalendarAction($date, $idMedico)
     {
         #Recuperando o serviço do container
         $calendarioRN  = $this->get('calendario_rn');
         
+        #transformando a data em um objeto DateTime
+        $objDateTime   = \DateTime::createFromFormat("Y-m-d", $date);
         #Recuperando o calendário do banco
-        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
+        $objCalendario = $calendarioRN->findByDateAndIdMedico($objDateTime, $idMedico);
         
         #Excluindo
-        $result     = $calendarioRN->remove($objCalendario);
+        $result        = $calendarioRN->remove($objCalendario);
       
+        #Mensagem de retorno
+        if($result) {
+            #Messagem de retorno
+            $this->get('session')->getFlashBag()->add('success', 'Calendário deletado com sucesso.'); 
+        } else {
+            #Messagem de retorno
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletar calendário');
+        }
+        
         #Retorno
-        return $result;
+        return $this->redirectToRoute("agendaMedico", array("id" => $idMedico));
     }
     
     /**
-     * 
-     * @param type $idMedico
-     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
-     * @return type
+     * @Route("/editQtdCalendarios/{id}", name="editQtdCalendarios")
+     * @Template()
      */
-    private function blockCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    public function editQtdCalendariosAction(Request $request, $id)
     {
-        #Recuperando o serviço do container
+        $valores = $request->request->get("valores");
+        
         $calendarioRN = $this->get('calendario_rn');
+        $calendario   = $calendarioRN->findId($id);       
         
-        #Recuperando o calendário do banco
-        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
-        $objCalendario->setStatusCalendario($objCalendario->getStatusCalendario() ? false : true);        
+        $count = 0;
+        foreach ($calendario->getQtdCalendarios() as $qtd) {
+            $qtd->setQtdCalendario($valores[$count]);
+            
+            $count++;
+        }
         
-        #Alterando
-        $result = $calendarioRN->update($objCalendario);
+        $result = $calendarioRN->update($calendario);
+        
+        if($result) {
+            #Messagem de retorno
+            $this->get('session')->getFlashBag()->add('success', 'Dados cadastrados com sucesso'); 
+        } else {
+            #Messagem de retorno
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrar dados');
+        }
         
         #Retorno
-        return $result;
+        return new JsonResponse(true);
     }
     
+//    /**
+//     * 
+//     * @param type $idMedico
+//     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+//     * @return type
+//     */
+//    private function blockCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+//    {
+//        #Recuperando o serviço do container
+//        $calendarioRN = $this->get('calendario_rn');
+//        
+//        #Recuperando o calendário do banco
+//        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
+//        $objCalendario->setStatusCalendario($objCalendario->getStatusCalendario() ? false : true);        
+//        
+//        #Alterando
+//        $result = $calendarioRN->update($objCalendario);
+//        
+//        #Retorno
+//        return $result;
+//    }
+//    
     /**
      * @Route("/savePaciente", name="savePaciente")
      * @Template("SaudeBundle:Agenda:agendamento.html.twig")

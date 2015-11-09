@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Serbinario\Bundle\SaudeBundle\Form\MedicoType;
 use Serbinario\Bundle\SaudeBundle\Form\EspecialidadeType;
 use Serbinario\Bundle\SaudeBundle\Form\LocalidadeType;
@@ -18,47 +18,13 @@ use Serbinario\Bundle\SaudeBundle\Form\PsfType;
 use Serbinario\Bundle\SaudeBundle\UTIL\GridClass;
 
 
+
 class DefaultController extends Controller
-{
-//    /**
-//     * @Route("/", name="index")
-//     * @Template()
-//     */
-//    public function indexAction()
-//    {
-//        return array();
-//    }
-//    
-//    
-//    /**
-//     * @Route("/login", name="login")
-//     * @Template()
-//     */
-//    public function loginAction(Request $request)
-//    {
-//        $dados = $request->request->all();
-//        
-//        if($dados['_username'] == "agenda" && $dados['_password'] == "agenda") {
-//           return $this->redirect($this->generateUrl("home"));
-//        } else {
-//           $this->addFlash("danger", "Login ou senha inválidos");
-//        }
-//        
-//        return $this->redirect($this->generateUrl("index"));
-//    }
-//    
-//    /**
-//     * @Route("/logout", name="logout")
-//     * @Template()
-//     */
-//    public function logoutAction()
-//    {        
-//        return $this->redirect($this->generateUrl("index"));
-//    }
-    
+{    
     /**
      * @Route("/home", name="home")
      * @Template()
+     * @Security("has_role('ROLE_USER')")
      */
     public function homeAction()
     {
@@ -68,6 +34,7 @@ class DefaultController extends Controller
     /**
      * @Route("/saveMedico", name="saveMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')")
      */
     public function saveMedicoAction(Request $request)
     {        
@@ -124,6 +91,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridMedico", name="gridMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_CADASTRAR')or has_role('ROLE_AGENDAMENTO_MEDICO_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_MEDICO_EDITAR') or has_role('ROLE_AGENDAMENTO_MEDICO_DELETAR')") 
      */
     public function gridMedicoAction(Request $request)
     {
@@ -188,6 +156,7 @@ class DefaultController extends Controller
     /**
      * @Route("/editMedico/id/{id}", name="editMedico")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_EDITAR')") 
      */
     public function editMedicoAction(Request $request, $id)
     {     
@@ -296,6 +265,7 @@ class DefaultController extends Controller
     /**
      * @Route("/saveEspecialidade", name="saveEspecialidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')") 
      */
     public function saveEspecialidadeAction(Request $request)
     {    
@@ -345,6 +315,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridEspecialidade", name="gridEspecialidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_EDITAR') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_DELETAR')") 
      */
     public function gridEspecialidadeAction(Request $request)
     {
@@ -405,6 +376,7 @@ class DefaultController extends Controller
     /**
      * @Route("/editEspecialidade/id/{id}", name="editEspecialidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_ESPECIALIDADE_EDITAR')")
      */
     public function editEspecialidadeAction(Request $request, $id)
     {     
@@ -464,8 +436,7 @@ class DefaultController extends Controller
         
         $especialidades = $especialidadeRN->all();
         
-        return array("especialidades" => $especialidades);
-        
+        return array("especialidades" => $especialidades);        
     }
     
     /**
@@ -487,6 +458,7 @@ class DefaultController extends Controller
     /**
      * @Route("/saveLocalidade", name="saveLocalidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR')")
      */
     public function saveLocalidadeAction(Request $request)
     {        
@@ -500,7 +472,7 @@ class DefaultController extends Controller
         if($request->getMethod() === "POST") {
             #Repasando a requisição
             $form->handleRequest($request);
-            
+           
             #Verifica se os dados são válidos
             if($form->isValid()) {
                 #Recuperando os dados
@@ -533,6 +505,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridLocalidade", name="gridLocalidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_CADASTRAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_EDITAR') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_DELETAR')")
      */
     public function gridLocalidadeAction(Request $request)
     {
@@ -593,6 +566,7 @@ class DefaultController extends Controller
     /**
      * @Route("/editLocalidade/id/{id}", name="editLocalidade")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_LOCALIDADE_EDITAR')")
      */
     public function editLocalidadeAction(Request $request, $id)
     {     
@@ -645,6 +619,7 @@ class DefaultController extends Controller
     /**
      * @Route("/savePsf", name="savePsf")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR')")
      */
     public function savePsfAction(Request $request)
     {        
@@ -691,6 +666,7 @@ class DefaultController extends Controller
     /**
      * @Route("/gridPsf", name="gridPsf")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR') or has_role('ROLE_AGENDAMENTO_PSF_VISUALIZAR') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR') or has_role('ROLE_AGENDAMENTO_PSF_DELETAR')")
      */
     public function gridPsfAction(Request $request)
     {
@@ -751,6 +727,7 @@ class DefaultController extends Controller
     /**
      * @Route("/editPsf/id/{id}", name="editPsf")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR')")
      */
     public function editPsfAction(Request $request, $id)
     {     

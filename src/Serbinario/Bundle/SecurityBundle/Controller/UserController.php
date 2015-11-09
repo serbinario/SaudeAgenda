@@ -15,6 +15,7 @@ class UserController extends Controller {
     /**
      * @Route("/saveUser", name="saveUser")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function saveAction(Request $request) {
         #Criando o formulário
@@ -106,6 +107,7 @@ class UserController extends Controller {
     /**
      * @Route("/updateUser/{id}", name="updateUser")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function updateAction(Request $request, $id) {
         #Recuperando o serviço do container
@@ -248,8 +250,9 @@ class UserController extends Controller {
         );
     }
     
-      /**
+    /**
      * @Route("/deleteFotoUser", name="deleteFotoUser")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteFotoUserAction(Request $request)
     {
@@ -274,6 +277,7 @@ class UserController extends Controller {
     /**
      * @Route("/gridUser", name="gridUser")
      * @Template()
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function gridAction(Request $request) {
         if (GridClass::isAjax()) {

@@ -69,7 +69,7 @@ class Medico
     /**
      * @var \Localidade
      *
-     * @ORM\ManyToMany(targetEntity="Localidade", inversedBy="medico", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Localidade", inversedBy="medico", cascade={"persist"}, cascade={"merge"})
      * @ORM\JoinTable(name="localidade_medico", 
      *      joinColumns={@ORM\JoinColumn(name="id_medico", referencedColumnName="id_medico")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_localidade", referencedColumnName="id_localidade")}

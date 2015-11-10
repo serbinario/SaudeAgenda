@@ -174,8 +174,12 @@
                                         "orderable": false,
                                         "data": null,
                                         "render": function (data, type, row, full, meta) {
-                                            return '<a href="editMedico/id/' + data.id + '" class="editar" title="Editar">\n\
+                                            if (data.delete === '1') {
+                                                return '<a href="editMedico/id/' + data.id + '" class="editar" title="Editar">'
+                                            } else if (data.delete === '2') {
+                                                return '<a href="editMedico/id/' + data.id + '" class="editar" title="Editar">\n\
                                                     <a href="deleteMedico/id/' + data.id + '" class="excluir" title="Excluir">'
+                                            }
                                         }
                                     },{% endif %}
                                 ],
@@ -253,7 +257,7 @@
                         $(document).on('click', 'a.excluir', function (event) {
                             event.preventDefault();
                             var url = $(this).attr('href');
-                            bootbox.confirm("Deseja realmente excluir a entidade?", function (result) {
+                            bootbox.confirm("Deseja realmente excluir o especialista?", function (result) {
                                 if (result) {
                                     location.href = url
                                 } else {

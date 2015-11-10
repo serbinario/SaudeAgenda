@@ -132,7 +132,13 @@ class DefaultController extends Controller
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getCgm()->getNome();
                 $radiosArray[$i]['email']           = $resultRadios[$i]->getEmailMedico();
                 $radiosArray[$i]['especialidade']   = $resultRadios[$i]->getEspecialidadeEspecialidade()->getCbo()->getDescricao();
-
+                
+                if(count($resultRadios[$i]->getCalendario()) > 0) {
+                    $radiosArray[$i]['delete'] = '1';
+                } else {
+                    $radiosArray[$i]['delete'] = '2';
+                }
+                
             }
 
             //Se a variável $sqlFilter estiver vazio
@@ -374,6 +380,12 @@ class DefaultController extends Controller
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdEspecialidade();
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdEspecialidade();
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getCbo()->getDescricao();
+                
+                if(count($resultRadios[$i]->getMedico()) > 0) {
+                    $radiosArray[$i]['delete'] = "1";
+                } else {
+                    $radiosArray[$i]['delete'] = "2";
+                }
 
             }
 
@@ -586,6 +598,12 @@ class DefaultController extends Controller
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdLocalidade();
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdLocalidade();
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomeLocalidade();
+                
+                if(count($resultRadios[$i]->getMedico()) > 0) {
+                    $radiosArray[$i]['delete'] = '1';
+                } else {
+                    $radiosArray[$i]['delete'] = '2';
+                }
 
             }
 
@@ -769,7 +787,13 @@ class DefaultController extends Controller
                 $radiosArray[$i]['DT_RowId']        = "row_".$resultRadios[$i]->getIdPsf();
                 $radiosArray[$i]['id']              = $resultRadios[$i]->getIdPsf();
                 $radiosArray[$i]['nome']            = $resultRadios[$i]->getNomePsf();
-
+                
+                if(count($resultRadios[$i]->getQtdCalendarios()) > 0) {
+                    $radiosArray[$i]['delete'] = '1';
+                } else {
+                    $radiosArray[$i]['delete'] = '1';
+                }
+                
             }
 
             //Se a variável $sqlFilter estiver vazio

@@ -190,6 +190,11 @@ class CGMController extends Controller
                 $eventosArray[$i]['CGMMunicipio']       =  $resultCliente[$i]->getCGMMunicipio()->getCGMMunicipio();
                 $eventosArray[$i]['tipoCadastro']       =  $resultCliente[$i]->getTipoCadastro();
                 
+                if(count($resultCliente[$i]->getMedico()) > 0 || count($resultCliente[$i]->getUser()) > 0) {
+                    $eventosArray[$i]['delete'] = '1';
+                } else {
+                    $eventosArray[$i]['delete'] = '2';
+                }
                 
             }
 

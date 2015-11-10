@@ -245,6 +245,20 @@ class CGM
      * @ORM\Column(name="tipo_cadastro", type="string", length=1, nullable=true)
      */
     private $tipoCadastro;
+    
+    /**
+     * @var \Medico
+     *
+     * @ORM\OneToMany(targetEntity="Medico", mappedBy="cgm", cascade={"all"})
+     */
+    private $medico;
+    
+    /**
+     * @var \Serbinario\Bundle\SecurityBundle\Entity\User
+     *
+     * @ORM\OneToMany(targetEntity="\Serbinario\Bundle\SecurityBundle\Entity\User", mappedBy="cgm", cascade={"all"})
+     */
+    private $user;
         
     /**
      * Método construtor
@@ -782,5 +796,21 @@ class CGM
     public function removeTelefone(\Serbinario\Bundle\SaudeBundle\Entity\FonesCGM $telefones)
     {
         $this->telefones->removeElement($telefones);
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getMedico() {
+        return $this->medico;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getUser() {
+        return $this->user;
     }
 }

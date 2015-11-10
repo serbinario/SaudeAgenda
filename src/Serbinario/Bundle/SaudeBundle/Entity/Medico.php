@@ -69,7 +69,7 @@ class Medico
     /**
      * @var \Localidade
      *
-     * @ORM\ManyToMany(targetEntity="Localidade", inversedBy="medico", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Localidade", inversedBy="medico", cascade={"persist"}, cascade={"merge"})
      * @ORM\JoinTable(name="localidade_medico", 
      *      joinColumns={@ORM\JoinColumn(name="id_medico", referencedColumnName="id_medico")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_localidade", referencedColumnName="id_localidade")}
@@ -85,7 +85,7 @@ class Medico
     private $foto;
     
     /**
-     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM", inversedBy="medico")
      * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
      **/
     private $cgm;

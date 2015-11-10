@@ -190,6 +190,11 @@ class CGMController extends Controller
                 $eventosArray[$i]['CGMMunicipio']       =  $resultCliente[$i]->getCGMMunicipio()->getCGMMunicipio();
                 $eventosArray[$i]['tipoCadastro']       =  $resultCliente[$i]->getTipoCadastro();
                 
+                if(count($resultCliente[$i]->getMedico()) > 0 || count($resultCliente[$i]->getUser()) > 0) {
+                    $eventosArray[$i]['delete'] = '1';
+                } else {
+                    $eventosArray[$i]['delete'] = '2';
+                }
                 
             }
 
@@ -317,6 +322,27 @@ class CGMController extends Controller
         
         #Retorno
         return array("form" => $form->createView(), "logo" => $cgmRecuperado->getFoto());
+    }
+    
+    /**
+     * @Route("/deleteCGM/id/{id}", name="deleteCGM")
+     * @Template()
+     */
+    public function deleteCGMAction($id) {
+        
+        $cgmRN = $this->get("cgm_rn");
+        $cgmRecuperado = $cgmRN->findById($id);
+        
+        if(count($cgmRecuperado->getMedico()) > 0 || count($cgmRecuperado->getUser()) > 0) {
+            $this->addFlash('danger', 'Este CGM possui vínculos com outras partes do sistema, não sendo possível deletar');
+            
+        } else if ($cgmRN->remove($cgmRecuperado)) {
+            $this->get('session')->getFlashBag()->add('success', 'CGM deletada com sucesso');
+        } else {
+            $this->get('session')->getFlashBag()->add('danger', 'Erro ao deletada o CGM');
+        }
+        
+        return $this->redirect($this->generateUrl("consultaCGM"));
     }
     
     /**

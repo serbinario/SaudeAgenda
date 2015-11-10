@@ -102,7 +102,7 @@
     <script type="text/javascript" src="{{asset('js/validacoes/validationForm_medico.js')}}"></script>
     <script type="text/javascript" language="javascript" class="init">
         $("#saudebundle_medico_actions_voltar").click(function () {
-            javascript:history.back();
+            location.href = '{{path('gridMedico')}}'
         });
         
         $(document).ready(function(){

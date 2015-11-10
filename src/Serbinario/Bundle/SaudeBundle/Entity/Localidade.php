@@ -32,7 +32,7 @@ class Localidade
     /**
      * @var \Medico
      *
-     * @ORM\ManyToMany(targetEntity="Medico", mappedBy="localidade", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Medico", mappedBy="localidade", cascade={"persist"}, cascade={"merge"})
      */
     private $medico;
 

@@ -121,7 +121,7 @@
             });
         {% endif %}
             $("#saudebundle_medico_actions_voltar").click(function () {
-                javascript:history.back();
+                location.href = '{{path('gridMedico')}}'
             });
         $(document).ready(function(){
             $(".select2").select2();

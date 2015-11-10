@@ -122,9 +122,10 @@
         });#}
 
         $("#saudebundle_psf_actions_voltar").click(function () {
-            javascript:history.back();
+            location.href = '{{path('gridPsf')}}';
         });
-         $(document).ready(function(){
+        
+        $(document).ready(function(){
             $('#saudebundle_psf_actions_voltar').removeClass("btn-default");
             $('#saudebundle_psf_actions_voltar').addClass("btn-success");
         });

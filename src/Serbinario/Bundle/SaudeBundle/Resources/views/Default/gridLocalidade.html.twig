@@ -170,8 +170,12 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
+                                if (data.delete === '1' ) {
+                                    return '<a href="editLocalidade/id/' + data.id + '" class="editar" title="Editar">'
+                                } else if (data.delete === '2') {
                                     return '<a href="editLocalidade/id/' + data.id + '" class="editar" title="Editar">\n\
                                     <a href="deleteLocalidade/id/' + data.id + '" class="excluir" title="Excluir">'
+                                }
                         }
                     },
                     {% endif %}

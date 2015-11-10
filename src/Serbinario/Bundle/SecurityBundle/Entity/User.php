@@ -58,7 +58,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $roles;
     
     /**
-     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM")
+     * @ORM\OneToOne(targetEntity="Serbinario\Bundle\SaudeBundle\Entity\CGM", inversedBy="user")
      * @ORM\JoinColumn(name="cgm_id", referencedColumnName="id_cgm")
      **/
     private $cgm;

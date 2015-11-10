@@ -155,14 +155,7 @@ class CGM
      * })
      */
     private $ctgCNH;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="inscricao_estadual", type="string", length=50, nullable=true)
-     */
-    private $inscricaoEstadual;
-    
+       
     /**
      * @var string
      *
@@ -690,14 +683,6 @@ class CGM
      * 
      * @return type
      */
-    function getInscricaoEstadual() {
-        return $this->inscricaoEstadual;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
     function getNire() {
         return $this->nire;
     }
@@ -726,13 +711,6 @@ class CGM
         $this->CpfCnpj = $CpfCnpj;
     }
     
-    /**
-     * 
-     * @param type $inscricaoEstadual
-     */
-    function setInscricaoEstadual($inscricaoEstadual) {
-        $this->inscricaoEstadual = $inscricaoEstadual;
-    }
     
     /**
      * 

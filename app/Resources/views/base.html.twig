@@ -105,7 +105,7 @@
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')                                           
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')%}
-                                <li><a href="{{path('agendamento')}}" data="2" class="mmmm">Agendamento</a></li>
+                                <li><a href="{{path('saveAgendamento')}}" data="2" class="mmmm">Agendamento</a></li>
                                 {% endif %}
                             </ul>
                         </li>

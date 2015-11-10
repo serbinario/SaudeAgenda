@@ -119,4 +119,34 @@ class Especialidade
         return $this->medico;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->medico = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add medico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medico
+     * @return Especialidade
+     */
+    public function addMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medico)
+    {
+        $this->medico[] = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Remove medico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medico
+     */
+    public function removeMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medico)
+    {
+        $this->medico->removeElement($medico);
+    }
 }

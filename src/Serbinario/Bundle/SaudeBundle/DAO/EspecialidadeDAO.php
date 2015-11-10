@@ -106,4 +106,22 @@ class EspecialidadeDAO
             return null;
         } 
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function findWithMedico()
+    {
+        try {
+            $qb = $this->manager->createQueryBuilder();
+            $qb->select("a");
+            $qb->from("SaudeBundle:Especialidade", "a");
+            $qb->join("a.medico", "b");
+            
+            return $qb->getQuery()->getResult();
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

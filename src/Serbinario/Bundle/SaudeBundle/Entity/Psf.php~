@@ -100,8 +100,9 @@ class Psf
      */
     public function addQtdCalendario(\Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario $qtdCalendarios)
     {
-        $this->qtdCalendarios[] = $qtdCalendarios;
-
+        $qtdCalendarios->setPsf($this);
+        $this->qtdCalendarios[] = $qtdCalendarios;        
+        
         return $this;
     }
 
@@ -133,7 +134,8 @@ class Psf
      */
     public function addQtdDefault(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefaults)
     {
-        $this->qtdDefaults[] = $qtdDefaults;
+        $qtdDefaults->setPsf($this);
+        $this->qtdDefaults[] = $qtdDefaults;        
 
         return $this;
     }

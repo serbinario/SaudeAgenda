@@ -122,7 +122,7 @@ class EventosDAO
                     . "JOIN a.calendarioCalendario c "
                     . "JOIN c.medicoMedico m "
                     . "JOIN a.usuariosUsuarios u "
-                    . "WHERE m.idMedico = ?1 AND u.id = ?2")
+                    . "WHERE m.idMedico = ?1 AND u.id = ?2 AND a.statusAgendamento = true")
                     ->setParameter("1", $idM)
                     ->setParameter("2", $idU);
             

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Agendamento
  *
- * @ORM\Table(name="agendamento", indexes={@ORM\Index(name="fk_consulta_paciente1_idx", columns={"paciente_id_paciente"}), @ORM\Index(name="fk_consulta_calendario1_idx", columns={"calendario_id_calendario"}), @ORM\Index(name="fk_consulta_usuarios1_idx", columns={"user_id_user"})})
+ * @ORM\Table(name="agendamento", indexes={@ORM\Index(name="fk_consulta_paciente1_idx", columns={"cgm_id_cgm"}), @ORM\Index(name="fk_consulta_calendario1_idx", columns={"calendario_id_calendario"}), @ORM\Index(name="fk_consulta_usuarios1_idx", columns={"user_id_user"})})
  * @ORM\Entity
  */
 class Agendamento
@@ -27,6 +27,13 @@ class Agendamento
      * @ORM\Column(name="observacao_agendamento", type="text", nullable=true)
      */
     private $observacaoAgendamento;
+    
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status_agendamento", type="boolean", nullable=true)
+     */
+    private $statusAgendamento = true;
 
     /**
      * @var \Calendario
@@ -41,9 +48,9 @@ class Agendamento
     /**
      * @var \Paciente
      *
-     * @ORM\ManyToOne(targetEntity="Paciente")
+     * @ORM\ManyToOne(targetEntity="Cgm")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="paciente_id_paciente", referencedColumnName="id_paciente")
+     *   @ORM\JoinColumn(name="cgm_id_cgm", referencedColumnName="id_cgm")
      * })
      */
     private $pacientePaciente;
@@ -57,6 +64,12 @@ class Agendamento
      * })
      */
     private $usuariosUsuarios;
+    
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Eventos", mappedBy="idAgendamento")
+     **/
+    private $evento;
 
 
 
@@ -122,7 +135,7 @@ class Agendamento
      * @param \Serbinario\Bundle\SaudeBundle\Entity\Paciente $pacientePaciente
      * @return Agendamento
      */
-    public function setPacientePaciente(\Serbinario\Bundle\SaudeBundle\Entity\Paciente $pacientePaciente = null)
+    public function setPacientePaciente(\Serbinario\Bundle\SaudeBundle\Entity\Cgm $pacientePaciente = null)
     {
         $this->pacientePaciente = $pacientePaciente;
 
@@ -132,7 +145,7 @@ class Agendamento
     /**
      * Get pacientePaciente
      *
-     * @return \Serbinario\Bundle\SaudeBundle\Entity\Paciente 
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Cgm 
      */
     public function getPacientePaciente()
     {
@@ -160,5 +173,28 @@ class Agendamento
     public function getUsuariosUsuarios()
     {
         return $this->usuariosUsuarios;
+    }
+
+    /**
+     * Set statusAgendamento
+     *
+     * @param boolean $statusAgendamento
+     * @return Agendamento
+     */
+    public function setStatusAgendamento($statusAgendamento)
+    {
+        $this->statusAgendamento = $statusAgendamento;
+
+        return $this;
+    }
+
+    /**
+     * Get statusAgendamento
+     *
+     * @return boolean 
+     */
+    public function getStatusAgendamento()
+    {
+        return $this->statusAgendamento;
     }
 }

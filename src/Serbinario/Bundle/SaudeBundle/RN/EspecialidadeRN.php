@@ -83,4 +83,15 @@ class EspecialidadeRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function findWithMedico()
+    {
+        $result = $this->especialidadeDAO->findWithMedico();
+        
+        return $result;
+    }
 }

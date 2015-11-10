@@ -70,7 +70,7 @@ class Calendario
      /**
      * @var \Medico
      *
-     * @ORM\ManyToOne(targetEntity="Medico")
+     * @ORM\ManyToOne(targetEntity="Medico", inversedBy="calendario")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="medico_id_medico", referencedColumnName="id_medico")
      * })
@@ -287,5 +287,38 @@ class Calendario
     public function getQtdCalendarios()
     {
         return $this->qtdCalendarios;
+    }
+
+    /**
+     * Add agendamento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento
+     * @return Calendario
+     */
+    public function addAgendamento(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento)
+    {
+        $this->agendamento[] = $agendamento;
+
+        return $this;
+    }
+
+    /**
+     * Remove agendamento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento
+     */
+    public function removeAgendamento(\Serbinario\Bundle\SaudeBundle\Entity\Agendamento $agendamento)
+    {
+        $this->agendamento->removeElement($agendamento);
+    }
+
+    /**
+     * Get agendamento
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAgendamento()
+    {
+        return $this->agendamento;
     }
 }

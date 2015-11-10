@@ -396,4 +396,27 @@ class Medico
         return $this->calendario;
     }
 
+
+    /**
+     * Add calendario
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+     * @return Medico
+     */
+    public function addCalendario(\Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    {
+        $this->calendario[] = $calendario;
+
+        return $this;
+    }
+
+    /**
+     * Remove calendario
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+     */
+    public function removeCalendario(\Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    {
+        $this->calendario->removeElement($calendario);
+    }
 }

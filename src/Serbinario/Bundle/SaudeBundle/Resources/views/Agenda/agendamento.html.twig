@@ -109,7 +109,7 @@
                                             <div class="panel-heading">AGENDAS PROFISSIONAIS</div>
                                             <div class="panel-body">
                                                 <form class="form">
-                                                    <select class="form-control select2">
+                                                    <select class="form-control select2" id="especialidade">
                                                         <option>Especialidades</option>
                                                         {% for especializacoe in especializacoes %}
                                                             <option value="{{especializacoe.idEspecialidade}}">{{especializacoe.cbo.descricao}}</option>
@@ -119,7 +119,7 @@
                                             </div>
 
                                             <!-- List group -->
-                                            <ul class="list-group">
+                                            <ul class="list-group" id="medicosList">
                                                 {% for medico in medicos %}
                                                     <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.cgm.nome}}</a>
                                                 {% endfor %}
@@ -136,15 +136,23 @@
                         </div>
                         <div class="ibox-footer">
                             
+                            <!-- Modal de cadastro do agendamento-->
                             <div class="modal fade modal-profile" tabindex="-1" role="dialog" aria-labelledby="modalProfile" aria-hidden="true">
-                                <div class="modal-dialog modal-sm">
+                                <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button class="close" type="button" data-dismiss="modal">×</button>
                                             <h4 class="modal-title">Realizar agendamento</h4>
                                         </div>
                                         <div class="modal-body" style="alignment-baseline: central">
-                                            <form action="{{path('savePaciente')}}" role="form" method="POST">
+                                            {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}
+                                                <input type="hidden" name="idAgendamento" value="" id="idAgendamento">
+                                                <input type="hidden" name="diaCalendario" id="diaCalendario">
+                                                {{ form_row(form.pacientePaciente) }}
+                                                {{ form_row(form.observacaoAgendamento) }}
+                                                {{ form_row(form.statusAgendamento) }}
+                                            {{ form_end(form) }}
+                                            {#<form action="{{path('savePaciente')}}" role="form" method="POST">
                                                 <div class="form-group col-lg-12">
                                                     <label for="email">Nomde do Paciente</label>
                                                     <input type="text" class="form-control" name="nome" id="nome" />
@@ -156,11 +164,11 @@
                                                         <button type="submit" id="salvar" class="btn btn-primary">Salvar</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form>#}
                                         </div>
-                                        <div class="modal-footer">
+                                        {#<div class="modal-footer">                                            
                                             <button class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                        </div>
+                                        </div>#}
                                     </div>
                                 </div>
                             </div>
@@ -184,14 +192,18 @@
     <!-- Responsive Calendar -->
     <script type="text/javascript" src="{{asset('calendar-responsive/responsive-calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/pt-br.js')}}"></script>
-
+    <script type="text/javascript" src="{{asset('js/jquery.qtip.min.js')}}"></script> 
+    
     <!-- Scripts -->
     <script type="text/javascript">
         $(document).ready(function () {
-
+            
+            //Fullcalendar
             $('#fullcalendar').fullCalendar({
                 editable: true,
-                eventLimit: true, // allow "more" link when too many events
+                eventLimit: true, 
+                
+                //Carrega os eventos no fullcalendar
                 events: function (start, end, timezone, callback) {
                     jQuery.ajax({
                         url: '{{path('getCalendarioBig')}}',
@@ -213,19 +225,26 @@
                                         overlap: r.overlap,
                                         rendering: r.rendering,
                                         color: r.color,
-                                        id: r.color
+                                        id: r.color,
+                                        idPaciente: r.idPaciente,
+                                        idAgendamento: r.idAgendamento,
                                     });
                                 });
-                            }
-                            console.log(events);
+                            }       
+                            
                             callback(events);
                         }
                     });
                 },
+                
+                eventRender: function(event, element) {
+                  
+                },
+                                
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR')%}
+        
+                //Envento do click no dia do calendário
                 dayClick: function (date, allDay, jsEvent, view) {
-
-
                     var idMedico = "{{id}}";
                     var data = date.format();
 
@@ -241,19 +260,63 @@
                         datatype: 'json'
                     }).done(function (json) {
 
-                        if (json['msg'] === "sucesso") {
-                            $("#data").val(data);
-                            //var content = $('.modal-body');
+                        if (json['msg'] === "sucesso") {                           
+                            $("#serbinario_bundle_saudebundle_agendamento_pacientePaciente").prop("disabled", false);
+                            $("#serbinario_bundle_saudebundle_agendamento_pacientePaciente").children("option:eq(0)").prop("selected", true);
+                            $("#serbinario_bundle_saudebundle_agendamento_statusAgendamento").prop("checked", false);
+                            $("#serbinario_bundle_saudebundle_agendamento_observacaoAgendamento").val("");
+                            //document.getElementById('serbinario_bundle_saudebundle_agendamento_pacientePaciente').selectedIndex = -1;
+                            $("#diaCalendario").val(data);
                             $(".modal-profile").modal({show: true});
                         } else {
                             alert("Não é possível fazer agendamentos para este dia");
                         }
 
                     });
+                },
+                
+                //Evento do click no objeto
+                eventClick: function(calEvent, jsEvent, view) {                
+                    var data       = calEvent.start._i;
+                    var idMedico   = "{{ id }}";
+                    var idPaciente = calEvent.idPaciente; 
+                    
+                    jQuery.ajax({
+                        url: '{{path('getPacienteAgendado')}}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'data' :data,
+                            'idMedico' : idMedico,
+                            'idPaciente' :idPaciente
+                        },
+                        success: function (data) {
+                            
+                            $("#diaCalendario").val(data.data);   
+                            $("#idAgendamento").val(data.idAgendamento);
+                            $("#serbinario_bundle_saudebundle_agendamento_pacientePaciente option").each(function (index, element) {                                
+                                if($(element).val() == data.idPaciente) {
+                                    $(element).prop("selected", true);
+                                }
+                            });                            
+                            $("#serbinario_bundle_saudebundle_agendamento_pacientePaciente").prop("disabled", true);
+                            $("#serbinario_bundle_saudebundle_agendamento_observacaoAgendamento").val(data.observacao);
+                            
+                            if(data.status) {
+                                $("#serbinario_bundle_saudebundle_agendamento_statusAgendamento").prop('checked', true);
+                            } else {
+                                $("#serbinario_bundle_saudebundle_agendamento_statusAgendamento").prop('checked', false);
+                            }                      
+                            
+                            $(".modal-profile").modal({show: true});
+                        }
+                    });
+                    
                 }
                 {% endif %}
             });
-
+            
+            //Calendário zabuto | calendário "pequeno"
             $.ajax({
                 url: "{{ path("getCalendario")}}",
                 method: "POST",
@@ -281,10 +344,33 @@
                     });
                 }
             });
+            
+            
+            //Evento para carregar os médicos se acordo com a especialidade selecionada
+            $(document).on("change", "#especialidade", function (event) {
+                var especialidade = $(this).find("option:selected").val();
+                
+                jQuery.ajax({
+                    url: '{{path('getMedicosByEpecilidade')}}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        idEspecialidade : especialidade
+                    },
+                    success: function (data) {
+                        var html = '';
+                        
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<a class="list-group-item" href="/SaudeAgenda/web/app_dev.php/agenda/agendamento/id/'+ data[i].id +'">'+ data[i].nome +'</a>';
+                        }
+                        
+                        $("#medicosList a").remove();                    
+                        $("#medicosList").append(html);
+                    }
+                });
+                
+            });
         });
-         $(document).ready(function(){
-            $(".select2").select2();
-
-        });
+         
     </script>
 {% endblock %}

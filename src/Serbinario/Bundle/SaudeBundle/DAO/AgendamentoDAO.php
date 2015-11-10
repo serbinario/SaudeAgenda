@@ -106,4 +106,58 @@ class AgendamentoDAO
             return null;
         } 
     }
+    
+     /**
+      * 
+      * @param type $date
+      * @param type $idMedico
+      * @param type $idPaciente
+      * @return type
+      */
+    public function findByDateAndMedicoAndPaciente($date, $idMedico, $idPaciente)
+    {
+       try {
+           $qb     = $this->manager->createQueryBuilder();
+           $result = $qb->select("a")
+                    ->from("Serbinario\Bundle\SaudeBundle\Entity\Agendamento", "a")
+                    ->join("a.calendarioCalendario", "b")
+                    ->join("b.medicoMedico", "c")
+                    ->join("a.pacientePaciente", "d")
+                    ->where("c.idMedico = :id")
+                    ->andWhere("b.diaCalendario = :date")
+                    ->andWhere("d.idCGM =:idPaciente ")
+                    ->setParameter("id", $idMedico)
+                    ->setParameter("date", $date->format("Y-m-d"))
+                    ->setParameter("idPaciente", $idPaciente)
+                    ->getQuery()
+                    ->getResult();
+        
+            return $result ? $result[0] : null;     
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
+    
+    /**
+     * 
+     * @param type $date
+     * @return type
+     */
+    public function findByDateOfCalendar($date)
+    {
+       try {
+           $qb     = $this->manager->createQueryBuilder();
+           $result = $qb->select("a")
+                    ->from("Serbinario\Bundle\SaudeBundle\Entity\Agendamento", "a")
+                    ->join("a.calendarioCalendario", "b")                    
+                    ->where("b.diaCalendario = :date")             
+                    ->setParameter("date", $date->format("Y-m-d"))                    
+                    ->getQuery()
+                    ->getResult();
+        
+            return $result ? $result[0] : null;     
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
 }

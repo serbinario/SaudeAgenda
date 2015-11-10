@@ -59,7 +59,7 @@ class Medico
     /**
      * @var \Especialidade
      *
-     * @ORM\ManyToOne(targetEntity="Especialidade")
+     * @ORM\ManyToOne(targetEntity="Especialidade", inversedBy="medico")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="especialidade_id_especialidade", referencedColumnName="id_especialidade")
      * })
@@ -96,6 +96,13 @@ class Medico
      * @ORM\OneToMany(targetEntity="QtdDefault", mappedBy="medico", cascade={"all"})
      */
     private $qtdDefualts;
+    
+    /**
+     * @var \Calendario
+     *
+     * @ORM\OneToMany(targetEntity="Calendario", mappedBy="medicoMedico", cascade={"all"})
+     */
+    private $calendario;
 
     /**
      * Get idMedico
@@ -379,5 +386,37 @@ class Medico
     public function __toString()
     {
         return "{$this->cgm->getNome()} - {$this->especialidadeEspecialidade->getCbo()->getDescricao()}";
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    function getCalendario() {
+        return $this->calendario;
+    }
+
+
+    /**
+     * Add calendario
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+     * @return Medico
+     */
+    public function addCalendario(\Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    {
+        $this->calendario[] = $calendario;
+
+        return $this;
+    }
+
+    /**
+     * Remove calendario
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
+     */
+    public function removeCalendario(\Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
+    {
+        $this->calendario->removeElement($calendario);
     }
 }

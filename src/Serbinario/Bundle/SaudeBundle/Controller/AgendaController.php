@@ -10,29 +10,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Serbinario\Bundle\SaudeBundle\UTIL\GridClass;
 use Serbinario\Bundle\SaudeBundle\Form\CalendarioType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use \Serbinario\Bundle\SaudeBundle\Form\AgendamentoType;
 
 /**
  * @Route("/agenda")
  */
-class AgendaController extends Controller {
-
-    /**
-     * @Route("/agendamento", defaults={"id" = 0},name="agendamento")
-     * @Route("/agendamento/id/{id}", name="agendamentoByMedico")
-     * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
-     */
-    public function agendamentoAction($id) {
-        
-        $especializacoesRN = $this->get('especialidade_rn');
-        $especializacoes   = $especializacoesRN->all();
-        
-        $medicosRN = $this->get('medico_rn');
-        $medicos   = $medicosRN->all();
-        
-        return array('especializacoes' => $especializacoes, 'medicos' => $medicos, 'id' => $id);
-    }
-    
+class AgendaController extends Controller 
+{
     /**
      * @Route("/agendaMedico/{id}", name="agendaMedico")
      * @Template()
@@ -260,13 +244,16 @@ class AgendaController extends Controller {
         $arrayResult  = array();
         $count        = 0;
         
+        #PACIENTES AGENDADOS
         foreach($eventos as $evento) {
-            $arrayResult[$count]['title']  = $evento->getTitle();
+            $arrayResult[$count]['title']       = $evento->getTitle();
             $arrayResult[$count]['date_start']  = $evento->getStart()->format("Y-m-d");
             $arrayResult[$count]['id']          = $evento->getIdAgendamento()->getCalendarioCalendario()->getIdCalendario();
+            $arrayResult[$count]['idPaciente']  = $evento->getIdAgendamento()->getPacientePaciente()->getIdCgm();
             $count++;
         }
         
+        #DIAS DISPONÍVEIS DO MÉDICO
         foreach($calendario as $dia) {
             $arrayResult[$count]['date_start']  = $dia->getDiaCalendario()->format("Y-m-d");
             $arrayResult[$count]['overlap']     = false;
@@ -285,14 +272,13 @@ class AgendaController extends Controller {
      */
     public function validarDiaMedicoAction(Request $request) {
         
-        $idMedico   = $request->request->get('idMedico');
-        $data       = $request->request->get('data');
-        $msg     = "";
+        $idMedico = $request->request->get('idMedico');
+        $data     = $request->request->get('data');
+        $msg      = "";
         
-        $calendarioRN       = $this->get("calendario_rn");
-        $result             = $calendarioRN->validarDiaMedico($idMedico, $data);
-        //var_dump($result);exit();
-        
+        $calendarioRN  = $this->get("calendario_rn");
+        $result        = $calendarioRN->validarDiaMedico($idMedico, $data);
+                
         if ($result) {
             $msg = 'sucesso';
         } else {
@@ -343,33 +329,7 @@ class AgendaController extends Controller {
         #Retorno
         return new JsonResponse($arrayResult->getArrayCopy());
     }
-    
-//    /**
-//     * 
-//     * @param type $idMedico
-//     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
-//     * @return type
-//     */
-//    private function editCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
-//    {
-//        #Recuperando o serviço do container
-//        $calendarioRN = $this->get('calendario_rn');
-//        
-//        #Recuperando o calendário do banco
-//        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
-//        $objCalendario->setDiaCalendario($calendario->getDiaCalendario());
-//        $objCalendario->setHorarioCalendario($calendario->getHorarioCalendario());
-//        $objCalendario->setLocalidadeLocalidade($calendario->getLocalidadeLocalidade());
-//        $objCalendario->setQtdTotalCalendario($calendario->getQtdTotalCalendario());
-//        $objCalendario->setQtdReservaCalendario($calendario->getQtdReservaCalendario());        
-//        
-//        #Alterando
-//        $result     = $calendarioRN->update($objCalendario);
-//        
-//        #Retorno
-//        return $result;
-//    }
-//    
+       
     /**
      * @Route("/deleteCalendar/{date}/{idMedico}", name="deleteCalendar")
      * @Template()
@@ -432,88 +392,174 @@ class AgendaController extends Controller {
         return new JsonResponse(true);
     }
     
+    
 //    /**
-//     * 
-//     * @param type $idMedico
-//     * @param \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario
-//     * @return type
+//     * @Route("/agendamento", defaults={"id" = 0},name="agendamento")
+//     * @Route("/agendamento/id/{id}", name="agendamentoByMedico")
+//     * @Template()
+//     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
 //     */
-//    private function blockCalendar($idMedico, \Serbinario\Bundle\SaudeBundle\Entity\Calendario $calendario)
-//    {
-//        #Recuperando o serviço do container
-//        $calendarioRN = $this->get('calendario_rn');
+//    public function agendamentoAction($id) {
 //        
-//        #Recuperando o calendário do banco
-//        $objCalendario = $calendarioRN->findByDateAndIdMedico($calendario->getDiaCalendario(), $idMedico);
-//        $objCalendario->setStatusCalendario($objCalendario->getStatusCalendario() ? false : true);        
+//        $especializacoesRN = $this->get('especialidade_rn');
+//        $especializacoes   = $especializacoesRN->findWithMedico();
 //        
-//        #Alterando
-//        $result = $calendarioRN->update($objCalendario);
+//        $medicosRN = $this->get('medico_rn');
+//        $medicos   = $medicosRN->all();
 //        
-//        #Retorno
-//        return $result;
+//        return array('especializacoes' => $especializacoes, 'medicos' => $medicos, 'id' => $id);
 //    }
-//    
+//       
     /**
-     * @Route("/savePaciente", name="savePaciente")
+     * @Route("/saveAgendamento", defaults={"id" = 0}, name="saveAgendamento")
+     * @Route("/saveAgendamento/{id}", name="agendamentoByMedico")
      * @Template("SaudeBundle:Agenda:agendamento.html.twig")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_CADASTRAR') or has_role('ROLE_AGENDAMENTO_AGENDAMENTO_VISUALIZAR')")
      */
-    public function salvarPacienteAction(Request $request)
+    public function saveAgendamentoAction(Request $request, $id)
     {
-        $dados = $request->request->all();
+        #RECUPERANDO OS SERVIÇOS
+        $especializacoesRN = $this->get('especialidade_rn');
+        $medicosRN         = $this->get('medico_rn');
+        $calendariosRN     = $this->get('calendario_rn');
+        $agendamentoRN     = $this->get('agendamento_rn');
         
-        $nome       = isset($dados['nome']) ? $dados['nome'] : "";
-        $idMedico   = isset($dados['idMedico']) ? $dados['idMedico'] : "";
-        $dataString = isset($dados['data']) ? $dados['data'] : "";
+        #CRIANDO FORMULÁRIO
+        $form = $this->createForm(new AgendamentoType());
         
-        if(!$nome || !$idMedico || !$dataString) {
-            $this->addFlash("warning", "Deve ser informado o nome do paciente para agendamento");
-            return  $this->redirect($this->generateUrl("agendamentoByMedico", array("id" => $idMedico)));
+        #RECUPERANDO DADOS
+        $especializacoes   = $especializacoesRN->findWithMedico();  
+        $medicos           = $medicosRN->all();  
+
+        #VERIFICANDO SE É UMA SUBMISSÃO
+        if ($request->getMethod() === "POST") {
+            #RECUPERANDO O USUÁRIO DA SESSÃO
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            
+            #REPASSANDO A REQUISIÇÃO
+            $form->handleRequest($request);
+            
+            
+            #VERIFICA SE OS DADOS SÃO VÁLIDOS
+            if ($form->isValid()) {
+                #RECUPERANDO OS DADOS
+                $agendamento   = $form->getData();
+                $diaCalendario = $request->request->get("diaCalendario");
+                $idAgendamento = (int) $request->request->get("idAgendamento");
+                
+                #transformando a data em um objeto DateTime
+                $objDateTime   = \DateTime::createFromFormat("Y-m-d", $diaCalendario);
+                
+                #Recuperando o calendário do banco
+                $objCalendario = $calendariosRN->findByDateAndIdMedico($objDateTime, $id);                 
+                
+                #ALTERAÇÃO DO AGENDAMENTO
+                if($idAgendamento != "" && is_int($idAgendamento)) {
+                    #RECUPERANDO O OBJETO AGENDAMENTO SE CASO FOR UMA ATUALIZAÇÃO
+                    $objAgendamento = $agendamentoRN->findId($idAgendamento); 
+                    
+                    #SETANDO VALORES ATUALIZADOS
+                    $objAgendamento->setObservacaoAgendamento($agendamento->getObservacaoAgendamento());
+                    $objAgendamento->setStatusAgendamento($agendamento->getStatusAgendamento());
+                    
+                    #ALTERANDO O AGENDAMENTO
+                    $result = $agendamentoRN->update($objAgendamento);                   
+                    
+                #CADASTRO DO AGENDAMENTO
+                } else {                      
+                    #CADASTRANDO O EVENTO
+                    $evento = new \Serbinario\Bundle\SaudeBundle\Entity\Eventos();
+                    $evento->setStart($objDateTime);
+                    $evento->setEnd($objDateTime);
+                    $evento->setIdAgendamento($agendamento);
+                    $evento->setTitle($agendamento->getPacientePaciente()->getNome());
+
+                    #SETANDO OBJETOS NECESSÁRIOS
+                    $agendamento->setUsuariosUsuarios($user);
+                    $agendamento->setCalendarioCalendario($objCalendario);
+                    $agendamento->setEvento($evento);                
+
+                    #CADASTRANDO O AGENDAMENTO
+                    $result = $agendamentoRN->save($agendamento);
+                }
+              
+                #MENSAGEM DE RETORNO
+                if($result) {                    
+                    $this->get('session')->getFlashBag()->add('success', 'Dados cadastrados com sucesso'); 
+                } else {                    
+                    $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrar dados');
+                }   
+                
+                #CRIANDO FORMULÁRIO
+                $form = $this->createForm(new AgendamentoType());                 
+            }
+        }        
+        
+        #Retorno
+        return array(
+            "form" => $form->createView(),            
+            'especializacoes' => $especializacoes,
+            'medicos' => $medicos,
+            'id'=> $id                
+        );
+    }
+    
+    /**
+     * @Route("/getPacienteAgendado", name="getPacienteAgendado")
+     */
+    public function getPacienteAgendadoAction(Request $request)
+    {
+        #RECUPERANDO OS SERVIÇOS
+        $agendamentoRN  = $this->get("agendamento_rn");
+        
+        #RECUPERANDO PARAMETROS DA REQUISIÇÃO
+        $data           = $request->request->get('data');
+        $idMedico       = $request->request->get('idMedico');
+        $idPaciente     = $request->request->get('idPaciente');
+        
+        #TRANSFORMANDO A DATA EM UM OBJETO DATATIME
+        $objDateTime    = \DateTime::createFromFormat("Y-m-d", $data);
+        
+        #RECUPERANDO O CALENDÁRIO DO BANCO
+        $objAgendamento = $agendamentoRN->findByDateAndMedicoAndPaciente($objDateTime, $idMedico, $idPaciente);
+        
+        #RECUPERANDO O PACIENTE
+        $paciente       = $objAgendamento->getPacientePaciente();
+        $arrayPaciente  = array();
+        
+        if($paciente) {
+            $arrayPaciente['idAgendamento'] = $objAgendamento->getIdAgendamento();
+            $arrayPaciente['idPaciente']    = $paciente->getIdCGM();
+            $arrayPaciente['nome']          = $paciente->getNome();
+            $arrayPaciente['observacao']    = $objAgendamento->getObservacaoAgendamento();
+            $arrayPaciente['status']        = $objAgendamento->getStatusAgendamento();
+            $arrayPaciente['data']          = $objAgendamento->getCalendarioCalendario()->getDiaCalendario()->format('Y-m-d');
         }
         
-        //Convertendo data para um objeto DateTime
-        $data = \DateTime::createFromFormat('Y-m-d', $dataString);
+        #RETORNO
+        return new JsonResponse($arrayPaciente);
+    }
+    
+    /**
+     * @Route("/getMedicosByEpecilidade", name="getMedicosByEpecilidade")
+     */
+    public function getMedicosByEpecilidadeAction(Request $request)
+    {
+        #Recuperando o serviço do container
+        $medicoRN = $this->get('medico_rn');
         
-        //Serviços RN
-        $pacienteRN     = $this->get('paciente_rn');
-        $calendarioRN   = $this->get('calendario_rn');
-        $eventosRN      = $this->get('eventos_rn');
-        $agendamentoRN  = $this->get('agendamento_rn');
+        $idEspecialidade = $request->request->get("idEspecialidade");
+        $medicos         = $medicoRN->findByEspecialidade($idEspecialidade);
+        $arrayMedicos    = array();
         
-        //Recuperando o dia do calendário do médico para agendamento
-        $calendario = $calendarioRN->validarDiaMedico($idMedico, $dados['data']);
-        
-        //Recuperando o usuário
-        $maneger = $this->getDoctrine()->getManager();
-        $user    = $this->get('security.token_storage')->getToken()->getUser();
-        //$usuario = $maneger->getRepository("\Serbinario\Bundle\SaudeBundle\Entity\Usuarios")->find($user->getId());
-       
-        //Persistindo paciente
-        $paciente       = new \Serbinario\Bundle\SaudeBundle\Entity\Paciente();
-        $paciente->setNomePaciente($nome);
-        $pacienteObj    = $pacienteRN->save($paciente);
-        
-        //Persistindo agendamento
-        $agendamento = new \Serbinario\Bundle\SaudeBundle\Entity\Agendamento();
-        $agendamento->setCalendarioCalendario($calendario[0]);
-        $agendamento->setPacientePaciente($pacienteObj);
-        $agendamento->setUsuariosUsuarios($user);
-        $agendamento->setObservacaoAgendamento("nenhuma");
-        $agendamentoObj = $agendamentoRN->save($agendamento);
-        
-        //Persistindo evento
-        $evento = new \Serbinario\Bundle\SaudeBundle\Entity\Eventos();
-        $evento->setIdAgendamento($agendamentoObj);
-        $evento->setStart($data);
-        $evento->setTitle($nome);
-        $eventoObj = $eventosRN->save($evento);
-        
-        if($pacienteObj && $agendamentoObj && $eventoObj) {
-            $this->addFlash("success", "Consulta agendada com sucesso para o paciente: {$nome}!");
-        } else {
-            $this->addFlash("danger", "Erro ao realizar o agendamento, tente novamente!");
+        $count =  0;
+        foreach($medicos as $medico) {
+            $arrayMedicos[$count]['id']   = $medico->getIdMedico();
+            $arrayMedicos[$count]['nome'] = $medico->getCgm()->getNome();
+            
+            $count++;
         }
         
-        return  $this->redirect($this->generateUrl("agendamentoByMedico", array("id" => $idMedico)));
+        return new JsonResponse($arrayMedicos);
     }
 }

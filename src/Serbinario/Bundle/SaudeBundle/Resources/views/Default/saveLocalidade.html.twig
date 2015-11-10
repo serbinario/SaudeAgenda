@@ -108,7 +108,7 @@
 
 
                         $("#saudebundle_localidade_actions_voltar").click(function () {
-                            javascript:history.back();
+                            location.href = '{{path('gridLocalidade')}}'
                         });
                         $(document).ready(function(){
             $('#saudebundle_localidade_actions_voltar').removeClass("btn-default");

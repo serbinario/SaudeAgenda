@@ -37,6 +37,11 @@
             background: #999999;
             color: white;
         }
+        
+        .red {
+            background: #800;
+            color: white;
+        }
     </style>
 {% endblock %}
 
@@ -339,6 +344,7 @@
                         legend: [
                             {type: "block", label: "Ativos", classname: "blue"},
                             {type: "block", label: "Bloqueados", classname: "gray"},
+                            {type: "block", label: "Agendado", classname: "red"},
                         ],
                         data: data
                     });

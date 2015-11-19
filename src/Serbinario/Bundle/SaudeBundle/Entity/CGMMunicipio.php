@@ -65,6 +65,6 @@ class CGMMunicipio
      * @return type
      */
     public function __toString() {
-        return utf8_decode($this->CGMMunicipio);
+        return $this->CGMMunicipio;
     }
 }

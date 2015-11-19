@@ -67,7 +67,7 @@ class CGMType extends AbstractType
                     'placeholder' => 'Nome',
                     'widget_col'=> '8',
                     'class' => 'mask_letras',
-                    'onkeyup' => 'mascara( this, alphanum )'
+                    //'onkeyup' => 'mascara( this, alphanum )'
                 )))
             ->add('pai', 'text', array(
                 'label' => 'Pai',  

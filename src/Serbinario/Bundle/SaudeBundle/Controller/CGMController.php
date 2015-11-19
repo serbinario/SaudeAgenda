@@ -201,6 +201,8 @@ class CGMController extends Controller
             //Se a variável $sqlFilter estiver vazio
             if(!$gridClass->isFilter()){
                 $countEventos = $countTotal;
+            } else {
+                $countEventos = $gridClass->getCountFiltered();
             }
 
             $columns = array(               

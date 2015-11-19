@@ -76,6 +76,12 @@ class GridClass
       */
      private $filterBool = false;
      
+     /**
+      *
+      * @var type 
+      */
+     private $query;
+     
     /**
      * 
      */
@@ -240,6 +246,8 @@ class GridClass
                         . "ORDER BY {$dqlOrder}")
                         ->setFirstResult($dqlStart)
                         ->setMaxResults($dqlLength);
+            
+           
                      
             if($whereGlobal) {
                 $query->setParameter(1,strtoupper("%{$dqlFilter}%"));
@@ -249,6 +257,8 @@ class GridClass
                     $query->setParameter($index, strtoupper("%{$filterValue[$i]}%"));
                 }
             } 
+            
+            $this->query = $query;
             
             //var_dump($query); exit();
             $result = $query->getResult();
@@ -348,6 +358,17 @@ class GridClass
         } catch (Exception $ex) {
             return 0;
         }
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getCountFiltered()
+    {
+        $this->query->setMaxResults(null);
+        
+        return count($this->query->getResult());
     }
     
     /**

@@ -67,7 +67,7 @@ class Agendamento
     
     
     /**
-     * @ORM\OneToOne(targetEntity="Eventos", mappedBy="idAgendamento")
+     * @ORM\OneToOne(targetEntity="Eventos", mappedBy="idAgendamento", cascade={"all"})
      **/
     private $evento;
 
@@ -196,5 +196,28 @@ class Agendamento
     public function getStatusAgendamento()
     {
         return $this->statusAgendamento;
+    }
+
+    /**
+     * Set evento
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Eventos $evento
+     * @return Agendamento
+     */
+    public function setEvento(\Serbinario\Bundle\SaudeBundle\Entity\Eventos $evento = null)
+    {
+        $this->evento = $evento;
+
+        return $this;
+    }
+
+    /**
+     * Get evento
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Eventos 
+     */
+    public function getEvento()
+    {
+        return $this->evento;
     }
 }

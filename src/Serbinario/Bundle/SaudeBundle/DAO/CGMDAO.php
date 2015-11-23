@@ -230,7 +230,7 @@ class CGMDAO
             $qb->setParameter(1, $idCgm);
 
             $result = $qb->getQuery()->getResult();
-
+                       
             foreach($result as $entity) {
                 $this->maneger->remove($entity);
             }
@@ -240,4 +240,6 @@ class CGMDAO
             return false;
         }  
     }
+    
+    
 }

@@ -27,6 +27,16 @@ class Cidade
      * @ORM\Column(name="nome_cidade", type="string", length=100, nullable=true)
      */
     private $nomeCidade;
+    
+    /**
+     * @var \Estado
+     *
+     * @ORM\ManyToOne(targetEntity="Estado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id_estado")
+     * })
+     */
+    private $estado;
 
     /**
      * Get idCidade
@@ -68,5 +78,28 @@ class Cidade
     public function __toString() {
         
         return $this->nomeCidade;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Estado $estado
+     * @return Cidade
+     */
+    public function setEstado(\Serbinario\Bundle\SaudeBundle\Entity\Estado $estado = null)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Estado 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

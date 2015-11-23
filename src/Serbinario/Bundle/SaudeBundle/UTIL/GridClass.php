@@ -262,7 +262,7 @@ class GridClass
             
             //var_dump($query); exit();
             $result = $query->getResult();
-            //var_dump($result); exit();
+            
             return $result;
         } catch (Exception $ex) {
             print_r($ex);

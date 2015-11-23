@@ -15,16 +15,16 @@ class AgendamentoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pacientePaciente', 'entity', array(
-                'label'        => 'Paciente *',
-                'required'     => false,
-                'empty_value' => "Selecione o Paciente",
-                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Cgm',
-                'attr' => array(
-                    'widget_col'=> '6',
-                    'class' => 'select2'
-                    )
-                ))   
+//            ->add('pacientePaciente', 'entity', array(
+//                'label'        => 'Paciente *',
+//                'required'     => false,
+//                'empty_value' => "Selecione o Paciente",
+//                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Cgm',
+//                'attr' => array(
+//                    'widget_col'=> '6',
+//                    'class' => 'select2'
+//                    )
+//                ))   
             ->add('observacaoAgendamento', 'textarea', array(
                 'label' => 'Observação *', 
                 'required'     => false,

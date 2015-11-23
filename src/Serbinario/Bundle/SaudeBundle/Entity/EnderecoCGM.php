@@ -57,128 +57,131 @@ class EnderecoCGM
      *   @ORM\JoinColumn(name="bairro", referencedColumnName="id_bairro")
      * })
      */
-    private $bairro;
+    private $bairro;  
+
 
     /**
-     * @var \Cidade
+     * Get idEnderecoCGM
      *
-     * @ORM\ManyToOne(targetEntity="Cidade")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cidade", referencedColumnName="id_cidade")
-     * })
+     * @return integer 
      */
-    private $cidade;
-    
-    /**
-     * 
-     * @return type
-     */
-    function getIdEnderecoCGM() {
+    public function getIdEnderecoCGM()
+    {
         return $this->idEnderecoCGM;
     }
-    
+
     /**
-     * 
-     * @return type
+     * Set logradouro
+     *
+     * @param string $logradouro
+     * @return EnderecoCGM
      */
-    function getLogradouro() {
-        return $this->logradouro;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getNumero() {
-        return $this->numero;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getComp() {
-        return $this->comp;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getCep() {
-        return $this->cep;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getBairro() {
-        return $this->bairro;
-    }
-    
-    /**
-     * 
-     * @return type
-     */
-    function getCidade() {
-        return $this->cidade;
-    }
-    
-    /**
-     * 
-     * @param type $idEnderecoCGM
-     */
-    function setIdEnderecoCGM($idEnderecoCGM) {
-        $this->idEnderecoCGM = $idEnderecoCGM;
-    }
-    
-    /**
-     * 
-     * @param type $logradouro
-     */
-    function setLogradouro($logradouro) {
+    public function setLogradouro($logradouro)
+    {
         $this->logradouro = $logradouro;
-    }
-    
-    /**
-     * 
-     * @param type $numero
-     */
-    function setNumero($numero) {
-        $this->numero = $numero;
-    }
-    
-    /**
-     * 
-     * @param type $comp
-     */
-    function setComp($comp) {
-        $this->comp = $comp;
-    }
-    
-    /**
-     * 
-     * @param type $cep
-     */
-    function setCep($cep) {
-        $this->cep = $cep;
-    }
-    
-    /**
-     * 
-     * @param \Bairro $bairro
-     */
-    function setBairro($bairro) {
-        $this->bairro = $bairro;
-    }
-    
-    /**
-     * 
-     * @param \Cidade $cidade
-     */
-    function setCidade($cidade) {
-        $this->cidade = $cidade;
+
+        return $this;
     }
 
+    /**
+     * Get logradouro
+     *
+     * @return string 
+     */
+    public function getLogradouro()
+    {
+        return $this->logradouro;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param string $numero
+     * @return EnderecoCGM
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return string 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set comp
+     *
+     * @param string $comp
+     * @return EnderecoCGM
+     */
+    public function setComp($comp)
+    {
+        $this->comp = $comp;
+
+        return $this;
+    }
+
+    /**
+     * Get comp
+     *
+     * @return string 
+     */
+    public function getComp()
+    {
+        return $this->comp;
+    }
+
+    /**
+     * Set cep
+     *
+     * @param string $cep
+     * @return EnderecoCGM
+     */
+    public function setCep($cep)
+    {
+        $this->cep = $cep;
+
+        return $this;
+    }
+
+    /**
+     * Get cep
+     *
+     * @return string 
+     */
+    public function getCep()
+    {
+        return $this->cep;
+    }
+
+    /**
+     * Set bairro
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Bairro $bairro
+     * @return EnderecoCGM
+     */
+    public function setBairro(\Serbinario\Bundle\SaudeBundle\Entity\Bairro $bairro = null)
+    {
+        $this->bairro = $bairro;
+
+        return $this;
+    }
+
+    /**
+     * Get bairro
+     *
+     * @return \Serbinario\Bundle\SaudeBundle\Entity\Bairro 
+     */
+    public function getBairro()
+    {
+        return $this->bairro;
+    }
 }

@@ -220,6 +220,69 @@ class CGMController extends Controller
     }
     
     /**
+     * @Route("/gridCGMForModal", name="gridCGMForModal")
+     * @Template()
+     */
+    public function gridCGMForModalAction(Request $request) {
+        
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.idCGM",               
+                "a.nome",
+                "a.CpfCnpj",               
+                );
+
+            $entityJOIN       = array();             
+            $eventosArray     = array();
+            $parametros       = $request->request->all();
+            $entity           = "Serbinario\Bundle\SaudeBundle\Entity\CGM"; 
+            $columnWhereMain  = "";
+            $whereValueMain   = "";
+            $whereFull        = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain,
+                    $whereFull);
+
+            $resultCliente  = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countEventos   = count($resultCliente);
+
+            for($i=0;$i < $countEventos; $i++)
+            {
+                $eventosArray[$i]['DT_RowId']           =  "row_".$resultCliente[$i]->getIdCGM();  
+                $eventosArray[$i]['id']                 =  $resultCliente[$i]->getIdCGM();
+                $eventosArray[$i]['nome']               =  $resultCliente[$i]->getNome();
+                $eventosArray[$i]['cpf']                =  $resultCliente[$i]->getCpf();          
+            }
+
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countEventos = $countTotal;
+            } else {
+                $countEventos = $gridClass->getCountFiltered();
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countEventos}",
+                'data'              => $eventosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }
+        
+    }
+    
+    /**
      * *************************************************************************
      * Rotas para edição
      * *************************************************************************
@@ -531,4 +594,35 @@ class CGMController extends Controller
         
         return new JsonResponse($dados);
     }
+//    
+//    /**
+//     * @Route("/getCgm", name="getCgm")
+//     */
+//    public function getCgmAction(Request $request)
+//    {
+//        #Recuperando parametros da requisição
+//        $valor   = (string) $request->get("valor");
+//        
+//        #Recuperando EntityManager
+//        $manager = $this->getDoctrine()->getManager();
+//        
+//        #criando a consulta
+//        $query   = $manager->createQueryBuilder();
+//        $query->select("a");
+//        $query->from("SaudeBundle:CGM", "a");
+//        $query->where($query->expr()->like("a.nome", ":valor"));
+//        $query->setParameter("valor", "$valor%");
+//        
+//        #Retorno da consulta
+//        $result  = $query->getQuery()->getResult();
+//        
+//        #Tratando o retorno
+//        $arrayResult = array();
+//        foreach($result as $cgm) {
+//            $arrayResult[] = $cgm->getNome() . "|" . $cgm->getCpfCnpj() . "|" . $cgm->getNumeroSus();
+//        }
+//        
+//        #Retorno
+//        return new JsonResponse($arrayResult);                
+//    }
 }

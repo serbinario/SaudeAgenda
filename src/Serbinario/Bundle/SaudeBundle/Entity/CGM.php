@@ -87,6 +87,13 @@ class CGM
     /**
      * @var \string
      *
+     * @ORM\Column(name="numero_sus", type="string", length=30, nullable=true)
+     */
+    private $numeroSus;
+    
+    /**
+     * @var \string
+     *
      * @ORM\Column(name="numero_nis", type="string", length=30, nullable=true)
      */
     private $numeroNis;
@@ -978,5 +985,28 @@ class CGM
     public function removeUser(\Serbinario\Bundle\SecurityBundle\Entity\User $user)
     {
         $this->user->removeElement($user);
+    }
+
+    /**
+     * Set numeroSus
+     *
+     * @param string $numeroSus
+     * @return CGM
+     */
+    public function setNumeroSus($numeroSus)
+    {
+        $this->numeroSus = $numeroSus;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroSus
+     *
+     * @return string 
+     */
+    public function getNumeroSus()
+    {
+        return $this->numeroSus;
     }
 }

@@ -125,9 +125,9 @@
 
                                             <!-- List group -->
                                             <ul class="list-group" id="medicosList">
-                                                {% for medico in medicos %}
+                                                {#{% for medico in medicos %}
                                                     <a href="{{path('agendamentoByMedico', {'id' : medico.idMedico })}}" class="list-group-item">{{medico.cgm.nome}}</a>
-                                                {% endfor %}
+                                                {% endfor %}#}
                                             </ul>
                                         </div>
                                     </div>
@@ -153,7 +153,7 @@
                                             {{ form_start(form, { 'style': 'horizontal', 'attr': {'id': 'formulario'}}) }}
                                                 <input type="hidden" name="idAgendamento" value="" id="idAgendamento">
                                                 <input type="hidden" name="diaCalendario" id="diaCalendario">
-                                                {{ form_row(form.pacientePaciente) }}
+                                                {#{{ form_row(form.pacientePaciente) }}#}
                                                 {{ form_row(form.observacaoAgendamento) }}
                                                 {{ form_row(form.statusAgendamento) }}
                                             {{ form_end(form) }}

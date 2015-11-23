@@ -87,6 +87,13 @@ class CGM
     /**
      * @var \string
      *
+     * @ORM\Column(name="numero_sus", type="string", length=30, nullable=true)
+     */
+    private $numeroSus;
+    
+    /**
+     * @var \string
+     *
      * @ORM\Column(name="numero_nis", type="string", length=30, nullable=true)
      */
     private $numeroNis;
@@ -840,5 +847,143 @@ class CGM
      */
     function getUser() {
         return $this->user;
+    }
+
+    /**
+     * Set numeroTitulo
+     *
+     * @param string $numeroTitulo
+     * @return CGM
+     */
+    public function setNumeroTitulo($numeroTitulo)
+    {
+        $this->numeroTitulo = $numeroTitulo;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroTitulo
+     *
+     * @return string 
+     */
+    public function getNumeroTitulo()
+    {
+        return $this->numeroTitulo;
+    }
+
+    /**
+     * Set numeroZona
+     *
+     * @param string $numeroZona
+     * @return CGM
+     */
+    public function setNumeroZona($numeroZona)
+    {
+        $this->numeroZona = $numeroZona;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroZona
+     *
+     * @return string 
+     */
+    public function getNumeroZona()
+    {
+        return $this->numeroZona;
+    }
+
+    /**
+     * Set numeroSessao
+     *
+     * @param string $numeroSessao
+     * @return CGM
+     */
+    public function setNumeroSessao($numeroSessao)
+    {
+        $this->numeroSessao = $numeroSessao;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroSessao
+     *
+     * @return string 
+     */
+    public function getNumeroSessao()
+    {
+        return $this->numeroSessao;
+    }
+
+    /**
+     * Set numeroNis
+     *
+     * @param string $numeroNis
+     * @return CGM
+     */
+    public function setNumeroNis($numeroNis)
+    {
+        $this->numeroNis = $numeroNis;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroNis
+     *
+     * @return string 
+     */
+    public function getNumeroNis()
+    {
+        return $this->numeroNis;
+    }
+
+    /**
+     * Add medico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medico
+     * @return CGM
+     */
+    public function addMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medico)
+    {
+        $this->medico[] = $medico;
+
+        return $this;
+    }
+
+    /**
+     * Remove medico
+     *
+     * @param \Serbinario\Bundle\SaudeBundle\Entity\Medico $medico
+     */
+    public function removeMedico(\Serbinario\Bundle\SaudeBundle\Entity\Medico $medico)
+    {
+        $this->medico->removeElement($medico);
+    }
+
+    /**
+     * Add user
+     *
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\User $user
+     * @return CGM
+     */
+    public function addUser(\Serbinario\Bundle\SecurityBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Serbinario\Bundle\SecurityBundle\Entity\User $user
+     */
+    public function removeUser(\Serbinario\Bundle\SecurityBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
     }
 }

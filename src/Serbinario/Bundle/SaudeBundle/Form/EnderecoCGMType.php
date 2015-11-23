@@ -52,17 +52,7 @@ class EnderecoCGMType extends AbstractType
                 'empty_value' => "Selecione o bairro",
                 'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Bairro',
                 'attr' => array(
-                     'widget_col'=> '3',
-                    'class' => 'select2'
-                    )
-                ))
-            ->add('cidade', 'entity', array(
-                'label'        => 'Cidade *',
-                'required'     => false,
-                'empty_value' => "Selecione a cidade",
-                'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Cidade',
-                'attr' => array(
-                     'widget_col'=> '3',
+                     'widget_col'=> '8',
                     'class' => 'select2'
                     )
                 ))

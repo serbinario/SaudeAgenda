@@ -39,7 +39,7 @@ class DefaultController extends Controller
     public function saveMedicoAction(Request $request)
     {        
         #Criando o formulário
-        $form    = $this->createForm(new MedicoType());
+        $form    = $this->createForm(new MedicoType($this->getDoctrine()->getManager()));
         
         #Recuperando o serviço do container
         $medicoRN = $this->get('medico_rn');
@@ -170,7 +170,7 @@ class DefaultController extends Controller
         $medicoRN = $this->get("medico_rn");
         
         #Criando o formulário
-        $form = $this->createForm(new MedicoType());
+        $form = $this->createForm(new MedicoType($this->getDoctrine()->getManager()));
         
         if($id) {
             #Recupera o candidato selecionado

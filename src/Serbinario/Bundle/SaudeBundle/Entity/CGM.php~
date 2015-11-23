@@ -986,4 +986,27 @@ class CGM
     {
         $this->user->removeElement($user);
     }
+
+    /**
+     * Set numeroSus
+     *
+     * @param string $numeroSus
+     * @return CGM
+     */
+    public function setNumeroSus($numeroSus)
+    {
+        $this->numeroSus = $numeroSus;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroSus
+     *
+     * @return string 
+     */
+    public function getNumeroSus()
+    {
+        return $this->numeroSus;
+    }
 }

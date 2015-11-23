@@ -33,7 +33,7 @@ class Cidade
      *
      * @ORM\ManyToOne(targetEntity="Estado")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id_estado")
+     *   @ORM\JoinColumn(name="id_estado", referencedColumnName="id_estado")
      * })
      */
     private $estado;

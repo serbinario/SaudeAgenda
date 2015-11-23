@@ -19,23 +19,30 @@ class Estado
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idEstadp;
+    private $idEstado;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nome_estado", type="string", length=4, nullable=true)
+     * @ORM\Column(name="nome_estado", type="string", length=50, nullable=true)
      */
     private $nomeEstado;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sigla_estado", type="string", length=2, nullable=true)
+     */
+    private $siglaEstado;
 
     /**
      * Get idEstadp
      *
      * @return integer 
      */
-    public function getIdEstadp()
+    public function getIdEstado()
     {
-        return $this->idEstadp;
+        return $this->idEstado;
     }
 
     /**
@@ -59,5 +66,28 @@ class Estado
     public function getNomeEstado()
     {
         return $this->nomeEstado;
+    }
+
+    /**
+     * Set siglaEstado
+     *
+     * @param string $siglaEstado
+     * @return Estado
+     */
+    public function setSiglaEstado($siglaEstado)
+    {
+        $this->siglaEstado = $siglaEstado;
+
+        return $this;
+    }
+
+    /**
+     * Get siglaEstado
+     *
+     * @return string 
+     */
+    public function getSiglaEstado()
+    {
+        return $this->siglaEstado;
     }
 }

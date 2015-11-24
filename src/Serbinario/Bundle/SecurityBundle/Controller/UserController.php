@@ -20,7 +20,7 @@ class UserController extends Controller {
      */
     public function saveAction(Request $request) {
         #Criando o formulário
-        $form = $this->createForm(new UserType());
+        $form = $this->createForm(new UserType($this->getDoctrine()->getManager()));
 
         #Recuperando o serviço do container
         $userRN    = $this->get('rn_user');
@@ -112,22 +112,22 @@ class UserController extends Controller {
      */
     public function updateAction(Request $request, $id) {
         #Recuperando o serviço do container
-        $userRN = $this->get('rn_user');
-        $projetoRN = $this->get('rn_projeto');
-        $perfilRN = $this->get('rn_perfil');
-        $roleRN = $this->get('rn_role');
+        $userRN      = $this->get('rn_user');
+        $projetoRN   = $this->get('rn_projeto');
+        $perfilRN    = $this->get('rn_perfil');
+        $roleRN      = $this->get('rn_role');
 
         #Recuperando os projetos e perfís
-        $projetos = $projetoRN->all();
-        $perfis = $perfilRN->all();
+        $projetos    = $projetoRN->all();
+        $perfis      = $perfilRN->all();
 
         #Recuperando o Usuário
-        $user = $userRN->find($id);
+        $user        = $userRN->find($id);
         $oldPassword = $user->getPassword();
         $user->setPassword("");
 
         #Criando o formulário
-        $form = $this->createForm(new UserType(), $user);
+        $form = $this->createForm(new UserType($this->getDoctrine()->getManager()), $user);
 
         #Verifica a existência da foto do usuário
         if ($user->getFoto()) {

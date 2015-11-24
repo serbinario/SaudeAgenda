@@ -217,6 +217,20 @@
                     }
                 }
             });
+            
+            $("div.dataTables_filter input").unbind();
+            
+            $(document).keypress(function(e) {
+                if(e.which == 13) {
+                    var valor = $("div.dataTables_filter input").val();
+                   
+                    if(valor.length > 2) {                    
+                        dt.search(valor).draw();
+                    } else {
+                        alert("Você deve digitar no mínimo 3 caracteres");
+                    }                   
+                }
+            });
 
             // Array to track the ids of the details displayed rows
             var detailRows = [];

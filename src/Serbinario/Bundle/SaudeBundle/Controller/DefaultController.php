@@ -703,9 +703,27 @@ class DefaultController extends Controller
      * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_CADASTRAR')")
      */
     public function savePsfAction(Request $request)
-    {        
+    {      
+        #Recuperando o serviço do modelo
+        $medicoRN = $this->get("medico_rn");
+        
+        #Recuperando os especialistas
+        $medicos  = $medicoRN->all();
+        
+        #Criação da psf
+        $psf      = new \Serbinario\Bundle\SaudeBundle\Entity\Psf();
+        
+        #Criação das quantidades padrões
+        foreach($medicos as $medico) {
+            $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
+            $qtdDefault->setMedico($medico);
+           
+            $psf->addQtdDefault($qtdDefault);
+        }
+        
+        
         #Criando o formulário
-        $form = $this->createForm(new PsfType());       
+        $form     = $this->createForm(new PsfType($this->getDoctrine()->getManager()), $psf);       
         
         #Recuperando o serviço do container
         $psfRN    = $this->get('psf_rn');        
@@ -741,7 +759,10 @@ class DefaultController extends Controller
         }
         
         #Retorno
-        return array("form" => $form->createView());
+        return array(
+            "form" => $form->createView(),
+            "medicos", $medicos
+        );
     }
     
     /**
@@ -822,7 +843,7 @@ class DefaultController extends Controller
         $psfRN = $this->get("psf_rn");
         
         #Criando o formulário
-        $form = $this->createForm(new PsfType());
+        $form = $this->createForm(new PsfType($this->getDoctrine()->getManager()));
         
         if($id) {
             #Recupera o candidato selecionado

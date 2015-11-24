@@ -24,7 +24,7 @@ class QtdDefault
     /**
      * @var integer
      *
-     * @ORM\Column(name="qtd_default", type="integer", nullable=false)
+     * @ORM\Column(name="qtd_default", type="integer", nullable=true)
      */
     private $qtdDefault;
     

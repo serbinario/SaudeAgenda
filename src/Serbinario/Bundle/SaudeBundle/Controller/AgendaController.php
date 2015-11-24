@@ -419,7 +419,7 @@ class AgendaController extends Controller
     public function saveAgendamentoAction(Request $request, $id)
     {
         #RECUPERANDO OS SERVIÇOS
-        $especializacoesRN = $this->get('especialidade_rn');
+        //$especializacoesRN = $this->get('especialidade_rn');
         $medicosRN         = $this->get('medico_rn');
         $calendariosRN     = $this->get('calendario_rn');
         $agendamentoRN     = $this->get('agendamento_rn');
@@ -428,7 +428,7 @@ class AgendaController extends Controller
         $form = $this->createForm(new AgendamentoType());
         
         #RECUPERANDO DADOS
-        $especializacoes   = $especializacoesRN->findWithMedico();  
+       // $especializacoes   = $especializacoesRN->findWithMedico();  
         $medicos           = $medicosRN->all();  
 
         #VERIFICANDO SE É UMA SUBMISSÃO
@@ -498,7 +498,7 @@ class AgendaController extends Controller
         #Retorno
         return array(
             "form" => $form->createView(),            
-            'especializacoes' => $especializacoes,
+            //'especializacoes' => $especializacoes,
             'medicos' => $medicos,
             'id'=> $id                
         );

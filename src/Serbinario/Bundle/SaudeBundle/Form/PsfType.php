@@ -6,9 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Serbinario\Bundle\SaudeBundle\Form\QtdDefaultType;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class PsfType extends AbstractType
 {
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Form\ObjectManager $manager
+     */
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
+    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -25,11 +35,11 @@ class PsfType extends AbstractType
             ->add('qtdDefaults', 'bootstrap_collection', array(
                 'label'              => "Especialistas: ",
                 'required'           => false,
-                'type'               => new QtdDefaultType() ,
-                'allow_add'          => true,
-                'allow_delete'       => true,
-                'add_button_text'    => 'Adicionar',
-                'delete_button_text' => 'Remover',
+                'type'               => new QtdDefaultType($this->manager) ,
+                //'allow_add'          => true,
+                //'allow_delete'       => true,
+                //'add_button_text'    => 'Adicionar',
+                //'delete_button_text' => 'Remover',
                 'sub_widget_col'     => 6,
                 'button_col'         => 6           
              ))

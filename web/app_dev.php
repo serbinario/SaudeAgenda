@@ -22,6 +22,8 @@ Debug::enable();
 
 require_once __DIR__.'/../app/AppKernel.php';
 
+ini_set('memory_limit','256M');
+
 $kernel = new AppKernel('dev', true);
 $kernel->loadClassCache();
 $request = Request::createFromGlobals();

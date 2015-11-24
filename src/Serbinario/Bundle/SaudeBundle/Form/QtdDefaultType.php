@@ -5,8 +5,20 @@ namespace Serbinario\Bundle\SaudeBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Serbinario\Bundle\SaudeBundle\Form\MedicoTextToObject;
 
-class QtdDefaultType extends AbstractType {
+class QtdDefaultType extends AbstractType 
+{
+    
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Form\ObjectManager $manager
+     */
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -14,13 +26,20 @@ class QtdDefaultType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('medico', 'entity', array(
-                    'label' => false,
-                    'required' => false,
-                    'empty_value' => "Selecione o Especialista:",
-                    'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Medico',
+//                ->add('medico', 'entity', array(
+//                    'label' => false,
+//                    'required' => false,
+//                    'empty_value' => "Selecione o Especialista:",
+//                    'class' => 'Serbinario\Bundle\SaudeBundle\Entity\Medico',
+//                    'attr' => array(
+//                        'widget_col' => '6',
+//                    ))
+//                )
+                ->add('medico', 'text', array(
+                    'label' => false,          
                     'attr' => array(
-                        'widget_col' => '6',
+                        'widget_col' => '10',
+                        'readonly' => true,
                     ))
                 )
                 ->add('qtdDefault', 'text', array(
@@ -32,6 +51,9 @@ class QtdDefaultType extends AbstractType {
                     ))
                 )
         ;
+        
+        $builder->get('medico')
+            ->addModelTransformer(new MedicoTextToObject($this->manager));
     }
 
     /**

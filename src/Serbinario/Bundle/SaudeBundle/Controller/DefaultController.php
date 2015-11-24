@@ -298,7 +298,7 @@ class DefaultController extends Controller
     public function saveEspecialidadeAction(Request $request)
     {    
         #Criando o formulário
-        $form    = $this->createForm(new EspecialidadeType());
+        $form    = $this->createForm(new EspecialidadeType($this->getDoctrine()->getManager()));
         
         #Recuperando o serviço do container
         $especialidadeRN = $this->get('especialidade_rn');            
@@ -322,13 +322,10 @@ class DefaultController extends Controller
                 } else {
                     #Messagem de retorno
                     $this->get('session')->getFlashBag()->add('danger', 'Erro ao cadastrado Especialidade');
-                }                
-                
-                #Criando o formulário
-                $form = $this->createForm(new EspecialidadeType());
+                }            
                
                 #Retorno
-                return array("form" => $form->createView());
+                return $this->redirectToRoute("gridEspecialidade");
             } else {
                 #Messagem de retorno
                 $this->get('session')->getFlashBag()->add('danger', (string) $form->getErrors());
@@ -929,5 +926,62 @@ class DefaultController extends Controller
         return new JsonResponse($result ? true : false);
     }
     
-    
+    /**
+     * @Route("/gridCBO", name="gridCBO")
+     * @Template()     
+     */
+    public function gridCBOAction(Request $request)
+    {
+        if(GridClass::isAjax()) {
+            
+            $columns = array("a.id",
+                "a.descricao",
+                );
+
+            $entityJOIN           = array();             
+            $radiosArray          = array();
+            $parametros           = $request->request->all();            
+            
+            $entity               = "Serbinario\Bundle\SaudeBundle\Entity\CBO"; 
+            $columnWhereMain      = "";
+            $whereValueMain       = "";
+            $whereFull            = "";
+            
+            $gridClass = new GridClass($this->getDoctrine()->getManager(), 
+                    $parametros,
+                    $columns,
+                    $entity,
+                    $entityJOIN,           
+                    $columnWhereMain,
+                    $whereValueMain,
+                    $whereFull);
+
+            $resultRadios   = $gridClass->builderQuery();    
+            $countTotal     = $gridClass->getCount();
+            $countRadios    = count($resultRadios);
+
+            for($i=0;$i < $countRadios; $i++)
+            {
+                $radiosArray[$i]['DT_RowId'] = "row_".$resultRadios[$i]->getId();
+                $radiosArray[$i]['codigo']   = $resultRadios[$i]->getId();
+                $radiosArray[$i]['nome']     = $resultRadios[$i]->getDescricao();
+            }
+
+            //Se a variável $sqlFilter estiver vazio
+            if(!$gridClass->isFilter()){
+                $countRadios = $countTotal;
+            }
+
+            $columns = array(               
+                'draw'              => $parametros['draw'],
+                'recordsTotal'      => "{$countTotal}",
+                'recordsFiltered'   => "{$countRadios}",
+                'data'              => $radiosArray               
+            );
+
+            return new JsonResponse($columns);
+        }else{            
+            return array();            
+        }    
+    }
 }

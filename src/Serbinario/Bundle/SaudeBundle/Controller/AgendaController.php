@@ -67,18 +67,44 @@ class AgendaController extends Controller
                     $objCalendario->setStatusCalendario($calendario->getStatusCalendario());
                     $objCalendario->setLocalidadeLocalidade($calendario->getLocalidadeLocalidade());
                     
+                    #Lógica para o incremento de quatidade calendario no caso de novo caleario padrão
+                    if(count($medico->getQtdDefualts()->toArray()) 
+                            > count($objCalendario->getQtdCalendarios()->toArray())) {
+                        
+                        #Recuperando as qtdDefaults
+                        $qtdDefaults = $medico->getQtdDefualts()->toArray();
+                        
+                        #Recuperando a diferenca das quantidades
+                        $diferenca   = count($qtdDefaults) 
+                                - count($objCalendario->getQtdCalendarios()->toArray());                        
+                        
+                        #Percorrendo o array de forma decremental
+                        for ($i = $diferenca; $i > 0; $i--) {                            
+                            #Recuparando a qtdDefault em questão
+                            $qtdDefault    = $qtdDefaults[(count($qtdDefaults) - $i)];
+                            
+                            #Criação do qtd calendário
+                            $qtdCalendario = new \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario();                            
+                            $qtdCalendario->setCalendario($objCalendario);
+                            $qtdCalendario->setPsf($qtdDefault->getPsf());
+                            $qtdCalendario->setQtdCalendario($qtdDefault->getQtdDefault());
+
+                            $objCalendario->addQtdCalendario($qtdCalendario);
+                        }   
+                    }
+                    
                     $qtdCaledarios = $objCalendario->getQtdCalendarios()->toArray();                    
                     $result        = $calendarioRN->update($objCalendario);
                 } else {
                     
                     foreach ($medico->getQtdDefualts()->toArray() as $qtdDefault)
-                    {
+                    {   
                         $qtdCalendario = new \Serbinario\Bundle\SaudeBundle\Entity\QtdCalendario();
                         $qtdCalendario->setCalendario($calendario);
                         $qtdCalendario->setPsf($qtdDefault->getPsf());
                         $qtdCalendario->setQtdCalendario($qtdDefault->getQtdDefault());
                         
-                        $result = $calendario->addQtdCalendario($qtdCalendario);
+                        $calendario->addQtdCalendario($qtdCalendario);
                     }
                     
                     $qtdCaledarios = $calendario->getQtdCalendarios()->toArray();
@@ -129,7 +155,7 @@ class AgendaController extends Controller
             $columns = array("a.idMedico",
                 "c.nome",
                 "a.emailMedico",
-                "b.nomeEspecialidade"
+                "b.descricaoEspecialidade"
                 );
 
             $entityJOIN           = array("especialidadeEspecialidade", "cgm");             

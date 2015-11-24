@@ -840,7 +840,11 @@ class DefaultController extends Controller
     public function editPsfAction(Request $request, $id)
     {     
         #Recuperando o serviço do modelo
-        $psfRN = $this->get("psf_rn");
+        $psfRN    = $this->get("psf_rn");
+        $medicoRN = $this->get("medico_rn");
+        
+        #Recuperando os especialistas
+        $medicos  = $medicoRN->all();
         
         #Criando o formulário
         $form = $this->createForm(new PsfType($this->getDoctrine()->getManager()));
@@ -849,7 +853,21 @@ class DefaultController extends Controller
             #Recupera o candidato selecionado
             $psfRecuperada = $psfRN->findId($id);
         }
-             //var_dump($psfRecuperada);exit; 
+        
+        #Lógica para o incremento de quatidade padrão no caso de novo médico
+        if(count($medicos) > count($psfRecuperada->getQtdDefaults()->toArray())) {
+            #Recuperando a diferenca das quantidades
+            $diferenca = count($medicos) - count($psfRecuperada->getQtdDefaults()->toArray());
+            
+            #Percorrendo o array de forma decremental
+            for ($i = $diferenca; $i > 0; $i--) {
+                $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
+                $qtdDefault->setMedico($medicos[(count($medicos) - $i)]);
+                        
+                $psfRecuperada->addQtdDefault($qtdDefault);
+            }            
+        }
+        
         #Preenche o formulário com os dados do candidato
         $form->setData($psfRecuperada);
          

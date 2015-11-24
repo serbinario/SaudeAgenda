@@ -246,7 +246,7 @@
                                                     $("#serbinario_bundle_saudebundle_calendario_diaCalendario").val(data.diaCalendario);
                                                     $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_hour option:contains(" + data.hour + ")").attr("selected", true);
                                                     $("#serbinario_bundle_saudebundle_calendario_horarioCalendario_minute option:contains(" + data.minute + ")").attr("selected", true);
-                                                    $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option:contains(" + data.localidade + ")").attr("selected", true);
+                                                    $("#serbinario_bundle_saudebundle_calendario_localidadeLocalidade option:contains(" + data.localidade + ")").prop("selected", true);
                                                 }
                                             }
                                         });
@@ -463,7 +463,7 @@
 
                 });
                 $(document).ready(function(){
-            $(".select2").select2();
+            //$(".select2").select2();
             $('#serbinario_bundle_saudebundle_calendario_actions_cancel').removeClass("btn-default");
             $('#serbinario_bundle_saudebundle_calendario_actions_cancel').addClass("btn-success");
         });

@@ -5,9 +5,19 @@ namespace Serbinario\Bundle\SaudeBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class AgendamentoType extends AbstractType
 {
+    /**
+     * 
+     * @param \Serbinario\Bundle\SaudeBundle\Form\ObjectManager $manager
+     */
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
+    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -24,7 +34,15 @@ class AgendamentoType extends AbstractType
 //                    'widget_col'=> '6',
 //                    'class' => 'select2'
 //                    )
-//                ))   
+//                ))
+            ->add('pacientePaciente', 'text', array(
+                'label'        => 'Paciente *',
+                'attr'  => array(
+                    'placeholder' => 'Selecione um Paciênte',
+                    'widget_col'=> '6',
+                    'readonly' => true,
+                )
+            ))
             ->add('observacaoAgendamento', 'textarea', array(
                 'label' => 'Observação *', 
                 'required'     => false,
@@ -49,6 +67,9 @@ class AgendamentoType extends AbstractType
             ])
                    
         ;
+        
+        $builder->get('pacientePaciente')
+            ->addModelTransformer(new CgmTextToObject($this->manager));
     }
     
     /**

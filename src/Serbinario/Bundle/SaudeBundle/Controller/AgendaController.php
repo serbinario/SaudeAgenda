@@ -446,12 +446,12 @@ class AgendaController extends Controller
     {
         #RECUPERANDO OS SERVIÇOS
         $especializacoesRN = $this->get('especialidade_rn');
-        //$medicosRN         = $this->get('medico_rn');
+        $medicosRN         = $this->get('medico_rn');
         $calendariosRN     = $this->get('calendario_rn');
         $agendamentoRN     = $this->get('agendamento_rn');
         
         #CRIANDO FORMULÁRIO
-        $form = $this->createForm(new AgendamentoType());
+        $form = $this->createForm(new AgendamentoType($this->getDoctrine()->getManager()));
         
         #RECUPERANDO DADOS
         $especializacoes   = $especializacoesRN->findWithMedico();  
@@ -517,15 +517,23 @@ class AgendaController extends Controller
                 }   
                 
                 #CRIANDO FORMULÁRIO
-                $form = $this->createForm(new AgendamentoType());                 
+                $form = $this->createForm(new AgendamentoType($this->getDoctrine()->getManager()));                 
             }
-        }        
+        }     
+        
+        #Verificando se existe o médico selecionado e recuperando o nome
+        $nomeMedico = "";
+        if($id) {
+            $medico     = $medicosRN->findId($id);
+            $nomeMedico = $medico->getCgm()->getNome();
+        }
         
         #Retorno
         return array(
             "form" => $form->createView(),            
             'especializacoes' => $especializacoes,
             //'medicos' => $medicos,
+            "nomeMedico" => $nomeMedico,
             'id'=> $id                
         );
     }

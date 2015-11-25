@@ -415,7 +415,7 @@ class DefaultController extends Controller
         $especialidadeRN = $this->get("especialidade_rn");
         
         #Criando o formulário
-        $form = $this->createForm(new EspecialidadeType());
+        $form = $this->createForm(new EspecialidadeType($this->getDoctrine()->getManager()));
         
         if($id) {
             #Recupera o candidato selecionado

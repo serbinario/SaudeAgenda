@@ -323,7 +323,7 @@ class AgendaController extends Controller
                     $quantidade         = $qtdCalendario->getQtdCalendario();
                     $quantidadeAgendada = $agendamentoRN->findByDateAndMedicoAndPsf($data, $idMedico, $idPsf);
                     
-                    if($quantidadeAgendada == $quantidade) {
+                    if($quantidadeAgendada[1] == $quantidade) {
                         $msg = 'erro'; 
                     } else {
                         $msg = 'sucesso';

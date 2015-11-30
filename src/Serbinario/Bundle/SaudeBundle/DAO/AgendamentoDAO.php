@@ -158,6 +158,7 @@ class AgendamentoDAO
                     ->where("c.idMedico = :id")
                     ->andWhere("b.diaCalendario = :date")
                     ->andWhere("e.idPsf =:idPsf ")
+                    ->andWhere("a.statusAgendamento = true")
                     ->setParameter("id", $idMedico)
                     ->setParameter("date", $date)
                     ->setParameter("idPsf", $idPsf)

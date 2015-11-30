@@ -265,9 +265,9 @@ class AgendaController extends Controller
         $calendarioRN = $this->get('calendario_rn');
         
         #Recuperando o eventos
-        $eventos   = $eventosRN->eventosAllByMedicos($idMedico['data'], $user->getId());
+        $eventos    = $eventosRN->eventosAllByMedicos($idMedico['data'], $user->getId());
         #Recuperando o calendário do médico
-        $calendario   = $calendarioRN->findByMedico($idMedico['data']);
+        $calendario = $calendarioRN->findByMedico($idMedico['data']);
         
         #Array de resposta
         $arrayResult  = array();

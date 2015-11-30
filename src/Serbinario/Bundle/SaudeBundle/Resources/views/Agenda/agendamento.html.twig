@@ -358,12 +358,13 @@
         
                 //Envento do click no dia do calendário
                 dayClick: function (date, allDay, jsEvent, view) {
-                    var idMedico = "{{id}}";
-                    var data = date.format();
-
+                    var idMedico = "{{id}}";                   
+                    var data     = date.format();                    
+                                    
+                    //Dados do para validar médico
                     var dados = {
                         idMedico: idMedico,
-                        data: data
+                        data    : data,                        
                     }
 
                     jQuery.ajax({

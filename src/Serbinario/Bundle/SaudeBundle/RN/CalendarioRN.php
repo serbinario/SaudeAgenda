@@ -129,7 +129,20 @@ class CalendarioRN
      */
     public function validarDiaMedico($id, $data)
     {
-         $result = $this->calendarioDAO->validarDiaMedico($id, $data);
+        $result = $this->calendarioDAO->validarDiaMedico($id, $data);
+        
+        return $result;
+    }
+    
+     /**
+     * 
+     * @param type $idPsf
+     * @param type $idMedico
+     * @return type
+     */
+    public function getQtdCalendarioByPsfAndMadico($idPsf, $idMedico)
+    {
+        $result = $this->calendarioDAO->getQtdCalendarioByPsfAndMadico($idPsf, $idMedico);
         
         return $result;
     }

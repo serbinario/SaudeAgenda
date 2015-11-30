@@ -373,13 +373,32 @@
                                 return false; 
                             }
                             
+                            //variável para o somatório das quantidades por psf
+                            var somaQtdPsf = 0;
+                            
+                            //Valores das quantidades por psf
                             var valores = [];
                             $("input[name='qtdCalendarios[]']").each(function (index, element) {
-                                valores[index] = $(element).val();
-                            });                       
+                                valores[index] = Number($(element).val());
+                                somaQtdPsf    += valores[index];
+                            });
                             
+                            //Recuprando a quantidade total do calendario
+                            var qtdTotalCalendario = $("#serbinario_bundle_saudebundle_calendario_qtdTotalCalendario").val();
+                           
+                            //Verificando a quantidade total com os valores por psf
+                            if (qtdTotalCalendario < somaQtdPsf) {
+                                //Mensagem de retorno
+                                alert("A soma das quantidades por psf ultrapassa a quantidade máxima do dia do médico!");
+                                
+                                //Retorno
+                                return false;
+                            }
+                            
+                            //Recuperando o id do calendário
                             var idCalendario = $("#idCalendario").val();
                             
+                            //Fazendo a alteração do calendário
                             $.ajax({
                                 url: "../../agenda/editQtdCalendarios/" + idCalendario, //URL solicitada
                                 dataType: "JSON", //Tipo de dado de transfência
@@ -387,6 +406,7 @@
                                 data: {valores}
                             }); 
                             
+                            //Retorno
                             return true;                            
                         },
                         onFinished: function (event, currentIndex) { 

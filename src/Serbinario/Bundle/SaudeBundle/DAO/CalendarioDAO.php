@@ -188,4 +188,26 @@ class CalendarioDAO
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $idPsf
+     * @param type $idMedico
+     * @return type
+     */
+    public function getQtdCalendarioByPsfAndMadico($idPsf, $idMedico)
+    {
+        $qb = $this->manager->createQueryBuilder();
+        $qb->select("a");
+        $qb->from("SaudeBundle:QtdCalendario", "a");
+        $qb->join("a.psf", "b");
+        $qb->join("a.calendario", "c");
+        $qb->join("c.medicoMedico", "d");
+        $qb->where($qb->expr()->eq("d.idMedico", ":idMedico"));
+        $qb->andWhere($qb->expr()->eq("b.idPsf", ":idPsf"));
+        $qb->setParameter("idMedico", $idMedico);
+        $qb->setParameter("idPsf", $idPsf);
+        
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -97,4 +97,18 @@ class AgendamentoRN
         
         return $result;
     }
+    
+    /**
+     * 
+     * @param type $date
+     * @param type $idMedico
+     * @param type $idPsf
+     * @return type
+     */
+    public function findByDateAndMedicoAndPsf($date, $idMedico, $idPsf)
+    {
+        $result = $this->agendamentoDAO->findByDateAndMedicoAndPsf($date, $idMedico, $idPsf);
+        
+        return $result;
+    }
 }

@@ -299,14 +299,41 @@ class AgendaController extends Controller
     public function validarDiaMedicoAction(Request $request) {
         
         $idMedico = $request->request->get('idMedico');
-        $data     = $request->request->get('data');
+        $data     = $request->request->get('data');        
         $msg      = "";
         
+        #RECUPERANDO O USUÁRIO DA SESSÃO
+        $user    = $this->get('security.token_storage')->getToken()->getUser();
+        
         $calendarioRN  = $this->get("calendario_rn");
+        $agendamentoRN = $this->get("agendamento_rn");
         $result        = $calendarioRN->validarDiaMedico($idMedico, $data);
                 
         if ($result) {
-            $msg = 'sucesso';
+            
+            #Verificando se o ousuário possui psf
+            if(!$user->getPsfPsf() && is_granted('ROLE_ADMIN')) {
+                $msg = 'sucesso';
+            } else {
+                $idPsf              = $user->getPsfPsf()->getIdPsf();
+                $qtdCalendarioArray = $calendarioRN->getQtdCalendarioByPsfAndMadico($idPsf, $idMedico);
+            
+                if($qtdCalendarioArray) {
+                    $qtdCalendario      = $qtdCalendarioArray[0];
+                    $quantidade         = $qtdCalendario->getQtdCalendario();
+                    $quantidadeAgendada = $agendamentoRN->findByDateAndMedicoAndPsf($data, $idMedico, $idPsf);
+                    
+                    if($quantidadeAgendada == $quantidade) {
+                        $msg = 'erro'; 
+                    } else {
+                        $msg = 'sucesso';
+                    }               
+                   
+                } else {
+                    $msg = 'erro'; 
+                }
+            } 
+            
         } else {
             $msg = 'erro';
         }
@@ -573,6 +600,7 @@ class AgendaController extends Controller
         #RETORNO
         return new JsonResponse($arrayPaciente);
     }
+    
     
     /**
      * @Route("/getMedicosByEpecilidade", name="getMedicosByEpecilidade")

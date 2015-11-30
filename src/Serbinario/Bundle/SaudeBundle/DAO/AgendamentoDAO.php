@@ -141,6 +141,38 @@ class AgendamentoDAO
     /**
      * 
      * @param type $date
+     * @param type $idMedico
+     * @param type $idPsf
+     * @return type
+     */
+    public function findByDateAndMedicoAndPsf($date, $idMedico, $idPsf)
+    {
+       try {
+           $qb     = $this->manager->createQueryBuilder();
+           $result = $qb->select("count(a)")
+                    ->from("Serbinario\Bundle\SaudeBundle\Entity\Agendamento", "a")
+                    ->join("a.calendarioCalendario", "b")
+                    ->join("b.medicoMedico", "c")
+                    ->join("a.usuariosUsuarios", "d")
+                    ->join("d.psfPsf", "e")
+                    ->where("c.idMedico = :id")
+                    ->andWhere("b.diaCalendario = :date")
+                    ->andWhere("e.idPsf =:idPsf ")
+                    ->setParameter("id", $idMedico)
+                    ->setParameter("date", $date)
+                    ->setParameter("idPsf", $idPsf)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+        
+            return $result;     
+        } catch (Exception $ex) {
+            return null;
+        } 
+    }
+    
+    /**
+     * 
+     * @param type $date
      * @return type
      */
     public function findByDateOfCalendar($date)

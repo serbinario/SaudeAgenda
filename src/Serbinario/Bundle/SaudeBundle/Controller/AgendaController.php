@@ -254,6 +254,9 @@ class AgendaController extends Controller
      */
     public function getCalendarioBigAction(Request $request)
     {
+        #RECUPERANDO O USUÁRIO DA SESSÃO
+        $user         = $this->get('security.token_storage')->getToken()->getUser();
+        
         #Recuperando o id do médico
         $idMedico     = $request->request->all();
         
@@ -262,7 +265,7 @@ class AgendaController extends Controller
         $calendarioRN = $this->get('calendario_rn');
         
         #Recuperando o eventos
-        $eventos   = $eventosRN->eventosAllByMedicos($idMedico['data'], "1");
+        $eventos   = $eventosRN->eventosAllByMedicos($idMedico['data'], $user->getId());
         #Recuperando o calendário do médico
         $calendario   = $calendarioRN->findByMedico($idMedico['data']);
         

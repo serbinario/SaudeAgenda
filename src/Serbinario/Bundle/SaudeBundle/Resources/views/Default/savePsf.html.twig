@@ -60,11 +60,9 @@
                                     <li role="presentation" class="active">
                                         <a href="#psf" aria-controls="psf" role="tab" data-toggle="tab">Dados Gerais</a>
                                     </li>
-                                    <li role="presentation">
-                                        <a href="#qtd_default" aria-controls="qtd_default" role="tab" data-toggle="tab">Quantidades Padrões por Especialista</a>
-                                    </li>                            
+                                                        
                                 </ul>
-
+                                
                                 <!-- Tab panes -->
                                 <div class="tab-content">  
 
@@ -72,10 +70,10 @@
                                         <br>                                
                                         {{ form_row(form.nomePsf) }}                                                         
                                     </div>
-                                    <div class="tab-pane" id="qtd_default">
+                                    {#<div class="tab-pane" id="qtd_default">
                                         <br>   
                                         {{ form_row(form.qtdDefaults)}}
-                                    </div>
+                                    </div>#}
                                 </div>
                             </div>
                             {{ form_end(form) }}

@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Serbinario\Bundle\SaudeBundle\Form\CgmTextToObject;
 use Doctrine\Common\Persistence\ObjectManager;
+use Serbinario\Bundle\SaudeBundle\Form\QtdDefaultType;
 
 class MedicoType extends AbstractType
 {
@@ -43,6 +44,17 @@ class MedicoType extends AbstractType
                     'readonly' => true,
                 )
             ))
+            ->add('qtdDefualts', 'bootstrap_collection', array(
+                'label'              => "Postos de saúde: ",
+                'required'           => false,
+                'type'               => new QtdDefaultType($this->manager) ,
+                //'allow_add'          => true,
+                //'allow_delete'       => true,
+                //'add_button_text'    => 'Adicionar',
+                //'delete_button_text' => 'Remover',
+                'sub_widget_col'     => 6,
+                'button_col'         => 6           
+             ))
             ->add('emailMedico', 'text', array(
                 'label' => 'E-mail ', 
                 'required'     => false,

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Serbinario\Bundle\SaudeBundle\Form\MedicoTextToObject;
+use Serbinario\Bundle\SaudeBundle\Form\PsfTextToObject;
 
 class QtdDefaultType extends AbstractType 
 {
@@ -35,7 +35,7 @@ class QtdDefaultType extends AbstractType
 //                        'widget_col' => '6',
 //                    ))
 //                )
-                ->add('medico', 'text', array(
+                ->add('psf', 'text', array(
                     'label' => false,          
                     'attr' => array(
                         'widget_col' => '10',
@@ -47,13 +47,13 @@ class QtdDefaultType extends AbstractType
                     'attr' => array(
                         'placeholder' => 'Quantidade',
                         'widget_col' => '4',
-                        "class" => " mask_numero"
+                        "class" => " mask_numero validationQtd"
                     ))
                 )
         ;
         
-        $builder->get('medico')
-            ->addModelTransformer(new MedicoTextToObject($this->manager));
+        $builder->get('psf')
+            ->addModelTransformer(new PsfTextToObject($this->manager));
     }
 
     /**

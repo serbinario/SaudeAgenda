@@ -74,7 +74,7 @@
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_CADASTRAR')                                           
                                         or is_granted('ROLE_AGENDAMENTO_AGENDAMEDICO_VISUALIZAR')%}
-                                    <li><a href="{{ path('gridAgendaMedico') }}">Agenda Médico</a></li>
+                                    <li><a href="{{ path('gridAgendaMedico') }}">Agenda Epecialista</a></li>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') 
                                         or is_granted('ROLE_AGENDAMENTO_ESPECIALIDADE_CADASTRAR')  

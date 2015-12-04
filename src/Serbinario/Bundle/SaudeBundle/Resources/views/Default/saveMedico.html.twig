@@ -116,6 +116,10 @@
                                         <a href="#agendaPadrao"aria-controls="agendaPadrao"role="tab"data-toggle="tab">
                                             Informações Padrão da Agenda</a >
                                     </li >
+                                    <li role="presentation">
+                                        <a href="#qtdDefaultPsf"aria-controls="qtdDefaultPsf"role="tab"data-toggle="tab">
+                                            Quantidades de vagas por PSF</a >
+                                    </li >
                                 </ul >
                                 <div class="tab-content">
                                     <div class="tab-pane active"id="informacaoPessoal">
@@ -142,6 +146,10 @@
                                         {{ form_row(form.horarioInicio) }}
                                         {{ form_row(form.horarioFim) }}
                                         {{ form_row(form.localidade) }}
+                                    </div>
+                                    <div class="tab-pane"id="qtdDefaultPsf">
+                                        <br />
+                                        {{ form_row(form.qtdDefualts) }}                                        
                                     </div>
                                 </div>
                             </div>
@@ -206,6 +214,24 @@
     <script type="text/javascript" language="javascript" class="init">
         $(document).ready(function ()
         {
+            //Evento de click no botao de submit
+            $("#saudebundle_medico_actions_save").click(function (event) { 
+                var totalQtdPsf    = 0;
+                var totalQtdMedico = Math.floor($("#saudebundle_medico_quantidadeVagas").val());
+                
+                //Validando a quantidade total
+                $(".validationQtd").each(function (index, elemento) {
+                    totalQtdPsf += Math.floor($(elemento).val());
+                });                
+                
+                //Verifiçao ads quantidades
+                if(totalQtdPsf > totalQtdMedico) {
+                    alert("A soma das quantidades por psf ultrapassa a quantidade total informada para o medico!");
+                    
+                    return false;
+                }
+            });            
+            
             //Evento para voltar a tela
             $("#saudebundle_medico_actions_voltar").click(function () {
                 location.href = '{{path('gridMedico')}}'

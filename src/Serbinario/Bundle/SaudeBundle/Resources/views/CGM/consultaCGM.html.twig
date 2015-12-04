@@ -14,20 +14,17 @@
         tr.details td.details-control {
             background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
         }
-
-        a.editar {
-            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
-            width: 20px;
+       
+        a.editar {            
+            padding-bottom: 25px;
         }
 
-        a.visualizar {
-            background: url({{asset("imagens/icone-visualizar.png")}}) no-repeat 0 0;
-            width: 20px;
+        a.visualizar {            
+           padding-bottom: 25px;
         }
 
         a.excluir {
-            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
-            width: 20px;
+           padding-bottom: 25px;
         }
 
         td.bt {
@@ -35,10 +32,8 @@
             width: 126px;
         }
 
-        td.bt a {
-            float: left;
-            height: 22px;
-            margin: 0 10px;
+        td.bt a {           
+            height: 22px;          
         }
         .highlight {
             background-color: #FE8E8E;
@@ -181,12 +176,12 @@
                         "data": null,
                         "render": function (data, type, row, full, meta) {
                             if (data.delete === '1') {
-                                return '<a href="editCGM/id/' + data.id + '" class="editar" title="Editar">\n\
-                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar" title="Visualizar">'
+                                return '<a href="editCGM/id/' + data.id + '" class="editar btn btn-primary btn-sm" title="Editar"><i class="glyphicon glyphicon-edit "></i></a>\n\
+                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar btn btn-info btn-sm" title="Visualizar"><i class="glyphicon glyphicon-search"></i></a>';
                             } else if (data.delete === '2') {
-                                return '<a href="editCGM/id/' + data.id + '" class="editar" title="Editar">\n\
-                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar" title="Visualizar">\n\
-                                    <a href="deleteCGM/id/' + data.id + '" class="excluir" title="Excluir">'
+                                return '<a href="editCGM/id/' + data.id + '" class="editar btn btn-primary btn-sm" title="Editar"><i class="glyphicon glyphicon-edit "></i></a>\n\
+                                    <a href="visualizarCGM/id/' + data.id + '" class="visualizar btn btn-info btn-sm" title="Visualizar"><i class="glyphicon glyphicon-search"></i></a>\n\
+                                    <a href="deleteCGM/id/' + data.id + '" class="excluir btn btn-danger btn-sm" title="Excluir"><i class="glyphicon glyphicon-remove"></i></a>';
                             }
                             
                         }

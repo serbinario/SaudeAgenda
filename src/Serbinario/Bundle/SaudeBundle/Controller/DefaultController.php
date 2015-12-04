@@ -43,6 +43,24 @@ class DefaultController extends Controller
         
         #Recuperando o serviço do container
         $medicoRN = $this->get('medico_rn');
+        $psfRN    = $this->get("psf_rn");
+        
+        #Recuperando todas as psf's
+        $psfAll   = $psfRN->all();
+        
+        #Criando o médico
+        $medico   = new \Serbinario\Bundle\SaudeBundle\Entity\Medico();
+        
+        #Criação das quantidades padrões
+        foreach($psfAll as $psf) {
+            $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
+            $qtdDefault->setPsf($psf);
+           
+            $medico->addQtdDefualt($qtdDefault);
+        }
+        
+        #Setando o model do form 
+        $form->setData($medico);
         
          #Verficando se é uma submissão
         if($request->getMethod() === "POST") {
@@ -168,6 +186,10 @@ class DefaultController extends Controller
     {     
         #Recuperando o serviço do modelo
         $medicoRN = $this->get("medico_rn");
+        $psfRN    = $this->get("psf_rn");
+        
+        #Recuperando todos as psf
+        $psfAll   = $psfRN->all();
         
         #Criando o formulário
         $form = $this->createForm(new MedicoType($this->getDoctrine()->getManager()));
@@ -180,6 +202,20 @@ class DefaultController extends Controller
                 $documentoOld = $medicoRecuperada->getFoto();
                 $pathOld      = $documentoOld->getAbsolutePath();
             }
+        }
+        
+        #Lógica para o incremento de quatidade padrão no caso de nova psf
+        if(count($psfAll) > count($medicoRecuperada->getQtdDefualts()->toArray())) {
+            #Recuperando a diferenca das quantidades
+            $diferenca = count($psfAll) - count($medicoRecuperada->getQtdDefualts()->toArray());
+            
+            #Percorrendo o array de forma decremental
+            for ($i = $diferenca; $i > 0; $i--) {
+                $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
+                $qtdDefault->setPsf($psfAll[(count($psfAll) - $i)]);
+                        
+                $medicoRecuperada->addQtdDefualt($qtdDefault);
+            }            
         }
                
         #Preenche o formulário com os dados do candidato
@@ -247,7 +283,7 @@ class DefaultController extends Controller
     /**
      * @Route("/deleteMedico/id/{id}", name="deleteMedico")
      * @Template()
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_PSF_EDITAR')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_AGENDAMENTO_MEDICO_DELETAR')")
      */
     public function deleteMedicoAction($id) {
         
@@ -710,20 +746,20 @@ class DefaultController extends Controller
         #Recuperando os especialistas
         $medicos  = $medicoRN->all();
         
-        #Criação da psf
-        $psf      = new \Serbinario\Bundle\SaudeBundle\Entity\Psf();
-        
-        #Criação das quantidades padrões
-        foreach($medicos as $medico) {
-            $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
-            $qtdDefault->setMedico($medico);
-           
-            $psf->addQtdDefault($qtdDefault);
-        }
+//        #Criação da psf
+//        $psf      = new \Serbinario\Bundle\SaudeBundle\Entity\Psf();
+//        
+//        #Criação das quantidades padrões
+//        foreach($medicos as $medico) {
+//            $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
+//            $qtdDefault->setMedico($medico);
+//           
+//            $psf->addQtdDefault($qtdDefault);
+//        }
         
         
         #Criando o formulário
-        $form     = $this->createForm(new PsfType($this->getDoctrine()->getManager()), $psf);       
+        $form     = $this->createForm(new PsfType($this->getDoctrine()->getManager()));       
         
         #Recuperando o serviço do container
         $psfRN    = $this->get('psf_rn');        
@@ -854,20 +890,6 @@ class DefaultController extends Controller
             $psfRecuperada = $psfRN->findId($id);
         }
         
-        #Lógica para o incremento de quatidade padrão no caso de novo médico
-        if(count($medicos) > count($psfRecuperada->getQtdDefaults()->toArray())) {
-            #Recuperando a diferenca das quantidades
-            $diferenca = count($medicos) - count($psfRecuperada->getQtdDefaults()->toArray());
-            
-            #Percorrendo o array de forma decremental
-            for ($i = $diferenca; $i > 0; $i--) {
-                $qtdDefault = new \Serbinario\Bundle\SaudeBundle\Entity\QtdDefault();
-                $qtdDefault->setMedico($medicos[(count($medicos) - $i)]);
-                        
-                $psfRecuperada->addQtdDefault($qtdDefault);
-            }            
-        }
-        
         #Preenche o formulário com os dados do candidato
         $form->setData($psfRecuperada);
          
@@ -881,18 +903,11 @@ class DefaultController extends Controller
             if($form->isValid()) {
                 #Recuperando os dados
                 $psf = $form->getData();   
-                
-                //Trantando qtdDefaults
-                $idQtdDefaults = array();
-                foreach ($psf->getQtdDefaults() as $qtdDefault) {
-                    $idQtdDefaults[] = $qtdDefault->getIdQtdDefault();
-                    $qtdDefault->setPsf($psf);
-                }
-                $psfRN->deleleNotId($psf->getIdPsf() ,$idQtdDefaults);
-                                
+                                               
                 #Resultado da operação
                 $result =  $psfRN->update($psf);
                 
+                #Mensagem de retorno
                 if($result) {
                     #Messagem de retorno
                     $this->addFlash('success', 'Posto de saúde editado com sucesso!');

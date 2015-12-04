@@ -11,7 +11,7 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  *
  * @author serbinario
  */
-class MedicoTextToObject implements DataTransformerInterface
+class PsfTextToObject implements DataTransformerInterface
 {
     /**
      *
@@ -30,39 +30,38 @@ class MedicoTextToObject implements DataTransformerInterface
     
     /**
      * 
-     * @param type $medico
+     * @param type $psf
      * @return string
      */
-    public function transform($medico)
+    public function transform($psf)
     {
-        if (null === $medico) {
+        if (null === $psf) {
             return '';
         }
 
-        return $medico->getIdMedico() 
-                . " - " .$medico->getCgm()->getNome() 
-                . " - " . $medico->getEspecialidadeEspecialidade()->getDescricaoEspecialidade();
+        return $psf->getIdPsf() 
+                . " - " .$psf->getNomePsf();                
     }
 
     /**
      * 
-     * @param type $medico
+     * @param type $psf
      * @return type
      * @throws TransformationFailedException
      */
-    public function reverseTransform($medico)
+    public function reverseTransform($psf)
     {
         // no issue number? It's optional, so that's ok
-        if (!$medico) {
+        if (!$psf) {
             return;
         }
         
-        $medicoArray = explode(" - ", $medico);
+        $psfArray = explode(" - ", $psf);
         
         $result = $this->manager
-                ->getRepository('SaudeBundle:Medico')
+                ->getRepository('SaudeBundle:Psf')
                 // query for the issue with this id
-                ->find($medicoArray[0])
+                ->find($psfArray[0])
         ;
 
         if (null === $result) {
@@ -71,7 +70,7 @@ class MedicoTextToObject implements DataTransformerInterface
             // see the invalid_message option
             throw new TransformationFailedException(sprintf(
                 'Esse "%s" não existe!',
-                $medicoArray[1]
+                $psfArray[1]
             ));
         }
 

@@ -15,9 +15,8 @@
             background: url({{asset("imagens/icone-produto-minus.png")}}) no-repeat center center;
         }
 
-        a.editar {
-            background: url({{asset("imagens/icone-editar.png")}}) no-repeat 0 0;
-            width: 22px;
+        a.editar {            
+            padding-bottom: 25px;
         }
 
         a.visualizar {
@@ -26,8 +25,7 @@
         }
 
         a.excluir {
-            background: url({{asset("imagens/icone-excluir.png")}}) no-repeat 0 0;
-            width: 21px;
+           padding-bottom: 25px;
         }
 
         td.bt {
@@ -87,7 +85,7 @@
                     {% endfor %}
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>Médicos Cadastrados</h5>
+                            <h5>Especialistas Cadastrados</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -167,7 +165,7 @@
                         "orderable": false,
                         "data": null,
                         "render": function (data, type, row, full, meta) {
-                                    return '<a href="agendaMedico/' + data.id + '" class="editar" title="Editar">'
+                                    return '<a href="agendaMedico/' + data.id + '" class="editar btn btn-primary btn-sm" title="Editar"><i class="glyphicon glyphicon-edit "></i></a>'
                         }
                     },
                 ],

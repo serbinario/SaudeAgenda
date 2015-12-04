@@ -32,17 +32,17 @@ class PsfType extends AbstractType
                     'placeholder' => 'Nome',
                     'widget_col'=> '6',
             )))
-            ->add('qtdDefaults', 'bootstrap_collection', array(
-                'label'              => "Especialistas: ",
-                'required'           => false,
-                'type'               => new QtdDefaultType($this->manager) ,
-                //'allow_add'          => true,
-                //'allow_delete'       => true,
-                //'add_button_text'    => 'Adicionar',
-                //'delete_button_text' => 'Remover',
-                'sub_widget_col'     => 6,
-                'button_col'         => 6           
-             ))
+//            ->add('qtdDefaults', 'bootstrap_collection', array(
+//                'label'              => "Especialistas: ",
+//                'required'           => false,
+//                'type'               => new QtdDefaultType($this->manager) ,
+//                //'allow_add'          => true,
+//                //'allow_delete'       => true,
+//                //'add_button_text'    => 'Adicionar',
+//                //'delete_button_text' => 'Remover',
+//                'sub_widget_col'     => 6,
+//                'button_col'         => 6           
+//             ))
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'Salvar']],

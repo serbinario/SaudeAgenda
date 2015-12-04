@@ -354,6 +354,7 @@ class Medico
      */
     public function addQtdDefualt(\Serbinario\Bundle\SaudeBundle\Entity\QtdDefault $qtdDefualts)
     {
+        $qtdDefualts->setMedico($this);
         $this->qtdDefualts[] = $qtdDefualts;
 
         return $this;
